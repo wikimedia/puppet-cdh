@@ -73,9 +73,6 @@ See [examples/](puppet-cdh4/tree/master/examples) for more ideas on how to use t
 [examples/analytics.pp](puppet-cdh4/tree/master/examples/analytics.pp) shows an organized way you could group and install
 the cdh4 classes.
 
-For a real world use case, see the
-[kraken-puppet](https://github.com/wmf-analytics/kraken-puppet) repository.
-
 ## Requirements
 This module was developed for  Ubuntu 12.04 LTS.  Since Cloudera's
 package names are consistent across Linuxes, much of this could work in other
