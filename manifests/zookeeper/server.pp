@@ -1,8 +1,8 @@
 # == Class cdh4::zookeeper::server
 # Ensures that myid is in place and that the zookeep-server is running
-class cdh4::zookeeper::server {
+class cdh4::zookeeper::server inherits cdh4::zookeeper::config {
 	# Infer the current node's myid from numbers in the hostname.
-	$myid = inline_template("<%= scope.lookupvar(cdh4::zookeeper::config::zookeeper_hosts)[hostname] %>")
+	$myid = inline_template("<%= scope.lookupvar(zookeeper_hosts)[hostname] %>")
 
 	# init the zookeeper data dir
 	exec { "zookeeper-server-initialize":
