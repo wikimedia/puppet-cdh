@@ -4,8 +4,8 @@
 # Installs common Cloudera / Hadoop packages.
 class cdh4 {
 	case $::operatingsystem {
-		"debian", "ubuntu": { },
-		"centos": { },
+		"debian", "ubuntu": { }
+		"centos": { }
 		default: {
 			fail("Module ${module_name} is not supported on ${::operatingsystem}")
 		}
