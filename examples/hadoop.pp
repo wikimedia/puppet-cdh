@@ -16,7 +16,7 @@ class analytics::hadoop::config {
 
 	class { "cdh4::hadoop::config":
 		namenode_hostname    => $namenode_hostname,
-		mounts               => $hadoop_mounts,
+		datanode_mounts      => $hadoop_mounts,
 		dfs_name_dir         => [$hadoop_name_directory],
 		dfs_block_size       => 268435456,  # 256 MB
 		map_tasks_maximum    => ($processorcount - 2) / 2,
