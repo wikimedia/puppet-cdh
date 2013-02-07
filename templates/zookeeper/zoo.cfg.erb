@@ -19,11 +19,11 @@ dataDir=<%= data_dir %>
 # the port at which the clients will connect
 clientPort=2181
 
-<% if @zookeeper_hosts
-  zookeeper_hosts.each do |hostname|
-  zookeeper_myid = hostname.gsub(/[^\d]/, '').to_i
+<%
+if @zookeeper_hosts
+@zookeeper_hosts.each_pair do |hostname, id|
 -%>
-server.<%= zookeeper_myid %>=<%= hostname %>:2182:2183
+server.<%= id %>=<%= hostname %>:2182:2183
 <% end -%>
 <% end -%>
 
