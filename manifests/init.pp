@@ -5,6 +5,7 @@
 class cdh4 {
 	case $::operatingsystem {
 		"debian", "ubuntu": { }
+		"centos": { }
 		default: {
 			fail("Module ${module_name} is not supported on ${::operatingsystem}")
 		}
