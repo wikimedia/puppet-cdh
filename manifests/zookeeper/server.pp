@@ -3,7 +3,6 @@
 class cdh4::zookeeper::server inherits cdh4::zookeeper::config {
 	# Infer the current node's myid from numbers in the hostname.
 	$myid = inline_template("<%= @zookeeper_hosts[fqdn] %>")
-	notice("${myid}")
 
 	# init the zookeeper data dir
 	exec { "zookeeper-server-initialize":
