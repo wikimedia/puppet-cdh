@@ -7,7 +7,7 @@ class cdh4::rpm_source {
 	$operatingsystem_lowercase = inline_template("<%= operatingsystem.downcase %>")
 
 	file { "/etc/yum.repos.d/cdh4.list":
-	    content => "[cloudera-cdh4] \nname=Cloudera's Distribution for Hadoop, Version 4 \nbaseurl=http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/4/ \ngpgkey = http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera \ngpgcheck = 1"
+	    content => "[cloudera-cdh4] \nname=Cloudera's Distribution for Hadoop, Version 4 \nbaseurl=http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/4/ \ngpgkey = http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera \ngpgcheck = 1",
 		mode    => 0444,
 		ensure  => 'present',
 	}
