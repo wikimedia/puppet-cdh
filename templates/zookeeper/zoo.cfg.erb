@@ -21,9 +21,9 @@ clientPort=2181
 
 <%
 if @zookeeper_hosts
-@zookeeper_hosts.each_pair do |hostname, id|
+@zookeeper_hosts.each_pair do |fqdn, id|
 -%>
-server.<%= id %>=<%= hostname %>:2182:2183
+server.<%= id %>=<%= fqdn %>:2182:2183
 <% end -%>
 <% end -%>
 
