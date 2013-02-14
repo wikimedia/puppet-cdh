@@ -76,6 +76,6 @@ the cdh4 classes.
 ## Requirements
 This module was developed for  Ubuntu 12.04 LTS.  Since Cloudera's
 package names are consistent across Linuxes, much of this could work in other
-distributions.  However, there are pieces that will require tweaking for
-that to work properly, so currently this module is restricted to Debian
-and Ubuntu.
+distributions.
+
+Some small adjustments where made to make it work with CentOS.
