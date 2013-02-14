@@ -18,12 +18,12 @@ manage hadoop services.
 # Installation:
 Clone (or copy) this repository into your puppet modules/cdh4 directory:
 ```bash
-git clone git://github.com/wmf-analytics/cloudera-cdh4-puppet.git modules/cdh4
+git clone git://github.com/wikimedia/cloudera-cdh4-puppet.git modules/cdh4
 ```
 
 Or you could also use a git submodule:
 ```bash
-git submodule add git://github.com/wmf-analytics/cloudera-cdh4-puppet.git modules/cdh4
+git submodule add git://github.com/wikimedia/cloudera-cdh4-puppet.git modules/cdh4
 git commit -m 'Adding modules/cdh4 as a git submodule.'
 ```
 
@@ -72,9 +72,6 @@ This installs and starts up the DataNode and NodeManager.
 See [examples/](puppet-cdh4/tree/master/examples) for more ideas on how to use this module.
 [examples/analytics.pp](puppet-cdh4/tree/master/examples/analytics.pp) shows an organized way you could group and install
 the cdh4 classes.
-
-For a real world use case, see the
-[kraken-puppet](https://github.com/wmf-analytics/kraken-puppet) repository.
 
 ## Requirements
 This module was developed for  Ubuntu 12.04 LTS.  Since Cloudera's
