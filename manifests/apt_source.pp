@@ -16,8 +16,11 @@ class cdh4::apt_source {
 		command   => "/usr/bin/curl -s http://archive.cloudera.com/cdh4/${operatingsystem_lowercase}/${lsbdistcodename}/${architecture}/cdh/archive.key | /usr/bin/apt-key add -",
 		subscribe => File["/etc/apt/sources.list.d/cdh4.list"],
 		unless    => "/usr/bin/apt-key list | /bin/grep -q Cloudera",
+    require => Package["curl"],
 	}
 
+  package { "curl": }
+  
 	exec { "apt_get_update_for_cloudera":
 		command => "/usr/bin/apt-get update",
 		timeout => 240,
