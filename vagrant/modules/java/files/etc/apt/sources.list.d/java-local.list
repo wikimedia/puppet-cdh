@@ -1,0 +1,3 @@
+# Local Java see https://github.com/flexiondotorg/oab-java6
+# Place OAB generated deb/ directory in modules/java/files/root/java
+deb file:///root/java /
