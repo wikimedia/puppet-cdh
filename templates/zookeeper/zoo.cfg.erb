@@ -21,7 +21,7 @@ clientPort=2181
 
 <%
 if @zookeeper_hosts
-@zookeeper_hosts.keys.sort do |fqdn|
+@zookeeper_hosts.keys.sort.each do |fqdn|
 -%>
 server.<%= @zookeeper_hosts[fqdn] %>=<%= fqdn %>:2182:2183
 <% end -%>
