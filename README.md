@@ -4,7 +4,7 @@ Puppet module to install and manage components of a YARN installation of
 Cloudera's Distribution 4 (CDH4) for Apache Hadoop.
 
 # Description
-Installs HDFS, YARN MapReduce, hive, hbase, pig, sqoop, zookeeper, oozie and
+Installs HDFS, YARN MapReduce or MR1, hive, hbase, pig, sqoop, zookeeper, oozie and
 hue.  Note that, in order for this module to work, you will have to ensure
 that:
 * Sun JRE version 6 or greater is installed
@@ -56,19 +56,38 @@ The mounts parameter assumes that you want to keep your
 ```yarn.nodemanager.log-dirs``` all as subdirectories in each of the mount
 points provided.
 
-
-## For your Hadoop master NameNode:
+## Yarn
+### For your Hadoop master NameNode:
 ```puppet
-include cdh4::hadoop::master
+include cdh4::hadoop::yarn::master
 ```
 This installs and starts up the NameNode, ResourceManager and HistoryServer.
 
-## For your Hadoop worker DataNodes:
+### For your Hadoop worker DataNodes:
 ```puppet
-include cdh4::hadoop::worker
+include cdh4::hadoop::yarn::worker
 ```
 This installs and starts up the DataNode and NodeManager.
 
+## MRv1
+```puppet
+include cdh4::hadoop::mr1::master
+```
+This installs and starts up the NameNode, ResourceManager and HistoryServer.
+
+### For your Hadoop worker DataNodes:
+```puppet
+include cdh4::hadoop::mr1::worker
+```
+
+And declare the hadoop::config with the option use_yarn = false
+```puppet
+class { "cdh4::hadoop::config":
+    use_yarn             => false
+}
+```
+
+## Examples
 See [examples/](puppet-cdh4/tree/master/examples) for more ideas on how to use this module.
 [examples/analytics.pp](puppet-cdh4/tree/master/examples/analytics.pp) shows an organized way you could group and install
 the cdh4 classes.
