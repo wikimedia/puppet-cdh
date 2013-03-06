@@ -7,10 +7,13 @@
 
 <configuration>
 
+<% if @use_yarn == true -%>
   <property>
    <name>mapreduce.framework.name</name>
    <value>yarn</value>
   </property>
+
+
 
   <property>
    <name>mapreduce.jobhistory.address</name>
@@ -31,6 +34,7 @@
     <name>mapreduce.jobhistory.done-dir</name>
     <value>/user/history/done</value>
   </property>
+<% end -%>
 
 <% if @map_tasks_maximum -%>
   <property>
@@ -74,11 +78,16 @@
   </property>
 <% end -%>
 
-  <!-- Hue gets confused if mapred.job.tracker is not set,
-       even though we are using YARN and the jobtracker is not running. -->
+
   <property>
     <name>mapred.job.tracker</name>
+    <% if @use_yarn == true -%>
+     <!-- Hue gets confused if mapred.job.tracker is not set,
+       even though we are using YARN and the jobtracker is not running. -->
     <value>localhost:8021</value>
+    <% else -%>
+    <value><%= namenode_hostname %>:8021</value>
+    <% end -%>
   </property>
   
   <property>

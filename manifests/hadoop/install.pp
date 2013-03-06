@@ -56,3 +56,19 @@ class cdh4::hadoop::install::proxyserver {
 	# install proxyserver daemon package
 	package { "hadoop-yarn-proxyserver": ensure => installed }
 }
+
+
+# Class: cdh4::hadoop::install::jobtracker
+class cdh4::hadoop::install::jobtracker {
+
+ 	# install jobtracker daemon package
+ 	package { "hadoop-0.20-mapreduce-jobtracker": ensure => installed }
+}
+
+# Class: cdh4::hadoop::install::tasktracker
+class cdh4::hadoop::install::tasktracker {
+
+ 	# install tasktracker daemon package
+ 	package { "hadoop-0.20-mapreduce-tasktracker": ensure => installed }
+
+}
