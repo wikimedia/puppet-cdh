@@ -13,6 +13,9 @@ class analytics::zookeeper::config {
 	class { "cdh4::zookeeper::config":
 		zookeeper_hosts => $zookeeper_hosts,
 	}
+
+	# Setup the cron log cleanup as well.
+	include cdh4::zookeeper::log_cleanup
 }
 
 # == Class analytics::zookeeper::server
