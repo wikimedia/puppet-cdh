@@ -15,7 +15,7 @@ class analytics::zookeeper::config {
 	}
 
 	# Setup the cron log cleanup as well.
-	include cdh4::zookeeper::cron
+	include cdh4::zookeeper::log_cleanup
 }
 
 # == Class analytics::zookeeper::server
