@@ -5,9 +5,9 @@
 #
 class analytics::zookeeper::config {
 	$zookeeper_hosts = {
-		"zookeeper1" => 1,
-		"zookeeper2" => 2,
-		"zookeeper3" => 3
+		"zookeeper1.cluster.example" => 1,
+		"zookeeper2.cluster.example" => 2,
+		"zookeeper3.cluster.example" => 3
 	}
 
 	class { "cdh4::zookeeper::config":

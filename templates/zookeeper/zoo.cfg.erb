@@ -5,11 +5,11 @@ maxClientCnxns=50
 # The number of milliseconds of each tick
 tickTime=2000
 
-# The number of ticks that the initial 
+# The number of ticks that the initial
 # synchronization phase can take
 initLimit=5
 
-# The number of ticks that can pass between 
+# The number of ticks that can pass between
 # sending a request and getting an acknowledgement
 syncLimit=2
 
@@ -21,9 +21,8 @@ clientPort=2181
 
 <%
 if @zookeeper_hosts
-@zookeeper_hosts.each_pair do |fqdn, id|
+@zookeeper_hosts.keys.sort.each do |fqdn|
 -%>
-server.<%= id %>=<%= fqdn %>:2182:2183
+server.<%= @zookeeper_hosts[fqdn] %>=<%= fqdn %>:2182:2183
 <% end -%>
 <% end -%>
-

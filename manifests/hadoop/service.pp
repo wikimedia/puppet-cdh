@@ -11,7 +11,7 @@ class cdh4::hadoop::service::namenode {
 	require cdh4::hadoop::install::namenode
 	require cdh4::hadoop::config
 
-	
+
 	file { "$cdh4::hadoop::config::config_directory/hosts.exclude": 
 		ensure => "file"
 	}
@@ -27,7 +27,7 @@ class cdh4::hadoop::service::namenode {
 class cdh4::hadoop::service::secondarynamenode {
 	require cdh4::hadoop::install::secondarynamenode
 	require cdh4::hadoop::config
-	
+
 	service { "hadoop-hdfs-secondarynamenode": 
 		ensure => "running",
 		enable => true,
@@ -102,26 +102,23 @@ class cdh4::hadoop::service::proxyserver {
 }
 
 
+# Class: cdh4::hadoop::service::jobtracker
+class cdh4::hadoop::service::jobtracker {
+    require cdh4::hadoop::install::jobtracker
+ 	require cdh4::hadoop::config
 
+    service { "hadoop-0.20-mapreduce-jobtracker":
+        ensure => "running",
+        enable => true,
+    }
+}
 
+# Class: cdh4::hadoop::service::tasktracker
+class cdh4::hadoop::service::tasktracker {
+    require cdh4::hadoop::install::tasktracker
 
-
-
-
-
-
-# # Class: cdh4::hadoop::service::jobtracker
-# class cdh4::hadoop::service::jobtracker {
-# 	require cdh4::hadoop::service::namenode
-# 
-# 	# install jobtracker daemon package
-# 	package { "hadoop-0.20-mapreduce-jobtracker": ensure => installed }
-# }
-# 
-# # Class: cdh4::hadoop::service::tasktracker
-# class cdh4::hadoop::service::tasktracker {
-# 	require cdh4::hadoop::service::datanode
-# 	
-# 	# install tasktracker daemon package
-# 	package { "hadoop-0.20-mapreduce-tasktracker": ensure => installed }
-# }
+    service { "hadoop-0.20-mapreduce-tasktracker":
+        ensure => "running",
+        enable => true,
+    }
+}

@@ -58,7 +58,8 @@ class cdh4::hadoop::config(
 	$reduce_parallel_copies            = undef,
 	$map_memory_mb                     = undef,
 	$mapreduce_job_reuse_jvm_num_tasks = undef,
-	$mapreduce_child_java_opts         = undef
+	$mapreduce_child_java_opts         = undef,
+	$use_yarn                           = true
 ) {
 	file { "$config_directory/core-site.xml":
 		content => template("cdh4/hadoop/core-site.xml.erb"),
@@ -69,11 +70,13 @@ class cdh4::hadoop::config(
 		content => template("cdh4/hadoop/hdfs-site.xml.erb"),
 		require => Package["hadoop-client"],
 	}
+    if($use_yarn) {
+        file { "$config_directory/yarn-site.xml":
+            content => template("cdh4/hadoop/yarn-site.xml.erb"),
+            require => Package["hadoop-client"],
+        }
+    }
 
-	file { "$config_directory/yarn-site.xml":
-		content => template("cdh4/hadoop/yarn-site.xml.erb"),
-		require => Package["hadoop-client"],
-	}
 
 	file { "$config_directory/mapred-site.xml":
 		content => template("cdh4/hadoop/mapred-site.xml.erb"),
@@ -107,9 +110,12 @@ class cdh4::hadoop::config(
 		require => Package["hadoop-client"],
 		ensure  => $env_file_ensure,
 	}
-	file { "$config_directory/yarn-env.sh":
-		content => template("cdh4/hadoop/yarn-env.sh.erb"),
-		require => Package["hadoop-client"],
-		ensure  => $env_file_ensure,
+	if($use_yarn) {
+	    file { "$config_directory/yarn-env.sh":
+            content => template("cdh4/hadoop/yarn-env.sh.erb"),
+            require => Package["hadoop-client"],
+            ensure  => $env_file_ensure,
+        }
 	}
+
 }
