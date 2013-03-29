@@ -62,6 +62,10 @@ class cdh4::hadoop::config(
 	$use_yarn                           = true
 ) {
 
+        file { "$config_directory":
+                ensure => "directory"
+        }
+
 	file { "$config_directory/core-site.xml":
 		content => template("cdh4/hadoop/core-site.xml.erb"),
 		require => Package["hadoop-client"],
