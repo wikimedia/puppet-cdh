@@ -61,6 +61,11 @@ class cdh4::hadoop::config(
 	$mapreduce_child_java_opts         = undef,
 	$use_yarn                           = true
 ) {
+
+        file { "$config_directory":
+                ensure => "directory"
+        }
+
 	file { "$config_directory/core-site.xml":
 		content => template("cdh4/hadoop/core-site.xml.erb"),
 		require => Package["hadoop-client"],
@@ -75,13 +80,19 @@ class cdh4::hadoop::config(
             content => template("cdh4/hadoop/yarn-site.xml.erb"),
             require => Package["hadoop-client"],
         }
+        file { "$config_directory/mapred-site.xml":
+            content => template("cdh4/hadoop/mapred-site.xml.erb"),
+            require => Package["hadoop-client"],
+        }
+
     }
-
-
+    else {
 	file { "$config_directory/mapred-site.xml":
-		content => template("cdh4/hadoop/mapred-site.xml.erb"),
+		content => template("cdh4/hadoop/mapred-site.mr1.xml.erb"),
 		require => Package["hadoop-client"],
 	}
+    }
+
 
 	file { "$config_directory/httpfs-site.xml":
 		content => template("cdh4/hadoop/httpfs-site.xml.erb"),
