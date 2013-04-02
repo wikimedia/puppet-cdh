@@ -3,11 +3,11 @@
 # Configures an apt source list pointing at
 # Cloudera's CDH4 apt repository.
 #
-class cdh4::apt_source {
+class cdh4::apt_source($cdhversion = 4) {
 	$operatingsystem_lowercase = inline_template("<%= operatingsystem.downcase %>")
 
 	file { "/etc/apt/sources.list.d/cdh4.list":
-		content => "deb [arch=${architecture}] http://archive.cloudera.com/cdh4/${operatingsystem_lowercase}/${lsbdistcodename}/${architecture}/cdh ${lsbdistcodename}-cdh4 contrib\ndeb-src http://archive.cloudera.com/cdh4/${operatingsystem_lowercase}/${lsbdistcodename}/${architecture}/cdh ${lsbdistcodename}-cdh4 contrib\n",
+		content => "deb [arch=${architecture}] http://archive.cloudera.com/cdh4/${operatingsystem_lowercase}/${lsbdistcodename}/${architecture}/cdh ${lsbdistcodename}-cdh${cdhversion} contrib\ndeb-src http://archive.cloudera.com/cdh4/${operatingsystem_lowercase}/${lsbdistcodename}/${architecture}/cdh ${lsbdistcodename}-cdh${cdhversion} contrib\n",
 		mode    => 0444,
 		ensure  => 'present',
 	}

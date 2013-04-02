@@ -3,11 +3,11 @@
 # Configures an rpm source list pointing at
 # Cloudera's CDH4 rpm repository.
 #
-class cdh4::rpm_source {
+class cdh4::rpm_source($cdhversion = 4) {
 	$operatingsystem_lowercase = inline_template("<%= operatingsystem.downcase %>")
 
 	file { "/etc/yum.repos.d/cdh4.repo":
-	    content => "[cloudera-cdh4] \nname=Cloudera's Distribution for Hadoop, Version 4 \nbaseurl=http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/4/ \ngpgkey = http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera \ngpgcheck = 1",
+	    content => "[cloudera-cdh4] \nname=Cloudera's Distribution for Hadoop, Version ${cdhversion} \nbaseurl=http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/${cdhversion}/ \ngpgkey = http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera \ngpgcheck = 1",
 		mode    => 0444,
 		ensure  => 'present',
 	}
