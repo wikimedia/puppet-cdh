@@ -1,3 +1,10 @@
+NOTE:  Version 0.2 is being developed in a separate repository:
+
+https://github.com/wikimedia/operations-puppet-cdh4
+
+The code there will eventually be pushed to this puppet-cdh4 repository.
+
+
 # puppet-cdh4
 
 Puppet module to install and manage components of a YARN installation of
