@@ -37,6 +37,7 @@
 #   $yarn_nodemanager_resource_memory_mb
 #   $yarn_resourcemanager_scheduler_class - If you change this (e.g. to FairScheduler), you should also provide your own scheduler config .xml files outside of the cdh4 module.
 #   $use_yarn
+#   $ganglia_hosts                        - Set this to an array of ganglia host:ports if you want to enable ganglia sinks in hadoop-metrics2.properites
 #
 class cdh4::hadoop(
   $namenode_hostname,
@@ -64,7 +65,8 @@ class cdh4::hadoop(
   $mapreduce_final_compession              = $::cdh4::hadoop::defaults::mapreduce_final_compession,
   $yarn_nodemanager_resource_memory_mb     = $::cdh4::hadoop::defaults::yarn_nodemanager_resource_memory_mb,
   $yarn_resourcemanager_scheduler_class    = $::cdh4::hadoop::defaults::yarn_resourcemanager_scheduler_class,
-  $use_yarn                                = $::cdh4::hadoop::defaults::use_yarn
+  $use_yarn                                = $::cdh4::hadoop::defaults::use_yarn,
+  $ganglia_hosts                           = $::cdh4::hadoop::defaults::ganglia_hosts,
 
 ) inherits cdh4::hadoop::defaults
 {
@@ -128,5 +130,16 @@ class cdh4::hadoop(
   file { "${config_directory}/yarn-env.sh":
     ensure  => $yarn_ensure,
     content => template('cdh4/hadoop/yarn-env.sh.erb'),
+  }
+
+  # render hadoop-metrics2.properties
+  # if we hav Ganglia Hosts to send metrics to.
+  $hadoop_metrics2_ensure = $ganglia_hosts ? {
+      undef   => 'absent',
+      default => 'present',
+  }
+  file { "${config_directory}/hadoop-metrics2.properties":
+      ensure  => $hadoop_metrics2_ensure,
+      content => template('cdh4/hadoop/hadoop-metrics2.properties.erb'),
   }
 }

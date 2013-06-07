@@ -2,7 +2,6 @@
 
 ## Hadoop
 
-- Add hadoop-metrics2.properties configuration
 - Add hosts.exclude support for decommissioning nodes.
 - Change cluster (conf) name?  (use update-alternatives?)
 - Set default map/reduce tasks automatically based on facter node stats.
@@ -12,6 +11,7 @@
 - Support Secondary NameNode.
 - Support High Availability NameNode.
 - Make JMX ports configurable.
+- Make hadoop-metrics2.properties more configurable.
 
 ## Hive
 - Hive Server + Hive Metastore
@@ -24,3 +24,6 @@
 
 ## Zookeeper
 
+Won't implement. A Zookeeper package is available upstream in Debian/Ubuntu.
+Puppetization for this package can be found at
+https://github.com/wikimedia/operations-puppet-zookeeper
