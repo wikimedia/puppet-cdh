@@ -56,32 +56,33 @@ class cdh4::hadoop::namenode {
   # sudo -u hdfs hadoop fs -mkdir /tmp
   # sudo -u hdfs hadoop fs -chmod 1777 /tmp
   cdh4::hadoop::directory { '/tmp':
-    owner => 'hdfs',
-    group => 'hdfs',
-    mode  => '1777',
+    owner   => 'hdfs',
+    group   => 'hdfs',
+    mode    => '1777',
   }
 
   # sudo -u hdfs hadoop fs -mkdir /user
   # sudo -u hdfs hadoop fs -chmod 0775 /user
   # sudo -u hdfs hadoop fs -chown hdfs:hadoop /user
   cdh4::hadoop::directory { '/user':
-    owner => 'hdfs',
-    group => 'hadoop',
-    mode  => '0775',
+    owner   => 'hdfs',
+    group   => 'hadoop',
+    mode    => '0775',
   }
 
   # sudo -u hdfs hadoop fs -mkdir /user/hdfs
   cdh4::hadoop::directory { '/user/hdfs':
-    owner => 'hdfs',
-    group => 'hdfs',
-    mode  => '0755',
+    owner   => 'hdfs',
+    group   => 'hdfs',
+    mode    => '0755',
+    require => Cdh4::Hadoop::Directory['/user'],
   }
 
   # sudo -u hdfs hadoop fs -mkdir /var
   cdh4::hadoop::directory { '/var':
-    owner => 'hdfs',
-    group => 'hdfs',
-    mode  => '0755',
+    owner   => 'hdfs',
+    group   => 'hdfs',
+    mode    => '0755',
   }
 
   # sudo -u hdfs hadoop fs -mkdir /var/lib
