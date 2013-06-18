@@ -13,9 +13,6 @@
 - Make JMX ports configurable.
 - Make hadoop-metrics2.properties more configurable.
 
-## Hive
-- Hive Server + Hive Metastore
-
 ## Oozie
 
 ## Hue
