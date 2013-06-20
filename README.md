@@ -108,3 +108,24 @@ class { 'cdh4::hive::master':
   metastore_database => undef,
 }
 ```
+
+
+## For Oozie client nodes:
+
+```puppet
+class { 'cdh4::oozie': }
+```
+
+## For Oozie Server Nodes
+
+The following will install and run oozie-server, as well as create a MySQL
+database for it to use. A MySQL database is the only currently supported
+automatically installable backend database.  Alternatively, you may set
+```database => undef``` to avoid setting up MySQL and then configure your own
+Oozie database manually.
+
+```puppet
+class { 'cdh4::oozie::server:
+  jdbc_password -> $secret_password,
+}
+```
