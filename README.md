@@ -129,3 +129,27 @@ class { 'cdh4::oozie::server:
   jdbc_password -> $secret_password,
 }
 ```
+
+## Hue
+
+To install hue server, simply:
+
+```puppet
+class { 'cdh4::hue':
+    secret_key => 'ii7nnoCGtP0wjub6nqnRfQx93YUV3iWG', # your secret key here.
+}
+```
+
+There are many more parameters to the ```cdh4::hue``` class.  See the class
+documentation in manifests/hue.pp.
+
+Note that while much of this puppet-cdh4 module supports MRv1, this Hue
+puppetization currently does not.  (Feel free to submit a patch to add
+MRv1 support though!)
+
+If you include ```cdh4::hive``` or ```cdh4::oozie``` classes on this node,
+Hue will be configured to run its Hive and Oozie apps.
+
+Hue Impala is not currently supported, since Impala hasn't been puppetized
+in this module yet.
+

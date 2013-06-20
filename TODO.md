@@ -15,8 +15,6 @@
 
 ## Oozie
 
-## Hue
-
 ## HBase
 
 ## Zookeeper
