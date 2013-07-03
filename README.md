@@ -77,3 +77,10 @@ TaskTracker.
 - Hive
 - Oozie
 - Hue
+
+## History:
+
+The original version of this module has been moved to the v0.1 branch.
+It is currently more feature full than v0.2 under development in master.
+v0.1 is no longer supported, and soon master will contain the same features
+as v0.1.
