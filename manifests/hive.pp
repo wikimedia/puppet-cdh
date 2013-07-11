@@ -78,6 +78,8 @@ class cdh4::hive(
     file { '/etc/hive/conf/hive-site.xml':
         content => template($hive_site_template),
         mode    => $hive_site_mode,
+        owner   => 'hive',
+        group   => 'hive',
         require => Package['hive'],
     }
     file { '/etc/hive/conf/hive-exec-log4j.properties':
