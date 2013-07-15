@@ -28,6 +28,7 @@
 #   $reduce_parallel_copies
 #   $map_memory_mb
 #   $reduce_memory_mb
+#   $mapreduce_system_dir
 #   $mapreduce_task_io_sort_mb
 #   $mapreduce_task_io_sort_factor
 #   $mapreduce_map_java_opts
@@ -51,6 +52,7 @@ class cdh4::hadoop(
     $enable_jmxremote                        = $::cdh4::hadoop::defaults::enable_jmxremote,
     $enable_webhdfs                          = $::cdh4::hadoop::defaults::enable_webhdfs,
     $io_file_buffer_size                     = $::cdh4::hadoop::defaults::io_file_buffer_size,
+    $mapreduce_system_dir                    = $::cdh4::hadoop::defaults::mapreduce_system_dir,
     $mapreduce_map_tasks_maximum             = $::cdh4::hadoop::defaults::mapreduce_map_tasks_maximum,
     $mapreduce_reduce_tasks_maximum          = $::cdh4::hadoop::defaults::mapreduce_reduce_tasks_maximum,
     $mapreduce_job_reuse_jvm_num_tasks       = $::cdh4::hadoop::defaults::mapreduce_job_reuse_jvm_num_tasks,
