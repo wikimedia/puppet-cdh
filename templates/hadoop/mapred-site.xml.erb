@@ -43,6 +43,12 @@
     <name>mapred.job.tracker</name>
     <value><%= namenode_hostname %>:8021</value>
   </property>
+<% if @mapreduce_system_dir -%>
+  <property>
+    <name>mapred.system.dir</name>
+    <value><%= @mapreduce_system_dir %></value>
+  </property>
+<% end -%>
 <% end -%>
 
 <% if @mapreduce_map_tasks_maximum -%>
