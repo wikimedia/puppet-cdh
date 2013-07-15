@@ -3,6 +3,9 @@
 Puppet module to install and manage components of
 Cloudera's Distribution 4 (CDH4) for Apache Hadoop.
 
+NOTE: The main puppet-cdh4 repository is hosted in WMF Gerrit at
+[operations/puppet/cdh4](https://gerrit.wikimedia.org/r/#/admin/projects/operations/puppet/cdh4).
+
 # Description
 
 Installs HDFS, YARN or MR1, Hive, HBase, Pig, Sqoop, Zookeeper, Oozie and
