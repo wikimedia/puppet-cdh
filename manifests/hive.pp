@@ -15,6 +15,7 @@
 # $jdbc_username                 - Metastore JDBC username.  Default: hive
 # $jdbc_password                 - Metastore JDBC password.  Default: hive
 # $jdbc_host                     - Metastore JDBC hostname.  Default: localhost
+# $jdbc_port                     - Metastore JDBC port.      Default: 3306
 # $jdbc_driver                   - Metastore JDBC driver class name.
 #                                  Default: org.apache.derby.jdbc.EmbeddedDriver
 # $jdbc_protocol                 - Metastore JDBC protocol.  Default: mysql
@@ -47,6 +48,7 @@ class cdh4::hive(
     $jdbc_username               = $cdh4::hive::defaults::jdbc_username,
     $jdbc_password               = $cdh4::hive::defaults::jdbc_password,
     $jdbc_host                   = $cdh4::hive::defaults::jdbc_host,
+    $jdbc_port                   = $cdh4::hive::defaults::jdbc_port,
     $jdbc_driver                 = $cdh4::hive::defaults::jdbc_driver,
     $jdbc_protocol               = $cdh4::hive::defaults::jdbc_protocol,
 
