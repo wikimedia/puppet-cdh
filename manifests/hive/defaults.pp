@@ -4,7 +4,7 @@
 class cdh4::hive::defaults {
     $zookeeper_hosts             = undef
 
-    $jdbc_driver                 = 'org.apache.derby.jdbc.EmbeddedDriver'
+    $jdbc_driver                 = 'com.mysql.jdbc.Driver'
     $jdbc_protocol               = 'mysql'
     $jdbc_database               = 'hive_metastore'
     $jdbc_host                   = 'localhost'
