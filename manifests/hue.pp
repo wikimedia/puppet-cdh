@@ -28,10 +28,10 @@
 #                           HttpFS rather than the default WebHDFS.  You must
 #                           manually configure HttpFS on your namenode.
 #
-# $ssl_certificate        - Path to SSL certificate.  Default: /etc/ssl/certs/ssl-cert-snakeoil.pem
-# $ssl_private_key        - Path to SSL private key.  Default: /etc/ssl/private/ssl-cert-snakeoil.key
-#                           If ssl_certificate and ssl_private_key are set to the defaults,
-#                           the snakeoil certificates will be generated automatically for you.
+# $ssl_private_key        - Path to SSL private key.  Default: /etc/hue/hue.key
+# $ssl_certificate        - Path to SSL certificate.  Default: /etc/hue/hue.cert
+#                           If ssl_private_key and ssl_certificate are set to the defaults,
+#                           a self-signed certificate will be generated automatically for you.
 #
 # === LDAP parameters:
 # See hue.ini comments for documentation.  By default these are undefined.
@@ -65,8 +65,8 @@ class cdh4::hue(
 
     $httpfs_enabled           = $cdh4::hue::defaults::httpfs_enabled,
 
-    $ssl_certificate          = $cdh4::hue::defaults::ssl_certificate,
     $ssl_private_key          = $cdh4::hue::defaults::ssl_private_key,
+    $ssl_certificate          = $cdh4::hue::defaults::ssl_certificate,
 
     $ldap_url                 = $cdh4::hue::defaults::ldap_url,
     $ldap_cert                = $cdh4::hue::defaults::ldap_cert,
@@ -104,10 +104,15 @@ class cdh4::hue(
     }
     # hive-site.xml might not be world readable.
     if (defined(Class['cdh4::hive'])) {
+        # Below, if hive is enabled, the hue
+        # user will be added to the hive group.
+        # It isn't added here because Puppet only
+        # allows group addtions to a User once,
+        # and we might also have to add the ssl-cert group.
+        $hive_enabled = true
+
         # make sure cdh4::hive is applied before cdh4::hue.
         Class['cdh4::hive']  -> Class['cdh4::hue']
-        # Add the hue user to the hive group.
-        User['hue'] { groups +> 'hive'}
 
         # Growl.  The packaged hue init.d script
         # has a bug where it doesn't --chuid to hue.
@@ -127,33 +132,83 @@ class cdh4::hue(
         }
     }
 
-    if ($ssl_certificate and $ssl_private_key) {
+    # If SSL file paths are given, configure Hue to use SSL.
+    if ($ssl_private_key and $ssl_certificate) {
+        # Below, if ssl is enabled, the hue
+        # user will be added to the ssl-cert group.
+        # It isn't added here because Puppet only
+        # allows group addtions to a User once,
+        # and we might also have to add the hive group.
+        # Adding the ssl-cert group allows hue to read
+        # files in /etc/ssl/private.
+        $ssl_enabled = true
+        if (!defined(Package['openssl'])) {
+            package{ 'openssl':
+                ensure => 'installed',
+                before => User['hue'],
+            }
+        }
         if (!defined(Package['python-openssl'])) {
             package{ 'python-openssl':
                 ensure => 'installed',
             }
         }
 
-        # If the ssl settings are left at the defaults (snakeoil),
-        # then run make-ssl-cert to generate the default snakeoil cert.
-        if (($ssl_certificate == $cdh4::hue::defaults::ssl_certificate) and
-            ($ssl_private_key == $cdh4::hue::defaults::ssl_private_key)) {
+        # If the SSL settings are left at the defaults,
+        # then generate a default self-signed certificate.
+        if (($ssl_private_key == $cdh4::hue::defaults::ssl_private_key) and
+            ($ssl_certificate == $cdh4::hue::defaults::ssl_certificate)) {
 
-            if (!defined(Package['ssl-cert'])) {
-                package{ 'ssl-cert':
-                    ensure => 'installed',
-                }
+            exec { 'generate_hue_ssl_private_key':
+                command => "/usr/bin/openssl genrsa 2048 > ${ssl_private_key}",
+                creates => $ssl_private_key,
+                require => [Package['openssl'], User['hue']],
+                notify  => Service['hue'],
+                before  => File[$ssl_private_key],
             }
-
-            exec { 'generate_hue_snakeoil_ssl_cert':
-                command => '/usr/sbin/make-ssl-cert generate-default-snakeoil',
+            exec { 'generate_hue_ssl_certificate':
+                command => "/usr/bin/openssl req -new -x509 -nodes -sha1 -subj '/C=US/ST=Denial/L=Nonya/O=Dis/CN=www.example.com' -key ${ssl_private_key} -out ${ssl_certificate}",
                 creates => $ssl_certificate,
-                require => Package['ssl-cert'],
+                require => Exec['generate_hue_ssl_private_key'],
+                notify  => Service['hue'],
+                before  => File[$ssl_certificate],
             }
-
-            # generate the cert before hue is started.
-            Exec['generate_hue_snakeoil_ssl_cert'] -> Service['hue']
         }
+
+        # Ensure SSL files have proper permissions.
+        file { $ssl_private_key:
+            mode    => '0440',
+            owner   => 'root',
+            group   => 'hue',
+            before  => Service['hue'],
+        }
+        file { $ssl_certificate:
+            mode    => '0444',
+            owner   => 'root',
+            group   => 'hue',
+            before  => Service['hue'],
+        }
+    }
+
+    # Stupid Puppet hack:  Need to select all
+    # of the groups we are going to add the
+    # hue user to before we actually do it.
+
+    # add hue to the proper groups based on hive
+    # and ssl usage.
+    if ($hive_enabled and $ssl_enabled) {
+        $hue_groups = ['hive', 'ssl-cert']
+    }
+    elsif ($hive_enabled) {
+        $hue_groups = ['hive']
+    }
+    elsif($ssl_enabled) {
+        $hue_groups = ['ssl-cert']
+    }
+
+    if ($hue_groups) {
+        # Add the hue user to the hive group.
+        User['hue'] { groups +> $hue_groups }
     }
 
     if (defined(Package['sqoop'])) {

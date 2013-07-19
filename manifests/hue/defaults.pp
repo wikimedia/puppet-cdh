@@ -24,8 +24,8 @@ class cdh4::hue::defaults {
     $smtp_password            = undef
     $smtp_from_email          = undef
 
-    $ssl_certificate          = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
-    $ssl_private_key          = '/etc/ssl/private/ssl-cert-snakeoil.key'
+    $ssl_private_key          = '/etc/ssl/private/hue.key'
+    $ssl_certificate          = '/etc/ssl/certs/hue.cert'
 
     # if httpfs is enabled, the default httpfs port
     # will be used, instead of the webhdfs port.

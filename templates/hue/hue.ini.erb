@@ -57,13 +57,11 @@
   # Number of threads used by the CherryPy web server
   ## cherrypy_server_threads=10
 
-  # Filename of SSL Certificate
-  <%= @ssl_certificate   ? "ssl_certificate=\"#{@ssl_certificate}\"" : "## base_dn=" %>
-
   # Filename of SSL RSA Private Key
-  ## ssl_private_key=
-  <%= @ssl_private_key   ? "ssl_private_key=\"#{@ssl_private_key}\"" : "## base_dn=" %>
+  <%= @ssl_private_key   ? "ssl_private_key=#{@ssl_private_key}" : "## ssl_private_key=" %>
 
+  # Filename of SSL Certificate
+  <%= @ssl_certificate   ? "ssl_certificate=#{@ssl_certificate}" : "## ssl_certificate=" %>
 
   # Default encoding for site data
   ## default_site_encoding=utf-8
