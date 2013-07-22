@@ -29,9 +29,11 @@ class cdh4::hadoop::resourcemanager {
     }
 
     service { 'hadoop-yarn-resourcemanager':
-        ensure  => 'running',
-        enable  => true,
-        alias   => 'resourcemanager',
-        require => Package['hadoop-yarn-resourcemanager'],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'resourcemanager',
+        require    => Package['hadoop-yarn-resourcemanager'],
     }
 }

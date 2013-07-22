@@ -11,9 +11,11 @@ class cdh4::hadoop::datanode {
 
     # install datanode daemon package
     service { 'hadoop-hdfs-datanode':
-        ensure  => 'running',
-        enable  => true,
-        alias   => 'datanode',
-        require => Package['hadoop-hdfs-datanode'],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'datanode',
+        require    => Package['hadoop-hdfs-datanode'],
     }
 }

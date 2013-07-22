@@ -13,9 +13,11 @@ class cdh4::hadoop::tasktracker {
     }
 
     service { 'hadoop-0.20-mapreduce-tasktracker':
-        ensure  => 'running',
-        enable  => true,
-        alias   => 'tasktracker',
-        require => Package['hadoop-0.20-mapreduce-tasktracker'],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'tasktracker',
+        require    => Package['hadoop-0.20-mapreduce-tasktracker'],
     }
 }

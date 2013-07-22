@@ -41,10 +41,12 @@ class cdh4::hadoop::namenode {
     }
 
     service { 'hadoop-hdfs-namenode':
-        ensure  => 'running',
-        enable  => true,
-        alias   => 'namenode',
-        require => [File["${::cdh4::hadoop::config_directory}/hosts.exclude"], Exec['hadoop-namenode-format']],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'namenode',
+        require    => [File["${::cdh4::hadoop::config_directory}/hosts.exclude"], Exec['hadoop-namenode-format']],
     }
 
     # Create common HDFS directories.

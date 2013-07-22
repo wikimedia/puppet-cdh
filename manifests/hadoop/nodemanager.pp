@@ -14,9 +14,12 @@ class cdh4::hadoop::nodemanager {
 
     # NodeManager (YARN TaskTracker)
     service { 'hadoop-yarn-nodemanager':
-        ensure  => 'running',
-        enable  => true,
-        alias   => 'nodemanager',
-        require => [Package['hadoop-yarn-nodemanager', 'hadoop-mapreduce']],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'nodemanager',
+        require    => [Package['hadoop-yarn-nodemanager', 'hadoop-mapreduce']],
     }
 }
+

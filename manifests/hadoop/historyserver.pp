@@ -32,9 +32,12 @@ class cdh4::hadoop::historyserver {
     }
 
     service { 'hadoop-mapreduce-historyserver':
-        ensure    => 'running',
-        enable    => true,
-        alias     => 'historyserver',
-        require   => Package['hadoop-mapreduce-historyserver'],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'historyserver',
+        require    => Package['hadoop-mapreduce-historyserver'],
+
     }
 }

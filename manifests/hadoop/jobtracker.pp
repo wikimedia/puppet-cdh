@@ -92,9 +92,12 @@ class cdh4::hadoop::jobtracker {
     }
 
     service { 'hadoop-0.20-mapreduce-jobtracker':
-        ensure  => 'running',
-        enable  => true,
-        alias   => 'jobtracker',
-        require => Package['hadoop-0.20-mapreduce-jobtracker'],
+        ensure     => 'running',
+        enable     => true,
+        hasstatus  => true,
+        hasrestart => true,
+        alias      => 'jobtracker',
+        require    => Package['hadoop-0.20-mapreduce-jobtracker'],
+
     }
 }
