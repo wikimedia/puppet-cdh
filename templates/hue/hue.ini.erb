@@ -486,16 +486,18 @@ if false
         [[[[[ JAVA_HOME ]]]]]
           value = "/usr/lib/jvm/java-6-sun"
 
-    # Define and configure a new shell type "sqoop2"
+<% if @sqoop -%>
+    # Define and configure a new shell type "<%= @sqoop %>"
     # ------------------------------------------------------------------------
-    [[[ sqoop2 ]]]
-      nice_name = "Sqoop2 Shell"
-      command = "/usr/bin/sqoop2"
-      help = "The command-line Sqoop2 client."
+    [[[ <%= @sqoop %> ]]]
+      nice_name = "<%= @sqoop %> Shell"
+      command = "/usr/bin/<%= @sqoop %>"
+      help = "The command-line <%= @sqoop %> client."
 
       [[[[ environment ]]]]
-        # You can configure environment variables for the Sqoop2 shell
+        # You can configure environment variables for the <%= @sqoop %> shell
         # in this section.
+<% end # if @sqoop -%>
 
     # Define and configure a new shell type "hbase"
     # ------------------------------------------------------------------------

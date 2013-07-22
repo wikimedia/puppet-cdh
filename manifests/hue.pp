@@ -156,6 +156,16 @@ class cdh4::hue(
         }
     }
 
+    if (defined(Package['sqoop'])) {
+        $sqoop = 'sqoop'
+    }
+    elsif (defined(Package['sqoop2'])) {
+        $sqoop = 'sqoop2'
+    }
+    else {
+        $sqoop = false
+    }
+
     $namenode_hostname = $cdh4::hadoop::namenode_hostname
     file { '/etc/hue/hue.ini':
         content => template($hue_ini_template),
