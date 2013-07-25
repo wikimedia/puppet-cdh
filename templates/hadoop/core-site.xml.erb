@@ -8,7 +8,7 @@
 <configuration>
 
   <property>
-    <name>fs.defaultFS</name>
+    <name><%= @use_yarn ? 'fs.defaultFS' : 'fs.default.name' %></name>
     <value>hdfs://<%= namenode_hostname %>/</value>
   </property>
   
