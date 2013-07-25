@@ -8,7 +8,7 @@
 class cdh4::hadoop::master {
     Class['cdh4::hadoop'] -> Class['cdh4::hadoop::master']
 
-    include cdh4::hadoop::namenode
+    include cdh4::hadoop::namenode::primary
 
     # YARN uses ResourceManager and HistoryServer,
     # NOT JobTracker.

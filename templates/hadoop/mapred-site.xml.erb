@@ -14,7 +14,7 @@
 
   <property>
    <name>mapreduce.jobhistory.address</name>
-   <value><%= namenode_hostname %>:10020</value>
+   <value><%= @primary_namenode_host %>:10020</value>
   </property>
 
   <property>
@@ -41,9 +41,10 @@
 <% else -%>
   <property>
     <name>mapred.job.tracker</name>
-    <value><%= namenode_hostname %>:8021</value>
+    <value><%= @primary_namenode_host %>:8021</value>
   </property>
 <% if @mapreduce_system_dir -%>
+
   <property>
     <name>mapred.system.dir</name>
     <value><%= @mapreduce_system_dir %></value>

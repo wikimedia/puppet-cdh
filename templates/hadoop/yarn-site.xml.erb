@@ -9,19 +9,19 @@
 
   <property>
     <name>yarn.resourcemanager.scheduler.address</name>
-    <value><%= namenode_hostname %>:8030</value>
+    <value><%= @primary_namenode_host %>:8030</value>
   </property>
   <property>
     <name>yarn.resourcemanager.resource-tracker.address</name>
-    <value><%= namenode_hostname %>:8031</value>
+    <value><%= @primary_namenode_host %>:8031</value>
   </property>
   <property>
     <name>yarn.resourcemanager.address</name>
-    <value><%= namenode_hostname %>:8032</value>
+    <value><%= @primary_namenode_host %>:8032</value>
   </property>
   <property>
     <name>yarn.resourcemanager.admin.address</name>
-    <value><%= namenode_hostname %>:8033</value>
+    <value><%= @primary_namenode_host %>:8033</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.address</name>

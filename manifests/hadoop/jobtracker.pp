@@ -98,6 +98,5 @@ class cdh4::hadoop::jobtracker {
         hasrestart => true,
         alias      => 'jobtracker',
         require    => Package['hadoop-0.20-mapreduce-jobtracker'],
-
     }
 }

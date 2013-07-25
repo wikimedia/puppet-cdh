@@ -9,9 +9,9 @@
 
   <property>
     <name><%= @use_yarn ? 'fs.defaultFS' : 'fs.default.name' %></name>
-    <value>hdfs://<%= namenode_hostname %>/</value>
+    <value>hdfs://<%= @ha_enabled ? @nameservice_id : @primary_namenode_host %>/</value>
   </property>
-  
+
 <% if @io_file_buffer_size -%>
   <property>
     <name>io.file.buffer.size</name>

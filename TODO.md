@@ -1,21 +1,29 @@
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [TODO:](#todo)
+    - [Hadoop](#hadoop)
+    - [HBase](#hbase)
+    - [Zookeeper](#zookeeper)
+
 # TODO:
 
 ## Hadoop
 
 - Add hosts.exclude support for decommissioning nodes.
 - Change cluster (conf) name?  (use update-alternatives?)
-- Set default map/reduce tasks automatically based on facter node stats.
+- Set default # map/reduce tasks automatically based on facter node stats.
 - Handle ensure => absent, especially for MRv1 vs YARN packages and services.
 - Implement standalone yarn proxyserver support.
 - Make log4j.properties more configurable.
 - Support Secondary NameNode.
-- Support High Availability NameNode.
 - Make JMX ports configurable.
 - Make hadoop-metrics2.properties more configurable.
-
-## Oozie
+- Support HA automatic failover.
+- HA NameNode Fencing support.
+- Rename 'use_yarn' parameter to 'yarn_enabled' for consistency.
 
 ## HBase
+- Implement.
 
 ## Zookeeper
 

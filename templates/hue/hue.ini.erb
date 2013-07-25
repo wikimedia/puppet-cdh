@@ -217,7 +217,7 @@
 
     [[[default]]]
       # Enter the filesystem uri
-      fs_defaultfs=hdfs://<%= @namenode_hostname %>/
+      fs_defaultfs=hdfs://<%= @namenode_host %>/
 
       # Change this if your HDFS cluster is Kerberos-secured
       ## security_enabled=false
@@ -225,7 +225,7 @@
       # Use WebHdfs/HttpFs as the communication mechanism.
       # This should be the web service root URL, such as
       # http://namenode:50070/webhdfs/v1
-      webhdfs_url=http://<%= @namenode_hostname %>:<%= @httpfs_enabled ? '14000' : '50070' %>/webhdfs/v1/
+      webhdfs_url=http://<%= @namenode_host %>:<%= @httpfs_enabled ? '14000' : '50070' %>/webhdfs/v1/
 
       # Settings about this HDFS cluster. If you install HDFS in a
       # different location, you need to set the following.
@@ -278,7 +278,7 @@ if false
 
     [[[default]]]
       # Enter the host on which you are running the ResourceManager
-      resourcemanager_host=<%= @namenode_hostname %>
+      resourcemanager_host=<%= @namenode_host %>
       # The port where the ResourceManager IPC listens on
       resourcemanager_port=8032
       # Whether to submit jobs to this cluster
@@ -300,13 +300,13 @@ if false
       ## hadoop_conf_dir=/etc/hadoop/conf
 
       # URL of the ResourceManager API
-      ## resourcemanager_api_url=http://<%= @namenode_hostname %>:8088
+      ## resourcemanager_api_url=http://<%= @namenode_host %>:8088
 
       # URL of the ProxyServer API
-      proxy_api_url=http://<%= @namenode_hostname %>:8088
+      proxy_api_url=http://<%= @namenode_host %>:8088
 
       # URL of the HistoryServer API
-      history_server_api_url=http://<%= @namenode_hostname %>:19888
+      history_server_api_url=http://<%= @namenode_host %>:19888
 
 
 <%

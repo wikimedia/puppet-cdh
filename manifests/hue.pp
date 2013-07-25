@@ -221,7 +221,7 @@ class cdh4::hue(
         $sqoop = false
     }
 
-    $namenode_hostname = $cdh4::hadoop::namenode_hostname
+    $namenode_host = $::cdh4::hadoop::primary_namenode_host
     file { '/etc/hue/hue.ini':
         content => template($hue_ini_template),
         require => Package['hue-server'],

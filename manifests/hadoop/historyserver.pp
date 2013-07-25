@@ -38,6 +38,5 @@ class cdh4::hadoop::historyserver {
         hasrestart => true,
         alias      => 'historyserver',
         require    => Package['hadoop-mapreduce-historyserver'],
-
     }
 }

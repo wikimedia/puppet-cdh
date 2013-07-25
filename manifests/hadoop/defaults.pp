@@ -3,6 +3,11 @@
 #
 class cdh4::hadoop::defaults {
     $config_directory                        = '/etc/hadoop/conf'
+
+    $nameservice_id                          = undef
+    $journalnode_hosts                       = undef
+    $dfs_journalnode_edits_dir               = undef
+
     $datanode_mounts                         = undef
     $dfs_data_path                           = 'hdfs/dn'
     $yarn_local_path                         = 'yarn/local'

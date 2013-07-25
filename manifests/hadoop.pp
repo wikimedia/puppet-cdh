@@ -12,15 +12,28 @@
 # yarn.nodemanager.log-dirs will be set to each of ${dfs_data_dir_mounts}/$yarn_logs_path
 #
 # == Parameters
-#   $namenode_hostname   - hostname of the NameNode.  This will also be used as the hostname for the historyserver, proxyserver, and resourcemanager.
-#   $dfs_name_dir        - full path to hadoop NameNode name directory.  This can be an array of paths or a single string path.
-#   $config_directory    - path of the hadoop config directory.
-#   $datanode_mounts     - array of JBOD mount points.  Hadoop datanode and mapreduce/yarn directories will be here.
-#   $dfs_data_path       - path relative to JBOD mount point for HDFS data directories.
-#   $enable_jmxremote    - enables remote JMX connections for all Hadoop services.  Ports are not currently configurable.  Default: true.
-#   $yarn_local_path     - path relative to JBOD mount point for yarn local directories.
-#   $yarn_logs_path      - path relative to JBOD mount point for yarn log directories.
-#   $dfs_block_size      - HDFS block size in bytes.  Default 64MB.
+#   $namenode_hosts             - Array of NameNode host(s).  The first entry in this
+#                                 array will be the primary NameNode.  The primary NameNode
+#                                 will also be used as the host for the historyserver, proxyserver,
+#                                 and resourcemanager.   Use multiple hosts hosts if you
+#                                 configuring Hadoop with HA NameNodes.
+#   $dfs_name_dir               - Path to hadoop NameNode name directory.  This
+#                                 can be an array of paths or a single string path.
+#   $nameservice_id             - Arbitrary logical HDFS cluster name.  Only set this
+#                                 if you want to use HA NameNode.
+#   $journalnode_hosts          - Array of JournalNode hosts.  This will be ignored
+#                                 if $nameservice_id is not set.
+#   $dfs_journalnode_edits_dir  - Path to JournalNode edits dir.  This will be
+#                                 ignored if $nameservice_id is not set.
+#   $config_directory           - Path of the hadoop config directory.
+#   $datanode_mounts            - Array of JBOD mount points.  Hadoop datanode and
+#                                 mapreduce/yarn directories will be here.
+#   $dfs_data_path              - Path relative to JBOD mount point for HDFS data directories.
+#   $enable_jmxremote           - enables remote JMX connections for all Hadoop services.
+#                                 Ports are not currently configurable.  Default: true.
+#   $yarn_local_path            - Path relative to JBOD mount point for yarn local directories.
+#   $yarn_logs_path             - Path relative to JBOD mount point for yarn log directories.
+#   $dfs_block_size             - HDFS block size in bytes.  Default 64MB.
 #   $io_file_buffer_size
 #   $map_tasks_maximum
 #   $reduce_tasks_maximum
@@ -33,19 +46,32 @@
 #   $mapreduce_task_io_sort_factor
 #   $mapreduce_map_java_opts
 #   $mapreduce_child_java_opts
-#   $mapreduce_intermediate_compression   - If true, intermediate MapReduce data will be compressed with Snappy.    Default: true.
-#   $mapreduce_final_compession           - If true, Final output of MapReduce jobs will be compressed with Snappy. Default: false.
+#   $mapreduce_intermediate_compression   - If true, intermediate MapReduce data
+#                                           will be compressed with Snappy.  Default: true.
+#   $mapreduce_final_compession           - If true, Final output of MapReduce
+#                                           jobs will be compressed with Snappy. Default: false.
 #   $yarn_nodemanager_resource_memory_mb
-#   $yarn_resourcemanager_scheduler_class - If you change this (e.g. to FairScheduler), you should also provide your own scheduler config .xml files outside of the cdh4 module.
+#   $yarn_resourcemanager_scheduler_class - If you change this (e.g. to
+#                                           FairScheduler), you should also provide
+#                                           your own scheduler config .xml files
+#                                           outside of the cdh4 module.
 #   $use_yarn
-#   $ganglia_hosts                        - Set this to an array of ganglia host:ports if you want to enable ganglia sinks in hadoop-metrics2.properites
+#   $ganglia_hosts                        - Set this to an array of ganglia host:ports
+#                                           if you want to enable ganglia sinks in hadoop-metrics2.properites
 #
 class cdh4::hadoop(
-    $namenode_hostname,
+    $namenode_hosts,
     $dfs_name_dir,
+
     $config_directory                        = $::cdh4::hadoop::defaults::config_directory,
+
+    $nameservice_id                          = $::cdh4::hadoop::defaults::nameservice_id,
+    $journalnode_hosts                       = $::cdh4::hadoop::defaults::journalnode_hosts,
+    $dfs_journalnode_edits_dir               = $::cdh4::hadoop::defaults::dfs_journalnode_edits_dir,
+
     $datanode_mounts                         = $::cdh4::hadoop::defaults::datanode_mounts,
     $dfs_data_path                           = $::cdh4::hadoop::defaults::dfs_data_path,
+
     $yarn_local_path                         = $::cdh4::hadoop::defaults::yarn_local_path,
     $yarn_logs_path                          = $::cdh4::hadoop::defaults::yarn_logs_path,
     $dfs_block_size                          = $::cdh4::hadoop::defaults::dfs_block_size,
@@ -79,11 +105,40 @@ class cdh4::hadoop(
     $nodemanager_jmxremote_port        = 9984
     $proxyserver_jmxremote_port        = 9985
 
+    # If $dfs_name_dir is a list, this will be the
+    # first entry in the list.  Else just $dfs_name_dir.
+    # This used in a couple of execs throughout this module.
+    $dfs_name_dir_main = inline_template('<%= (dfs_name_dir.class == Array) ? dfs_name_dir[0] : dfs_name_dir %>')
+
+    # Set a boolean for use in logic elsewhere to
+    # determine if HA NameNode will be used.
+    $ha_enabled = $nameservice_id ? {
+        undef   => false,
+        default => true,
+    }
+
+    # Parameter Validation:
+    if ($ha_enabled and !$journalnode_hosts) {
+        fail('Must provide multiple $journalnode_hosts when using HA and setting $nameservice_id.')
+    }
+
+
+    # Assume the primary namenode is the first entry in $namenode_hosts,
+    # Set a variable here for reference in other classes.
+    $primary_namenode_host = $namenode_hosts[0]
+    # This is the primary NameNode ID used to identify
+    # a NameNode when running HDFS with a logical nameservice_id.
+    # We can't use '.' characters because NameNode IDs
+    # will be used in the names of some Java properties, 
+    # which are '.' delimited.
+    $primary_namenode_id   = inline_template('<%= @primary_namenode_host.tr(\'.\', \'-\') %>')
+
+
     package { 'hadoop-client':
         ensure => 'installed'
     }
 
-    # All config files require hadoop-client package
+    # All config files require hadoop-client package.
     File {
         require => Package['hadoop-client']
     }
@@ -92,11 +147,6 @@ class cdh4::hadoop(
     $yarn_ensure = $use_yarn ? {
         false   => 'absent',
         default => 'present',
-    }
-
-    # Common hadoop config files
-    file { $config_directory:
-        ensure => 'directory',
     }
 
     file { "${config_directory}/log4j.properties":
@@ -133,8 +183,8 @@ class cdh4::hadoop(
         content => template('cdh4/hadoop/yarn-env.sh.erb'),
     }
 
-    # render hadoop-metrics2.properties
-    # if we hav Ganglia Hosts to send metrics to.
+    # Render hadoop-metrics2.properties
+    # if we have Ganglia Hosts to send metrics to.
     $hadoop_metrics2_ensure = $ganglia_hosts ? {
         undef   => 'absent',
         default => 'present',
@@ -142,5 +192,16 @@ class cdh4::hadoop(
     file { "${config_directory}/hadoop-metrics2.properties":
         ensure  => $hadoop_metrics2_ensure,
         content => template('cdh4/hadoop/hadoop-metrics2.properties.erb'),
+    }
+
+    # If the current node is meant to be JournalNode,
+    # include the journalnode class.  JournalNodes can
+    # be started at any time.
+    if ($journalnode_hosts and (
+            ($::fqdn           and $::fqdn           in $journalnode_hosts) or
+            ($::ipaddress      and $::ipaddress      in $journalnode_hosts) or
+            ($::ipaddress_eth1 and $::ipaddress_eth1 in $journalnode_hosts)))
+    {
+            include cdh4::hadoop::journalnode
     }
 }
