@@ -13,8 +13,6 @@ class cdh4::hbase::regionserver {
     ensure      => 'running',
     enable      => true,
     hasrestart  => true,
-    require     => File["${::cdh4::hbase::config_directory}/hbase-site.xml"],
-    subscribe   => File["${::cdh4::hbase::config_directory}/hbase-site.xml"],
   }
 
 }
