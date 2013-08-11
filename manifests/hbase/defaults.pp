@@ -2,8 +2,7 @@
 # Default parameters for cdh4::hbase configuration.
 #
 class cdh4::hbase::defaults {
-  $root_dir         = '/hbase'
+  $rootdir         = '/hbase'
   $config_directory = '/etc/hbase/conf'
-  $master_domain    = undef
-  $zookeeper_master = undef
+  $zookeeper_hosts = undef
 }

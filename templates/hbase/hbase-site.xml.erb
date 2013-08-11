@@ -28,12 +28,12 @@
 </property>
 <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://<%= @master_domain %>:8020<%= @root_dir %></value>
+    <value>hdfs://<%= @namenode_host %>:8020<%= @rootdir %></value>
 </property>
-<% if @zookeeper_master -%>
+<% if @zookeeper_hosts -%>
 <property>
     <name>hbase.zookeeper.quorum</name>
-    <value><%= @zookeeper_master %></value>
+    <value><%= @zookeeper_hosts.sort.join(',') %></value>
 </property>
 <% end -%>
 </configuration>
