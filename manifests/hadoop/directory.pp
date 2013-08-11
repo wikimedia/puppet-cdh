@@ -34,7 +34,7 @@ define cdh4::hadoop::directory (
     $group  = 'hdfs',
     $mode   = '0755')
 {
-#  Class['cdh4::hadoop'] -> Cdh4::Hadoop::Directory[$title]
+  Class['cdh4::hadoop'] -> Cdh4::Hadoop::Directory[$title]
 
     if $ensure == 'present' {
         exec { "cdh4::hadoop::directory ${title}":
