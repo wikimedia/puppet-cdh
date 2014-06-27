@@ -2,6 +2,7 @@
 
 ## Hadoop
 
+- Fix Oozie Server extjs install.
 - Add hosts.exclude support for decommissioning nodes.
 - Set default # map/reduce tasks automatically based on facter node stats.
 - Handle ensure => absent
