@@ -3,6 +3,8 @@
 Puppet module to install and manage components of
 Cloudera's Distribution (CDH) for Apache Hadoop.
 
+This repository works with CDH5.  For CDH4, use the ```cdh4``` branch.
+
 NOTE: The main puppet-cdh repository is hosted in WMF Gerrit at
 [operations/puppet/cdh](https://gerrit.wikimedia.org/r/#/admin/projects/operations/puppet/cdh).
 
@@ -22,8 +24,6 @@ that:
   make config changes in puppet, you must apply puppet and then manually restart
   the relevant services.
 - This module has only been tested using CDH 5.0.1 on Ubuntu Precise 12.04.2 LTS
-- Many of the above mentioned services are not yet implemented in v0.2.
-  See the v0.1 branch if you'd like to use these now.
 - Zookeeper is not puppetized in this module, as Debian/Ubuntu provides
   a different and suitable Zookeeper package.  To puppetize Zookeeper Servers,
   See the [puppet-zookeeper](https://github.com/wikimedia/puppet-zookeeper) module.
@@ -52,6 +52,8 @@ All Hadoop enabled nodes should include the ```cdh::hadoop``` class.
 ```puppet
 class my::hadoop {
     class { 'cdh::hadoop':
+        # Logical Hadoop cluster name.
+        cluster_name       => 'mycluster',
         # Must pass an array of hosts here, even if you are
         # not using HA and only have a single NameNode.
         namenode_hosts     => ['namenode1.domain.org'],
@@ -77,7 +79,7 @@ The datanode_mounts parameter assumes that you want to keep your
 DataNode and YARN specific data in subdirectories in each of the mount
 points provided.
 
-## Hadoop master
+## Hadoop Master
 
 ```puppet
 class my::hadoop::master inherits my::hadoop {
@@ -93,7 +95,7 @@ This installs and starts up the NameNode.  If using YARN this will install
 and set up ResourceManager and HistoryServer.  If using MRv1, this will install
 and set up the JobTracker.
 
-## Hadoop workers
+## Hadoop Workers
 
 ```puppet
 class my::hadoop::worker inherits my::hadoop {
@@ -139,7 +141,7 @@ your hadoop nodes, as well as specify the hosts of your standby NameNodes.
 
 class my::hadoop {
     class { 'cdh::hadoop':
-        nameservice_id      => 'mycluster',
+        cluster_name        => 'mycluster',
         namenode_hosts      => [
             'namenode1.domain.org',
             'namenode2.domain.org
@@ -165,8 +167,6 @@ node 'hadoop-client.domain.org' {
 
 Note the differences from the non-HA setup:
 
-- An arbitrary ```nameservice_id``` has been specified.  This will be the
-logical name of your HDFS cluster.
 - Multiple ```namenode_hosts``` have been given.  You will need to include
 ```cdh::hadoop::namenode::standby``` on your standby NameNodes.
 - ```journalnode_hosts``` have been specified.
