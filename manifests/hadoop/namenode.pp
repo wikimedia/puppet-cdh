@@ -13,11 +13,16 @@ class cdh::hadoop::namenode {
 
     # install namenode daemon package
     package { 'hadoop-hdfs-namenode':
-        ensure => installed
+        ensure => 'installed',
     }
 
-    file { "${::cdh::hadoop::config_directory}/hosts.exclude":
-        ensure  => 'present',
+    # NameNodes expect that the hosts.exclude file exists.
+    # I don't want to manage this as a puppet file resource,
+    # as users of this class might want to manage it themselves.
+    # Instead, this exec just touches the file if it doesn't exist.
+    exec { 'touch hosts.exclude':
+        command => "/usr/bin/touch ${::cdh::hadoop::config_directory}/hosts.exclude",
+        unless  => "/usr/bin/test -f ${::cdh::hadoop::config_directory}/hosts.exclude",
         require => Package['hadoop-hdfs-namenode'],
     }
 
@@ -37,7 +42,7 @@ class cdh::hadoop::namenode {
         command => '/usr/bin/hdfs namenode -format',
         creates => "${::cdh::hadoop::dfs_name_dir_main}/current/VERSION",
         user    => 'hdfs',
-        require => File[$::cdh::hadoop::dfs_name_dir],
+        require => [File[$::cdh::hadoop::dfs_name_dir], Exec['touch hosts.exclude']],
     }
 
     service { 'hadoop-hdfs-namenode':
@@ -46,6 +51,6 @@ class cdh::hadoop::namenode {
         hasstatus  => true,
         hasrestart => true,
         alias      => 'namenode',
-        require    => [File["${::cdh::hadoop::config_directory}/hosts.exclude"], Exec['hadoop-namenode-format']],
+        require    => Exec['hadoop-namenode-format'],
     }
 }
