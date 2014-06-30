@@ -11,7 +11,7 @@
 class cdh::hadoop::namenode::standby inherits cdh::hadoop::namenode {
     # Fail if nameservice_id isn't set.
     if (!$::cdh::hadoop::ha_enabled) {
-        fail('Cannot use Standby NameNode in a non HA setup.  Set $nameservice_id on the cdh::hadoop class to enable HA.')
+        fail('Cannot use Standby NameNode in a non HA setup.  Specify journalnodes in the $journalnode_hosts parameter on the cdh::hadoop class to enable HA.')
     }
 
     # Override the namenode -format command to bootstrap this

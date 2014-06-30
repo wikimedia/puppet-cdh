@@ -22,9 +22,10 @@
 #   $cluster_name               - Arbitrary logical HDFS cluster name.  This will be used
 #                                 as the nameserivce id if you set $ha_enabled to true.
 #                                 Default: 'cdh'.
-#   $ha_enabled                 - Enable High Availability NameNodes.
-#   $journalnode_hosts          - Array of JournalNode hosts.  This will be ignored
-#                                 if $ha_enabled is false.
+#   $journalnode_hosts          - Array of JournalNode hosts.  If this is provided,
+#                                 Hadoop will be configured to expect to have
+#                                 a primary NameNode as well as at least
+#                                 one Standby NameNode for use in high availibility mode.
 #   $dfs_journalnode_edits_dir  - Path to JournalNode edits dir.  This will be
 #                                 ignored if $ha_enabled is false.
 #   $datanode_mounts            - Array of JBOD mount points.  Hadoop datanode and
@@ -130,7 +131,15 @@ class cdh::hadoop(
     # This used in a couple of execs throughout this module.
     $dfs_name_dir_main = inline_template('<%= (dfs_name_dir.class == Array) ? dfs_name_dir[0] : dfs_name_dir %>')
 
-    # if $ha_enabled is true, use $cluster_name as $nameservice_id
+    # Set a boolean used to indicate that HA NameNodes
+    # are intended to be used for this cluster.  HA NameNodes
+    # require the JournalNodes are configured.
+    $ha_enabled = $journalnode_hosts ? {
+        undef   => false,
+        default => true,
+    }
+
+    # If $ha_enabled is true, use $cluster_name as $nameservice_id.
     $nameservice_id = $ha_enabled ? {
         true    => $cluster_name,
         default => undef,
