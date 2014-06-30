@@ -84,7 +84,6 @@ class cdh::hadoop(
     $namenode_hosts,
     $dfs_name_dir,
     $cluster_name                                = $::cdh::hadoop::defaults::cluster_name,
-    $ha_enabled                                  = $::cdh::hadoop::defaults::ha_enabled,
     $journalnode_hosts                           = $::cdh::hadoop::defaults::journalnode_hosts,
     $dfs_journalnode_edits_dir                   = $::cdh::hadoop::defaults::dfs_journalnode_edits_dir,
 
