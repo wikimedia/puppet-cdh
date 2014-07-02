@@ -63,12 +63,12 @@ if (@metastore_host == @fqdn)
   </property>
 
   <property>
-    <name>datanucleus.autoStartMechanism</name> 
+    <name>datanucleus.autoStartMechanism</name>
     <value>SchemaTable</value>
   </property>
 
 <% end -%>
-<% if @zookeeper_hosts -%>
+<% if @zookeeper_hosts and !@zookeeper_hosts.empty? -%>
   <!-- Hive can use Zookeeper for table lock management -->
   <property>
     <name>hive.support.concurrency</name>
@@ -109,7 +109,7 @@ if (@metastore_host == @fqdn)
   <property>
     <name>hive.mapred.mode</name>
     <description>
-      The mode in which the hive operations are being performed. 
+      The mode in which the hive operations are being performed.
        In strict mode, some risky queries are not allowed to run. They include:
        Cartesian Product.
        No partition being picked up for a query.
@@ -159,7 +159,7 @@ if (@metastore_host == @fqdn)
       The algorithm is as follows: At runtime, detect the keys with a large skew. Instead of
       processing those keys, store them temporarily in a hdfs directory. In a follow-up map-reduce
       job, process those skewed keys. The same key need not be skewed for all the tables, and so,
-      the follow-up map-reduce job (for the skewed keys) would be much faster, since it would be a 
+      the follow-up map-reduce job (for the skewed keys) would be much faster, since it would be a
       map-join.
     </description>
   </property>
