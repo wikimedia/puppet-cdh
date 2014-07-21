@@ -81,7 +81,18 @@ end
 <% end -%>
 
   <property>
+   <!--
+    Deprecated in CDH5. Replaced by dfs.blocksize.
+    We keep it around for a bit nonetheless, in case some application
+    still try to access it directly.
+   -->
    <name>dfs.block.size</name>
+   <value><%= dfs_block_size %></value>
+  </property>
+
+  <property>
+   <!-- Replaces dfs.block.size in CDH5 -->
+   <name>dfs.blocksize</name>
    <value><%= dfs_block_size %></value>
   </property>
 
