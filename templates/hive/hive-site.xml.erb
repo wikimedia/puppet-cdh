@@ -147,7 +147,7 @@ if (@metastore_host == @fqdn)
   <property>
     <name>hive.exec.parallel.thread.number</name>
     <description>How many jobs at most can be executed in parallel</description>
-    <value><% @exec_parallel_thread_number %></value>
+    <value><%= @exec_parallel_thread_number %></value>
   </property>
 
 <% if @optimize_skewjoin -%>
