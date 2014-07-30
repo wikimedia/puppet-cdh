@@ -15,6 +15,8 @@ class cdh::hive::defaults {
     $db_root_username            = undef
     $db_root_password            = undef
 
+    $variable_substitute_depth   = undef
+
     # Further path/jar to add to hive's classpath.
     # Until Hive 0.12.0 this can only be a single path. See HIVE-2269.
     $auxpath                     = undef

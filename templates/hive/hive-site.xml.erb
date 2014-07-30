@@ -270,6 +270,14 @@ if (@metastore_host == @fqdn)
 
 <% end -%>
 
+<% if @variable_substitute_depth -%>
+<property>
+  <name>hive.variable.substitute.depth</name>
+  <value><%= @variable_substitute_depth %></value>
+  <description>The maximum replacements the substitution engine will do.</description>
+</property>
+<% end -%>
+
 <% if @auxpath -%>
   <property>
     <name>hive.aux.jars.path</name>

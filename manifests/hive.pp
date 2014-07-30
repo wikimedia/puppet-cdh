@@ -26,6 +26,8 @@
 #                                  Only set these if your root user cannot issue database
 #                                  commands without a different username and password.
 #                                  Default: undef
+# $variable_substitute_depth      - The maximum replacements the substitution engine will do. Default: undef
+#
 # $auxpath                       - Additional path to pass to hive.  Default: undef
 # $exec_parallel_thread_number   - Number of jobs at most can be executed in parallel.
 #                                  Set this to 0 to disable parallel execution.
@@ -62,6 +64,7 @@ class cdh::hive(
     $db_root_username            = $cdh::hive::defaults::db_root_username,
     $db_root_password            = $cdh::hive::defaults::db_root_password,
 
+    $variable_substitute_depth   = $cdh::hive::defaults::variable_substitute_depth,
     $auxpath                     = $cdh::hive::defaults::auxpath,
 
     $exec_parallel_thread_number = $cdh::hive::defaults::exec_parallel_thread_number,
