@@ -10,9 +10,9 @@ class cdh::hadoop::historyserver {
     # Create HistoryServer HDFS directories.
     # See: http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-Installation-Guide/cdh5ig_yarn_cluster_deploy.html?scroll=topic_11_4_9_unique_1
     cdh::hadoop::directory { '/user/history':
-        # sudo -u hdfs hadoop fs -mkdir /user/history
-        # sudo -u hdfs hadoop fs -chmod -R 1777 /user/history
-        # sudo -u hdfs hadoop fs -chown yarn /user/history
+        # sudo -u hdfs hdfs dfs -mkdir /user/history
+        # sudo -u hdfs hdfs dfs -chmod -R 1777 /user/history
+        # sudo -u hdfs hdfs dfs -chown yarn /user/history
         owner   => 'yarn',
         group   => 'hdfs',
         mode    => '1777',

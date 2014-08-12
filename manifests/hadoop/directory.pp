@@ -4,7 +4,7 @@
 #
 # == Notes:
 # This will not check ownership and permissions
-# of a directory.  It will only check for the directories
+# of a directory.  It will only check for the directory's
 # existence.  If it does not exist, the directory will be
 # created and given specified ownership and permissions.
 # This will not attempt to set ownership and permissions
@@ -17,7 +17,7 @@
 # I once spent some time trying to make that work, but it was more
 # difficult than it sounds.  For example, you'd need to handle conversion
 # between symbolic mode to numeric mode, as I could not find a way to
-# get hadoop fs to list numeric modes for comparison.  Perhaps
+# get hdfs dfs to list numeric modes for comparison.  Perhaps
 # there's a way to use HttpFS to do this instead?
 #
 # == Parameters:
@@ -38,15 +38,15 @@ define cdh::hadoop::directory (
 
     if $ensure == 'present' {
         exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hadoop fs -mkdir ${path} && /usr/bin/hadoop fs -chmod ${mode} ${path} && /usr/bin/hadoop fs -chown ${owner}:${group} ${path}",
-            unless  => "/usr/bin/hadoop fs -test -e ${path}",
+            command => "/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
+            unless  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
         }
     }
     else {
         exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hadoop fs -rm -R ${path}",
-            onlyif  => "/usr/bin/hadoop fs -test -e ${path}",
+            command => "/usr/bin/hdfs dfs -rm -R ${path}",
+            onlyif  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             require => Service['hadoop-hdfs-namenode'],
         }

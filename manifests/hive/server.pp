@@ -28,18 +28,18 @@ class cdh::hive::server(
         require => Package['hive-server2'],
     }
 
-    # sudo -u hdfs hadoop fs -mkdir /user/hive
-    # sudo -u hdfs hadoop fs -chmod 0775 /user/hive
-    # sudo -u hdfs hadoop fs -chown hive:hadoop /user/hive
+    # sudo -u hdfs hdfs dfs -mkdir /user/hive
+    # sudo -u hdfs hdfs dfs -chmod 0775 /user/hive
+    # sudo -u hdfs hdfs dfs -chown hive:hadoop /user/hive
     cdh::hadoop::directory { '/user/hive':
         owner   => 'hive',
         group   => 'hadoop',
         mode    => '0775',
         require => Package['hive'],
     }
-    # sudo -u hdfs hadoop fs -mkdir /user/hive/warehouse
-    # sudo -u hdfs hadoop fs -chmod 1777 /user/hive/warehouse
-    # sudo -u hdfs hadoop fs -chown hive:hadoop /user/hive/warehouse
+    # sudo -u hdfs hdfs dfs -mkdir /user/hive/warehouse
+    # sudo -u hdfs hdfs dfs -chmod 1777 /user/hive/warehouse
+    # sudo -u hdfs hdfs dfs -chown hive:hadoop /user/hive/warehouse
     cdh::hadoop::directory { '/user/hive/warehouse':
         owner   => 'hive',
         group   => 'hadoop',

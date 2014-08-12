@@ -106,9 +106,9 @@ class cdh::oozie::server(
     # See also:
     # http://blog.cloudera.com/blog/2014/05/how-to-use-the-sharelib-in-apache-oozie-cdh-5/
 
-    # sudo -u hdfs hadoop fs -mkdir /user/oozie
-    # sudo -u hdfs hadoop fs -chmod 0775 /user/oozie
-    # sudo -u hdfs hadoop fs -chown oozie:oozie /user/oozie
+    # sudo -u hdfs hdfs dfs -mkdir /user/oozie
+    # sudo -u hdfs hdfs dfs -chmod 0775 /user/oozie
+    # sudo -u hdfs hdfs dfs -chown oozie:oozie /user/oozie
     cdh::hadoop::directory { '/user/oozie':
         owner   => 'oozie',
         group   => 'hadoop',

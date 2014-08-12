@@ -8,8 +8,8 @@ class cdh::hadoop::resourcemanager {
     # Create YARN HDFS directories.
     # See: http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-Installation-Guide/cdh5ig_yarn_cluster_deploy.html?scroll=topic_11_4_10_unique_1
     cdh::hadoop::directory { '/var/log/hadoop-yarn':
-        # sudo -u hdfs hadoop fs -mkdir /var/log/hadoop-yarn
-        # sudo -u hdfs hadoop fs -chown yarn:mapred /var/log/hadoop-yarn
+        # sudo -u hdfs hdfs dfs -mkdir /var/log/hadoop-yarn
+        # sudo -u hdfs hdfs dfs -chown yarn:mapred /var/log/hadoop-yarn
         owner   => 'yarn',
         group   => 'mapred',
         mode    => '0755',

@@ -39,24 +39,24 @@ class cdh::hadoop::namenode::primary inherits cdh::hadoop::namenode {
 
     # Create common HDFS directories.
 
-    # sudo -u hdfs hadoop fs -mkdir /tmp
-    # sudo -u hdfs hadoop fs -chmod 1777 /tmp
+    # sudo -u hdfs hdfs dfs -mkdir /tmp
+    # sudo -u hdfs hdfs dfs -chmod 1777 /tmp
     cdh::hadoop::directory { '/tmp':
         owner   => 'hdfs',
         group   => 'hdfs',
         mode    => '1777',
     }
 
-    # sudo -u hdfs hadoop fs -mkdir /user
-    # sudo -u hdfs hadoop fs -chmod 0775 /user
-    # sudo -u hdfs hadoop fs -chown hdfs:hadoop /user
+    # sudo -u hdfs hdfs dfs -mkdir /user
+    # sudo -u hdfs hdfs dfs -chmod 0775 /user
+    # sudo -u hdfs hdfs dfs -chown hdfs:hadoop /user
     cdh::hadoop::directory { '/user':
         owner   => 'hdfs',
         group   => 'hadoop',
         mode    => '0775',
     }
 
-    # sudo -u hdfs hadoop fs -mkdir /user/hdfs
+    # sudo -u hdfs hdfs dfs -mkdir /user/hdfs
     cdh::hadoop::directory { '/user/hdfs':
         owner   => 'hdfs',
         group   => 'hdfs',
@@ -64,14 +64,14 @@ class cdh::hadoop::namenode::primary inherits cdh::hadoop::namenode {
         require => Cdh::Hadoop::Directory['/user'],
     }
 
-    # sudo -u hdfs hadoop fs -mkdir /var
+    # sudo -u hdfs hdfs dfs -mkdir /var
     cdh::hadoop::directory { '/var':
         owner   => 'hdfs',
         group   => 'hdfs',
         mode    => '0755',
     }
 
-    # sudo -u hdfs hadoop fs -mkdir /var/lib
+    # sudo -u hdfs hdfs dfs -mkdir /var/lib
     cdh::hadoop::directory { '/var/lib':
         owner   => 'hdfs',
         group   => 'hdfs',
@@ -79,7 +79,7 @@ class cdh::hadoop::namenode::primary inherits cdh::hadoop::namenode {
         require => Cdh::Hadoop::Directory['/var'],
     }
 
-    # sudo -u hdfs hadoop fs -mkdir /var/log
+    # sudo -u hdfs hdfs dfs -mkdir /var/log
     cdh::hadoop::directory { '/var/log':
         owner   => 'hdfs',
         group   => 'hdfs',
