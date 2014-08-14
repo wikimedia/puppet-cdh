@@ -19,7 +19,7 @@ class cdh::hadoop::users($group = 'hadoop') {
     Class['cdh::hadoop'] -> Class['cdh::hadoop::users']
 
     file { '/usr/local/bin/create_hdfs_user_directories.sh':
-        source => 'puppet://modules/cdh/hadoop/create_hdfs_user_directories.sh',
+        source => 'puppet:///modules/cdh/hadoop/create_hdfs_user_directories.sh',
         mode   => '0755',
     }
 
