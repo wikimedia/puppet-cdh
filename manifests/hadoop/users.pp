@@ -3,29 +3,31 @@
 # have HDFS user directories at /user/<username>
 #
 # == Parameters
-# $group        - Group name in which all users should have
+# $groups       - Space separated group names in which all users should have
 #                 access to Hadoop.  Default: hadoop
 #
 # == Usage
-# The following will ensure that any users in the
-# posix group 'my-analytics-group' have HDFS user
-# directories.
+# The following will ensure that all users in the
+# posix groups 'my-analytics-group' and 'my-analytics-admin-group'
+# have HDFS user directories.
 #
 #    class { 'cdh::hadoop::users':
-#        group => 'my-analytics-group',
+#        groups => 'my-analytics-group my-analytics-admin-group',
 #    }
 #
-class cdh::hadoop::users($group = 'hadoop') {
+class cdh::hadoop::users($groups = ['hadoop']) {
     Class['cdh::hadoop'] -> Class['cdh::hadoop::users']
 
     file { '/usr/local/bin/create_hdfs_user_directories.sh':
         source => 'puppet:///modules/cdh/hadoop/create_hdfs_user_directories.sh',
-        mode   => '0755',
+        owner  => 'root',
+        group  => 'hdfs',
+        mode   => '0554',
     }
 
     exec { 'create_hdfs_user_directories':
-        command   => "/usr/local/bin/create_hdfs_user_directories.sh --verbose ${group}",
-        unless    => "/usr/local/bin/create_hdfs_user_directories.sh --check-for-changes ${group}",
+        command   => "/usr/local/bin/create_hdfs_user_directories.sh --verbose ${groups}",
+        unless    => "/usr/local/bin/create_hdfs_user_directories.sh --check-for-changes ${groups}",
         user      => 'hdfs',
         logoutput => true,
     }
