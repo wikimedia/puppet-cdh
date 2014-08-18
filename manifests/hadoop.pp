@@ -48,10 +48,13 @@
 #   $mapreduce_task_io_sort_factor
 #   $mapreduce_map_java_opts
 #   $mapreduce_child_java_opts
+#   $yarn_app_mapreduce_am_resource_mb        - The amount of memory the MR AppMaster needs.
+#   $yarn_app_mapreduce_am_command_opts       - Java opts for the MR App Master processes. The following symbol, if
+#                                              present, will be interpolated: @taskid@ is replaced by current TaskID
 #   $mapreduce_shuffle_port
 #   $mapreduce_intermediate_compression       - If true, intermediate MapReduce data
 #                                               will be compressed.  Default: true.
-#   Rmapreduce_intermediate_compression_codec - Codec class to use for intermediate compression.
+#   $mapreduce_intermediate_compression_codec - Codec class to use for intermediate compression.
 #                                               Default: org.apache.hadoop.io.compress.DefaultCodec
 #   $mapreduce_output_compession              - If true, final output of MapReduce
 #                                               jobs will be compressed. Default: false.
@@ -60,6 +63,12 @@
 #   $mapreduce_output_compession_type         - Whether to output compress on BLOCK or RECORD level.
 #                                               Default: RECORD
 #   $yarn_nodemanager_resource_memory_mb
+#   $yarn_scheduler_minimum_allocation_mb     - The minimum allocation for every container request at the RM,
+#                                               in MBs. Memory requests lower than this won't take effect, and
+#                                               the specified value will get allocated at minimum.
+#   $yarn_scheduler_maximum_allocation_mb     - The maximum allocation for every container request at the RM,
+#                                               in MBs. Memory requests higher than this won't take effect, and
+#                                               will get capped to this value.
 #   $yarn_resourcemanager_scheduler_class     - If you change this (e.g. to
 #                                               FairScheduler), you should also provide
 #                                               your own scheduler config .xml files
@@ -104,6 +113,8 @@ class cdh::hadoop(
     $mapreduce_reduce_shuffle_parallelcopies     = $::cdh::hadoop::defaults::mapreduce_reduce_shuffle_parallelcopies,
     $mapreduce_map_memory_mb                     = $::cdh::hadoop::defaults::mapreduce_map_memory_mb,
     $mapreduce_reduce_memory_mb                  = $::cdh::hadoop::defaults::mapreduce_reduce_memory_mb,
+    $yarn_app_mapreduce_am_resource_mb           = $::cdh::hadoop::defaults::yarn_app_mapreduce_am_resource_mb,
+    $yarn_app_mapreduce_am_command_opts          = $::cdh::hadoop::defaults::yarn_app_mapreduce_am_command_opts,
     $mapreduce_task_io_sort_mb                   = $::cdh::hadoop::defaults::mapreduce_task_io_sort_mb,
     $mapreduce_task_io_sort_factor               = $::cdh::hadoop::defaults::mapreduce_task_io_sort_factor,
     $mapreduce_map_java_opts                     = $::cdh::hadoop::defaults::mapreduce_map_java_opts,
@@ -115,6 +126,8 @@ class cdh::hadoop(
     $mapreduce_output_compression_codec          = $::cdh::hadoop::defaults::mapreduce_output_compession_codec,
     $mapreduce_output_compression_type           = $::cdh::hadoop::defaults::mapreduce_output_compression_type,
     $yarn_nodemanager_resource_memory_mb         = $::cdh::hadoop::defaults::yarn_nodemanager_resource_memory_mb,
+    $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,
+    $yarn_scheduler_maximum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_mb,
     $hadoop_heapsize                             = $::cdh::hadoop::defaults::hadoop_heapsize,
     $yarn_heapsize                               = $::cdh::hadoop::defaults::yarn_heapsize,
     $ganglia_hosts                               = $::cdh::hadoop::defaults::ganglia_hosts,

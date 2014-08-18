@@ -84,6 +84,20 @@
   </property>
 <% end -%>
 
+<% if @yarn_scheduler_minimum_allocation_mb -%>
+  <property>
+    <name>yarn.scheduler.minimum-allocation-mb</name>
+    <value><%= @yarn_scheduler_minimum_allocation_mb %></value>
+  </property>
+<% end -%>
+
+<% if @yarn_scheduler_maximum_allocation_mb -%>
+  <property>
+    <name>yarn.scheduler.maximum-allocation-mb</name>
+    <value><%= @yarn_scheduler_maximum_allocation_mb %></value>
+  </property>
+<% end -%>
+
   <property>
     <name>yarn.log-aggregation-enable</name>
     <value>true</value>

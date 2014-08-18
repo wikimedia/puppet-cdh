@@ -115,6 +115,20 @@
   </property>
 <% end -%>
 
+<% if @yarn_app_mapreduce_am_resource_mb -%>
+  <property>
+    <name>yarn.app.mapreduce.am.resource.mb</name>
+    <value><%= @yarn_app_mapreduce_am_resource_mb %></value>
+  </property>
+<% end -%>
+
+<% if @yarn_app_mapreduce_am_command_opts -%>
+  <property>
+    <name>yarn.app.mapreduce.am.command-opts</name>
+    <value><%= @yarn_app_mapreduce_am_command_opts %></value>
+  </property>
+<% end -%>
+
   <!-- MapReduce intermediate compression -->
   <property>
     <name>mapreduce.map.output.compress</name>
