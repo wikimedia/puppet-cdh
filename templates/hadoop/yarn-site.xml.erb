@@ -67,20 +67,20 @@
   <property>
     <description>List of directories to store localized files in.</description>
     <name>yarn.nodemanager.local-dirs</name>
-    <value><%= datanode_mounts.collect { |mount| mount + "/" + yarn_local_path }.join(',') %></value>
+    <value><%= @datanode_mounts.collect { |mount| mount + "/" + @yarn_local_path }.join(',') %></value>
   </property>
 
   <property>
     <description>Where to store container logs.</description>
     <name>yarn.nodemanager.log-dirs</name>
-    <value><%= datanode_mounts.collect { |mount| mount + "/" + yarn_logs_path}.join(',') %></value>
+    <value><%= @datanode_mounts.collect { |mount| mount + "/" + @yarn_logs_path}.join(',') %></value>
   </property>
 <% end -%>
 
 <% if @yarn_nodemanager_resource_memory_mb -%>
   <property>
     <name>yarn.nodemanager.resource.memory-mb</name>
-    <value><%= yarn_nodemanager_resource_memory_mb %></value>
+    <value><%= @yarn_nodemanager_resource_memory_mb %></value>
   </property>
 <% end -%>
 
@@ -103,7 +103,7 @@
 
   <property>
     <name>yarn.resourcemanager.nodes.exclude-path</name>
-    <value><%= config_directory %>/hosts.exclude</value>
+    <value><%= @config_directory %>/hosts.exclude</value>
     <description>
       A file that contains a list of NodeManagers to exclude.
       This is useful for decommissioning nodes.

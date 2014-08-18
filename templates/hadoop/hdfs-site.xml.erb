@@ -70,13 +70,13 @@ end
 <% end # if @ha_enabled -%>
   <property>
    <name>dfs.namenode.name.dir</name>
-   <value>file://<%= (dfs_name_dir.class == Array) ? dfs_name_dir.join(',file://') : dfs_name_dir %></value>
+   <value>file://<%= (@dfs_name_dir.class == Array) ? @dfs_name_dir.join(',file://') : @dfs_name_dir %></value>
   </property>
 
 <% if @datanode_mounts -%>
   <property>
    <name>dfs.datanode.data.dir</name>
-   <value>file://<%= datanode_mounts.sort.collect { |mount| mount + "/" + dfs_data_path }.join(',file://') %></value>
+   <value>file://<%= @datanode_mounts.sort.collect { |mount| mount + "/" + @dfs_data_path }.join(',file://') %></value>
   </property>
 <% end -%>
 
@@ -87,13 +87,13 @@ end
     still try to access it directly.
    -->
    <name>dfs.block.size</name>
-   <value><%= dfs_block_size %></value>
+   <value><%= @dfs_block_size %></value>
   </property>
 
   <property>
    <!-- Replaces dfs.block.size in CDH5 -->
    <name>dfs.blocksize</name>
-   <value><%= dfs_block_size %></value>
+   <value><%= @dfs_block_size %></value>
   </property>
 
   <!--
@@ -107,12 +107,12 @@ end
 
   <property>
     <name>dfs.webhdfs.enabled</name>
-    <value><%= webhdfs_enabled %></value>
+    <value><%= @webhdfs_enabled %></value>
   </property>
 
   <property>
     <name>dfs.hosts.exclude</name>
-    <value><%= config_directory %>/hosts.exclude</value>
+    <value><%= @config_directory %>/hosts.exclude</value>
     <description>
       A file that contains a list of DataNodes to exclude.
       This is useful for decommissioning nodes.
