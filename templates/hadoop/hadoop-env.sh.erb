@@ -9,9 +9,8 @@ HADOOP_NAMENODE_OPTS="-Dcom.sun.management.jmxremote.port=<%= namenode_jmxremote
 <% end -%>
 <% if @gelf_logging_enabled -%>
 <%# For logging to logstash via gelf, per http://www.paluch.biz/blog/95-logging-hadoop-messages-into-logstash-using-logstash-gelf.html -%>
-<%# in the example this is the only HADOOP_*_OPTS var which is exported, is this deviance needed? -%>
-<%# example: export HADOOP_NAMENODE_OPTS="-Dhadoop.security.logger=INFO,DRFAS,gelf -Dhdfs.audit.logger=INFO,DRFAAUDIT,gelf $HADOOP_NAMENODE_OPTS" -%>
-export HADOOP_NAMENODE_OPTS="-Dhadoop.security.logger=INFO,gelf -Dhdfs.audit.logger=INFO,gelf $HADOOP_NAMENODE_OPTS"
+export HADOOP_NAMENODE_OPTS="-Dhadoop.security.logger=INFO,RFAS,gelf -Dhdfs.audit.logger=INFO,gelf $HADOOP_NAMENODE_OPTS"
+export HADOOP_SECONDARYNAMENODE_OPTS="-Dhadoop.security.logger=INFO,DRFAS,gelf -Dhdfs.audit.logger=INFO,DRFAAUDIT,gelf $HADOOP_SECONDARYNAMENODE_OPTS"
 <% end -%>
 
 <% if @datanode_jmxremote_port -%>
@@ -20,18 +19,17 @@ HADOOP_DATANODE_OPTS="-Dcom.sun.management.jmxremote.port=<%= datanode_jmxremote
 <% end -%>
 
 <% if @gelf_logging_enabled -%>
-<%# The example sets the default level to ERROR even though they do INFO for NAMENODE, interesting. -%>
-<%# example: HADOOP_DATANODE_OPTS="-Dhadoop.security.logger=ERROR,DRFAS,gelf $HADOOP_DATANODE_OPTS" -%>
-HADOOP_DATANODE_OPTS="-Dhadoop.security.logger=INFO,gelf $HADOOP_DATANODE_OPTS"
+HADOOP_JOBTRACKER_OPTS="-Dhadoop.security.logger=INFO,DRFAS,gelf -Dmapred.audit.logger=INFO,MRAUDIT,gelf -Dmapred.jobsummary.logger=INFO,JSA,gelf $HADOOP_JOBTRACKER_OPTS"
+HADOOP_TASKTRACKER_OPTS="-Dhadoop.security.logger=ERROR,console,gelf -Dmapred.audit.logger=ERROR,console,gelf $HADOOP_TASKTRACKER_OPTS"
+<%# Upstream sets the default level to ERROR to avoid logging every successful auth -%>
+HADOOP_DATANODE_OPTS="-Dhadoop.security.logger=ERROR,DRFAS,gelf $HADOOP_DATANODE_OPTS"
 
-<%# example: export YARN_ROOT_LOGGER=INFO,DRFA,gelf -%>
-export YARN_ROOT_LOGGER=INFO,RFA,gelf
-<%# example: export HADOOP_ROOT_LOGGER=INFO,DRFA,gelf -%>
-export HADOOP_ROOT_LOGGER=INFO,RFA,gelf
-<%# example: export HADOOP_JHS_LOGGER=INFO,JSA,gelf -%>
-export HADOOP_JHS_LOGGER=INFO,RFA,gelf
-<%# example: export HADOOP_ROOT_SECURITY_LOGGER=INFO,DRFAS,gelf -%>
-export HADOOP_ROOT_SECURITY_LOGGER=INFO,RFA,gelf
+export YARN_ROOT_LOGGER=INFO,DRFA,gelf
+<%# upstream: export HADOOP_ROOT_LOGGER=INFO,DRFA,gelf -%>
+<%# causes error: java.io.FileNotFoundException: /usr/lib/hadoop/logs/hadoop.log (No such file or directory) -%>
+export HADOOP_ROOT_LOGGER=INFO,console,gelf
+export HADOOP_JHS_LOGGER=INFO,JSA,gelf
+export HADOOP_ROOT_SECURITY_LOGGER=INFO,DRFAS,gelf
 <% end -%>
 
 <% if @hadoop_heapsize -%>
