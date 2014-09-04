@@ -45,8 +45,8 @@ fi
 # These options will be appended to the options specified as YARN_OPTS
 # and therefore may override any similar flags set in YARN_OPTS
 <% if @resourcemanager_jmxremote_port -%>
-# Enable YARN ResourceManager JMX connections on port <%= resourcemanager_jmxremote_port %>
-YARN_RESOURCEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= resourcemanager_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+# Enable YARN ResourceManager JMX connections on port <%= @resourcemanager_jmxremote_port %>
+YARN_RESOURCEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @resourcemanager_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 <% else -%>
 #export YARN_RESOURCEMANAGER_OPTS=
 <% end -%>
@@ -67,8 +67,8 @@ YARN_RESOURCEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= resourcemanag
 # These options will be appended to the options specified as YARN_OPTS
 # and therefore may override any similar flags set in YARN_OPTS
 <% if @nodemanager_jmxremote_port -%>
-# Enable YARN NodeManager JMX connections on port <%= nodemanager_jmxremote_port %>
-YARN_NODEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= nodemanager_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+# Enable YARN NodeManager JMX connections on port <%= @nodemanager_jmxremote_port %>
+YARN_NODEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @nodemanager_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 <% else -%>
 #export YARN_NODEMANAGER_OPTS=
 <% end -%>
@@ -110,6 +110,6 @@ YARN_OPTS="$YARN_OPTS -Dyarn.policy.file=$YARN_POLICYFILE"
 
 <% if @proxyserver_jmxremote_port -%>
 
-# Enable YARN ProxyServer JMX connections on port <%= proxyserver_jmxremote_port %>
-YARN_PROXYSERVER_OPTS="-Dcom.sun.management.jmxremote.port=<%= proxyserver_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+# Enable YARN ProxyServer JMX connections on port <%= @proxyserver_jmxremote_port %>
+YARN_PROXYSERVER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @proxyserver_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 <% end -%>

@@ -141,7 +141,7 @@ class cdh::hadoop(
     # If $dfs_name_dir is a list, this will be the
     # first entry in the list.  Else just $dfs_name_dir.
     # This used in a couple of execs throughout this module.
-    $dfs_name_dir_main = inline_template('<%= (dfs_name_dir.class == Array) ? dfs_name_dir[0] : dfs_name_dir %>')
+    $dfs_name_dir_main = inline_template('<%= (@dfs_name_dir.class == Array) ? @dfs_name_dir[0] : @dfs_name_dir %>')
 
     # Set a boolean used to indicate that HA NameNodes
     # are intended to be used for this cluster.  HA NameNodes
