@@ -25,10 +25,12 @@ HADOOP_TASKTRACKER_OPTS="-Dhadoop.security.logger=ERROR,console,gelf -Dmapred.au
 HADOOP_DATANODE_OPTS="-Dhadoop.security.logger=ERROR,DRFAS,gelf $HADOOP_DATANODE_OPTS"
 
 export YARN_ROOT_LOGGER=INFO,DRFA,gelf
-<%# upstream: export HADOOP_ROOT_LOGGER=INFO,DRFA,gelf -%>
-<%# causes error: java.io.FileNotFoundException: /usr/lib/hadoop/logs/hadoop.log (No such file or directory) -%>
-export HADOOP_ROOT_LOGGER=INFO,console,gelf
+<%# making this conditional avoids modifying /usr/bin/hdfs default of INFO,console -%>
+if [ "$HADOOP_ROOT_LOGGER" = "INFO,RFA" ]; then
+  HADOOP_ROOT_LOGGER=INFO,RFA,gelf
+fi
 export HADOOP_JHS_LOGGER=INFO,JSA,gelf
+export HADOOP_MAPRED_ROOT_LOGGER=INFO,RFA,gelf
 export HADOOP_ROOT_SECURITY_LOGGER=INFO,DRFAS,gelf
 <% end -%>
 
