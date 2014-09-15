@@ -24,13 +24,15 @@ HADOOP_TASKTRACKER_OPTS="-Dhadoop.security.logger=ERROR,console,gelf -Dmapred.au
 <%# Upstream sets the default level to ERROR to avoid logging every successful auth -%>
 HADOOP_DATANODE_OPTS="-Dhadoop.security.logger=ERROR,DRFAS,gelf $HADOOP_DATANODE_OPTS"
 
-export YARN_ROOT_LOGGER=INFO,DRFA,gelf
 <%# making this conditional avoids modifying /usr/bin/hdfs default of INFO,console -%>
+if [ "$YARN_ROOT_LOGGER" = "INFO,RFA" ]; then
+  export YARN_ROOT_LOGGER=INFO,RFA,gelf
+fi
 if [ "$HADOOP_ROOT_LOGGER" = "INFO,RFA" ]; then
   HADOOP_ROOT_LOGGER=INFO,RFA,gelf
 fi
 export HADOOP_JHS_LOGGER=INFO,JSA,gelf
-export HADOOP_MAPRED_ROOT_LOGGER=INFO,RFA,gelf
+export HADOOP_MAPRED_ROOT_LOGGER=INFO,console,gelf
 export HADOOP_ROOT_SECURITY_LOGGER=INFO,DRFAS,gelf
 <% end -%>
 
