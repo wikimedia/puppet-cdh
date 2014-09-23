@@ -100,7 +100,7 @@ class cdh::hue(
     $smtp_from_email          = $cdh::hue::defaults::smtp_from_email,
 
     $django_admin_name        = $cdh::hue::defaults::django_admin_name,
-    $django_admin_email       = $cdh::hue::defaults::django_admin_email
+    $django_admin_email       = $cdh::hue::defaults::django_admin_email,
 
     $ssl_private_key          = $cdh::hue::defaults::ssl_private_key,
     $ssl_certificate          = $cdh::hue::defaults::ssl_certificate,
