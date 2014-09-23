@@ -86,6 +86,7 @@ class cdh::hue(
     $jdbc_host                = $cdh::hue::defaults::jdbc_password,
     $jdbc_port                = $cdh::hue::defaults::jdbc_port,
 
+    $timezone                 = $cdh::hue::defaults::timezone,
     $oozie_url                = $cdh::hue::defaults::oozie_url,
     $oozie_security_enabled   = $cdh::hue::defaults::oozie_security_enabled,
 
