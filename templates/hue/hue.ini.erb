@@ -97,9 +97,9 @@
   # Administrators
   # ----------------
   [[django_admins]]
-    ## [[[admin1]]]
-    ## name=john
-    ## email=john@doe.com
+    <%= @django_admin_name ? "[[[admin1]]]" : '## [[[admin1]]]' %>
+    <%= @django_admin_name ? "name=\"#{django_admin_name}\"" : '## name=john' %>
+    <%= @django_admin_email ? "email=\"#{django_admin_name}\"" : '## email=john@doe.com' %>
 
   # UI customizations
   # -------------------
@@ -221,8 +221,13 @@
   # see http://docs.djangoproject.com/en/1.1/ref/settings/#database-engine
   # ------------------------------------------------------------------------
   [[database]]
-    engine=sqlite3
-    name=/var/lib/hue/desktop.db
+    engine=<%= @db_engine %>
+    name=<%= @jdbc_database %>
+    <%= @jdbc_host ? "host=\"#{jdbc_host}\"" : '## host=' %>
+    <%= @jdbc_host ? "port=\"#{jdbc_port}\"" : '## port=' %>
+    <%= @jdbc_username ? "user=\"#{jdbc_username}\"" : '## user=' %>
+    <%= @jdbc_password ? "password=\"#{jdbc_password}\"" : '## password=' %>
+
     # Database engine is typically one of:
     # postgresql_psycopg2, mysql, or sqlite3
     #

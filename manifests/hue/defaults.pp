@@ -7,6 +7,13 @@ class cdh::hue::defaults {
     $app_blacklist            = ['hbase', 'impala', 'search', 'spark', 'rdbms', 'zookeeper']
 
     $hive_server_host         = undef
+    
+    $db_engine                = 'sqlite3'
+    $jdbc_database            = '/var/lib/hue/desktop.db'
+    $jdbc_username            = undef
+    $jdbc_password            = undef
+    $jdbc_host                = undef
+    $jdbc_port                = 3306
 
     # Set Hue Oozie defaults to those already
     # set in the cdh::oozie class.
@@ -43,6 +50,9 @@ class cdh::hue::defaults {
 
     $ssl_private_key          = '/etc/ssl/private/hue.key'
     $ssl_certificate          = '/etc/ssl/certs/hue.cert'
+
+    $django_admin_name        = undef
+    $django_admin_email       = undef
 
     $ldap_url                 = undef
     $ldap_cert                = undef

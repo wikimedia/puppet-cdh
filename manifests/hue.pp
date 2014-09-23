@@ -16,7 +16,18 @@
 #                           Default: hbase, impala, search, spark, rdbms, zookeeper
 #
 # $hive_server_host       - FQDN of host running hive-server2
-#
+# 
+# $db_engine              - Engine. Default: sqlite3      
+# $jdbc_database          - Metastore JDBC database name.
+#                           Default: 'hive_metastore'
+# $jdbc_username          - Metastore JDBC username.  Default: hive
+# $jdbc_password          - Metastore JDBC password.  Default: hive
+# $jdbc_host              - Metastore JDBC hostname.  Default: localhost
+# $jdbc_port              - Metastore JDBC port.      Default: 3306
+# $jdbc_driver            - Metastore JDBC driver class name.
+# 
+# 
+# 
 # $oozie_url              - URL for Oozie API.  If cdh::oozie is included,
 #                           this will be inferred.  Else this will be disabled.
 # $oozie_security_enabled - Default: false.
@@ -68,6 +79,13 @@ class cdh::hue(
 
     $hive_server_host         = $cdh::hue::defaults::hive_server_host,
 
+    $db_engine                = $cdh::hue::defaults::db_engine,
+    $jdbc_database            = $cdh::hue::defaults::jdbc_database,
+    $jdbc_username            = $cdh::hue::defaults::jdbc_username,
+    $jdbc_password            = $cdh::hue::defaults::jdbc_password,
+    $jdbc_host                = $cdh::hue::defaults::jdbc_password,
+    $jdbc_port                = $cdh::hue::defaults::jdbc_port,
+
     $oozie_url                = $cdh::hue::defaults::oozie_url,
     $oozie_security_enabled   = $cdh::hue::defaults::oozie_security_enabled,
 
@@ -79,6 +97,9 @@ class cdh::hue(
     $smtp_user                = $cdh::hue::defaults::smtp_user,
     $smtp_password            = $cdh::hue::defaults::smtp_password,
     $smtp_from_email          = $cdh::hue::defaults::smtp_from_email,
+
+    $django_admin_name        = $cdh::hue::defaults::django_admin_name,
+    $django_admin_email       = $cdh::hue::defaults::django_admin_email
 
     $ssl_private_key          = $cdh::hue::defaults::ssl_private_key,
     $ssl_certificate          = $cdh::hue::defaults::ssl_certificate,
