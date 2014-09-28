@@ -15,6 +15,8 @@ class cdh::hue::defaults {
     $jdbc_host                = undef
     $jdbc_port                = 3306
 
+    $timezone                 = 'Asia/Shanghai'
+
     # Set Hue Oozie defaults to those already
     # set in the cdh::oozie class.
     if (defined(Class['cdh::oozie'])) {
