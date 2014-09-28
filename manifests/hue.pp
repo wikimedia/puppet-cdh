@@ -16,8 +16,8 @@
 #                           Default: hbase, impala, search, spark, rdbms, zookeeper
 #
 # $hive_server_host       - FQDN of host running hive-server2
-# 
-# $db_engine              - Engine. Default: sqlite3      
+#
+# $db_engine              - Engine. Default: sqlite3
 # $jdbc_database          - Metastore JDBC database name.
 #                           Default: 'hive_metastore'
 # $jdbc_username          - Metastore JDBC username.  Default: hive
@@ -25,9 +25,9 @@
 # $jdbc_host              - Metastore JDBC hostname.  Default: localhost
 # $jdbc_port              - Metastore JDBC port.      Default: 3306
 # $jdbc_driver            - Metastore JDBC driver class name.
-# 
-# 
-# 
+#
+#
+#
 # $oozie_url              - URL for Oozie API.  If cdh::oozie is included,
 #                           this will be inferred.  Else this will be disabled.
 # $oozie_security_enabled - Default: false.

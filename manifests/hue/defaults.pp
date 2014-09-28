@@ -7,15 +7,13 @@ class cdh::hue::defaults {
     $app_blacklist            = ['hbase', 'impala', 'search', 'spark', 'rdbms', 'zookeeper']
 
     $hive_server_host         = undef
-    
+
     $db_engine                = 'sqlite3'
     $jdbc_database            = '/var/lib/hue/desktop.db'
     $jdbc_username            = undef
     $jdbc_password            = undef
     $jdbc_host                = undef
     $jdbc_port                = 3306
-
-    $timezone                 = 'Asia/Shanghai'
 
     # Set Hue Oozie defaults to those already
     # set in the cdh::oozie class.
