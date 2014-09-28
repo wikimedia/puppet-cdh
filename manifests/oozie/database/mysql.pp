@@ -30,6 +30,7 @@ class cdh::oozie::database::mysql {
         require => Package['libmysql-java'],
     }
 
+    $db_host = $cdh::oozie::server::jdbc_host
     $db_name = $cdh::oozie::server::jdbc_database
     $db_user = $cdh::oozie::server::jdbc_username
     $db_pass = $cdh::oozie::server::jdbc_password
