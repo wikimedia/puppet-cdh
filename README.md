@@ -32,7 +32,6 @@ that:
 # Installation
 
 Clone (or copy) this repository into your puppet modules/cdh directory:
-
 ```bash
 git clone git://github.com/wikimedia/puppet-cdh.git modules/cdh
 ```
