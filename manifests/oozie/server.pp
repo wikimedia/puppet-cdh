@@ -161,7 +161,9 @@ class cdh::oozie::server(
         $database_class = "cdh::oozie::database::${database}"
 
         # Set up the database by including $database_class
-        class { $database_class: }
+        class { $database_class:
+            require => Package['oozie']
+        }
 
         # Make sure the $database_class is included and set up
         # before we start the oozie server service
