@@ -162,4 +162,11 @@
     </description>
   </property>
 
+<% if @gelf_logging_enabled -%>
+  <property>
+    <name>yarn.app.mapreduce.am.admin-command-opts</name>
+    <value>-Dhadoop.root.logger=INFO,CLA,gelf</value>
+  </property>
+<% end -%>
+
 </configuration>
