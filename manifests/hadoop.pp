@@ -1,7 +1,7 @@
 #
 # == Class cdh::hadoop
 #
-# Installs the main Hadoop/HDFS packages and config files.  This
+# Installs the main Hadoop/HDFS packages and config files.
 # By default this will set Hadoop config files to run YARN (MapReduce 2).
 #
 # This assumes that your JBOD mount points are already
