@@ -9,7 +9,7 @@
 
   <property>
     <name>fs.defaultFS</name>
-    <value>hdfs://<%= @ha_enabled ? @nameservice_id : @primary_namenode_host %>/</value>
+    <value>hdfs://<%= @ha_enabled ? @nameservice_id : @primary_namenode_host %>:8020</value>
   </property>
 
 <% if @io_file_buffer_size -%>

@@ -46,20 +46,22 @@ class cdh::oozie::database::mysql {
     }
 
     # oozie is going to need an oozie database and user.
-    exec { 'oozie_mysql_create_database':
-        command => "/usr/bin/mysql ${username_option} ${password_option} -e \"
+    if ($username_option != '' and $password_option != '') {
+        exec { 'oozie_mysql_create_database':
+            command => "/usr/bin/mysql ${username_option} ${password_option} -e \"
 CREATE DATABASE ${db_name};
 GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'localhost' IDENTIFIED BY '${db_pass}';
 GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'127.0.0.1' IDENTIFIED BY '${db_pass}';\"",
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -BNe 'SHOW DATABASES' | /bin/grep -q ${db_name}",
-        user    => 'root',
-    }
+            unless  => "/usr/bin/mysql ${username_option} ${password_option} -BNe 'SHOW DATABASES' | /bin/grep -q ${db_name}",
+            user    => 'root',
+        }
 
-    # run ooziedb.sh to create the oozie database schema
-    exec { 'oozie_mysql_create_schema':
-        command => '/usr/lib/oozie/bin/ooziedb.sh create -run',
-        require => [Exec['oozie_mysql_create_database'], File['/var/lib/oozie/mysql.jar']],
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -u${db_user} -p'${db_pass}' ${db_name} -BNe 'SHOW TABLES;' | /bin/grep -q OOZIE_SYS",
-        user    => 'oozie',
+        # run ooziedb.sh to create the oozie database schema
+        exec { 'oozie_mysql_create_schema':
+            command => '/usr/lib/oozie/bin/ooziedb.sh create -run',
+            require => [Exec['oozie_mysql_create_database'], File['/var/lib/oozie/mysql.jar']],
+            unless  => "/usr/bin/mysql ${username_option} ${password_option} -u${db_user} -p'${db_pass}' ${db_name} -BNe 'SHOW TABLES;' | /bin/grep -q OOZIE_SYS",
+            user    => 'oozie',
+        }
     }
 }

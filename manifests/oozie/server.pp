@@ -123,6 +123,7 @@ class cdh::oozie::server(
     exec { 'oozie_sharelib_install':
         command => "/usr/bin/oozie-setup sharelib create -fs ${hdfs_uri} -locallib ${oozie_sharelib_archive}",
         unless  => '/usr/bin/hdfs dfs -ls /user/oozie | grep -q /user/oozie/share',
+        onlyif  => '/usr/bin/sudo -u hdfs /usr/bin/hdfs dfsadmin -printTopology | grep -q Rack',  # need at least 1 datanode running
         user    => 'root',
         require => Cdh::Hadoop::Directory['/user/oozie'],
     }
@@ -161,7 +162,9 @@ class cdh::oozie::server(
         $database_class = "cdh::oozie::database::${database}"
 
         # Set up the database by including $database_class
-        class { $database_class: }
+        class { $database_class:
+            require => Package['oozie']
+        }
 
         # Make sure the $database_class is included and set up
         # before we start the oozie server service
