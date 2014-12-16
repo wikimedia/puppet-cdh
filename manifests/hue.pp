@@ -59,46 +59,49 @@
 # $ldap_group_filter
 # $ldap_group_name_attr
 # $ldap_group_member_attr
+# $ldap_create_users_on_login - Default: true
 #
 class cdh::hue(
-    $http_host                = $cdh::hue::defaults::http_host,
-    $http_port                = $cdh::hue::defaults::http_port,
-    $secret_key               = $cdh::hue::defaults::secret_key,
-    $app_blacklist            = $cdh::hue::defaults::app_blacklist,
+    $http_host                  = $cdh::hue::defaults::http_host,
+    $http_port                  = $cdh::hue::defaults::http_port,
+    $secret_key                 = $cdh::hue::defaults::secret_key,
+    $app_blacklist              = $cdh::hue::defaults::app_blacklist,
 
-    $hive_server_host         = $cdh::hue::defaults::hive_server_host,
+    $hive_server_host           = $cdh::hue::defaults::hive_server_host,
 
-    $oozie_url                = $cdh::hue::defaults::oozie_url,
-    $oozie_security_enabled   = $cdh::hue::defaults::oozie_security_enabled,
+    $oozie_url                  = $cdh::hue::defaults::oozie_url,
+    $oozie_security_enabled     = $cdh::hue::defaults::oozie_security_enabled,
 
-    $proxy_whitelist          = $cdh::hue::defaults::proxy_whitelist,
-    $proxy_blacklist          = $cdh::hue::defaults::proxy_blacklist,
+    $proxy_whitelist            = $cdh::hue::defaults::proxy_whitelist,
+    $proxy_blacklist            = $cdh::hue::defaults::proxy_blacklist,
 
-    $smtp_host                = $cdh::hue::defaults::smtp_host,
-    $smtp_port                = $cdh::hue::defaults::smtp_port,
-    $smtp_user                = $cdh::hue::defaults::smtp_user,
-    $smtp_password            = $cdh::hue::defaults::smtp_password,
-    $smtp_from_email          = $cdh::hue::defaults::smtp_from_email,
+    $smtp_host                  = $cdh::hue::defaults::smtp_host,
+    $smtp_port                  = $cdh::hue::defaults::smtp_port,
+    $smtp_user                  = $cdh::hue::defaults::smtp_user,
+    $smtp_password              = $cdh::hue::defaults::smtp_password,
+    $smtp_from_email            = $cdh::hue::defaults::smtp_from_email,
 
-    $ssl_private_key          = $cdh::hue::defaults::ssl_private_key,
-    $ssl_certificate          = $cdh::hue::defaults::ssl_certificate,
+    $ssl_private_key            = $cdh::hue::defaults::ssl_private_key,
+    $ssl_certificate            = $cdh::hue::defaults::ssl_certificate,
 
-    $ldap_url                 = $cdh::hue::defaults::ldap_url,
-    $ldap_cert                = $cdh::hue::defaults::ldap_cert,
-    $ldap_nt_domain           = $cdh::hue::defaults::ldap_nt_domain,
-    $ldap_bind_dn             = $cdh::hue::defaults::ldap_bind_dn,
-    $ldap_base_dn             = $cdh::hue::defaults::ldap_base_dn,
-    $ldap_bind_password       = $cdh::hue::defaults::ldap_bind_password,
-    $ldap_username_pattern    = $cdh::hue::defaults::ldap_username_pattern,
-    $ldap_user_filter         = $cdh::hue::defaults::ldap_user_filter,
-    $ldap_user_name_attr      = $cdh::hue::defaults::ldap_user_name_attr,
-    $ldap_group_filter        = $cdh::hue::defaults::ldap_group_filter,
-    $ldap_group_name_attr     = $cdh::hue::defaults::ldap_group_name_attr,
-    $ldap_group_member_attr   = $cdh::hue::defaults::ldap_group_member_attr,
+    $ldap_url                   = $cdh::hue::defaults::ldap_url,
+    $ldap_cert                  = $cdh::hue::defaults::ldap_cert,
+    $ldap_nt_domain             = $cdh::hue::defaults::ldap_nt_domain,
+    $ldap_bind_dn               = $cdh::hue::defaults::ldap_bind_dn,
+    $ldap_base_dn               = $cdh::hue::defaults::ldap_base_dn,
+    $ldap_bind_password         = $cdh::hue::defaults::ldap_bind_password,
+    $ldap_username_pattern      = $cdh::hue::defaults::ldap_username_pattern,
+    $ldap_user_filter           = $cdh::hue::defaults::ldap_user_filter,
+    $ldap_user_name_attr        = $cdh::hue::defaults::ldap_user_name_attr,
+    $ldap_group_filter          = $cdh::hue::defaults::ldap_group_filter,
+    $ldap_group_name_attr       = $cdh::hue::defaults::ldap_group_name_attr,
+    $ldap_group_member_attr     = $cdh::hue::defaults::ldap_group_member_attr,
+    $ldap_create_users_on_login = $cdh::hue::defaults::ldap_create_users_on_login,
 
-    $hue_ini_template         = $cdh::hue::defaults::hue_ini_template,
-    $hue_log4j_template       = $cdh::hue::defaults::hue_log4j_template,
-    $hue_log_conf_template    = $cdh::hue::defaults::hue_log_conf_template
+    $hue_ini_template           = $cdh::hue::defaults::hue_ini_template,
+    $hue_log4j_template         = $cdh::hue::defaults::hue_log4j_template,
+    $hue_log_conf_template      = $cdh::hue::defaults::hue_log_conf_template
+
 ) inherits cdh::hue::defaults
 {
     Class['cdh::hadoop'] -> Class['cdh::hue']
