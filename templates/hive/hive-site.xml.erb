@@ -195,8 +195,14 @@ if (@metastore_host == @fqdn)
   </property>
 <% end -%>
 
-<% if @stats_enabled -%>
   <!-- Hive stats configuration -->
+  <property>
+    <name>hive.stats.autogather</name>
+    <value><%= @stats_enabled ? 'true' : 'false' %></value>
+    <description>A flag to gather statistics automatically during the INSERT OVERWRITE command.</description>
+  </property>
+
+<% if @stats_enabled -%>
   <property>
     <name>hive.stats.dbclass</name>
     <value><%= @stats_dbclass %></value>
@@ -213,12 +219,6 @@ if (@metastore_host == @fqdn)
     <name>hive.stats.dbconnectionstring</name>
     <value><%= @stats_dbconnectionstring %></value>
     <description>The default connection string for the database that stores temporary hive statistics.</description>
-  </property>
-
-  <property>
-    <name>hive.stats.autogather</name>
-    <value>true</value>
-    <description>A flag to gather statistics automatically during the INSERT OVERWRITE command.</description>
   </property>
 
   <property>
