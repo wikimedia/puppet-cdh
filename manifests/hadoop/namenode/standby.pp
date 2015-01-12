@@ -18,6 +18,6 @@ class cdh::hadoop::namenode::standby inherits cdh::hadoop::namenode {
     # standby NameNode's dfs.name.dir with the data from the
     # active NameNode.
     Exec['hadoop-namenode-format'] {
-        command     => '/usr/bin/hdfs namenode -bootstrapStandby',
+        command     => '/usr/bin/hdfs namenode -bootstrapStandby -nonInteractive',
     }
 }

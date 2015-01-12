@@ -39,7 +39,7 @@ class cdh::hadoop::namenode {
     # NameNode has not been formated.  Format it before
     # the namenode service is started.
     exec { 'hadoop-namenode-format':
-        command => '/usr/bin/hdfs namenode -format',
+        command => '/usr/bin/hdfs namenode -format -nonInteractive',
         creates => "${::cdh::hadoop::dfs_name_dir_main}/current/VERSION",
         user    => 'hdfs',
         require => [File[$::cdh::hadoop::dfs_name_dir], Exec['touch hosts.exclude']],
