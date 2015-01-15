@@ -133,12 +133,6 @@ if (@metastore_host == @fqdn)
   </property>
 
   <property>
-    <name>hive.insert.into.external.tables</name>
-    <description>https://issues.apache.org/jira/browse/HIVE-2837</description>
-    <value>false</value>
-  </property>
-
-  <property>
     <name>hive.exec.parallel</name>
     <description>Whether to execute jobs in parallel</description>
     <value><%= @exec_parallel_thread_number.to_i > 0 ? 'true' : 'false' %></value>
