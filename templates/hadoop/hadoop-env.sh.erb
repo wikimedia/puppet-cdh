@@ -40,3 +40,5 @@ export HADOOP_ROOT_SECURITY_LOGGER=INFO,DRFAS,gelf
 # Hadoop daemons (NameNode, DataNode) will use this many MB for JVM Heap
 HADOOP_HEAPSIZE=<%= @hadoop_heapsize %>
 <% end -%>
+
+HADOOP_NAMENODE_OPTS="$HADOOP_NAMENODE_OPTS -Xmx2000m"
