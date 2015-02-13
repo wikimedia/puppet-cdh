@@ -45,6 +45,7 @@ class cdh::hadoop::defaults {
     $fair_scheduler_template                  = 'cdh/hadoop/fair-scheduler.xml.erb'
 
     $hadoop_heapsize                          = undef
+    $hadoop_namenode_opts                     = undef
     $yarn_heapsize                            = undef
 
     $ganglia_hosts                            = undef

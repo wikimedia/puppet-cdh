@@ -41,4 +41,7 @@ export HADOOP_ROOT_SECURITY_LOGGER=INFO,DRFAS,gelf
 HADOOP_HEAPSIZE=<%= @hadoop_heapsize %>
 <% end -%>
 
-HADOOP_NAMENODE_OPTS="$HADOOP_NAMENODE_OPTS -Xmx2000m"
+<% if @hadoop_namenode_opts -%>
+# Any additionally supplied HADOOP_NAMENODE_OPTS
+HADOOP_NAMENODE_OPTS="<%= @hadoop_namenode_opts %> $HADOOP_NAMENODE_OPTS"
+<% end -%>

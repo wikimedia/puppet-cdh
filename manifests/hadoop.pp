@@ -74,6 +74,7 @@
 #                                               your own scheduler config .xml files
 #                                               outside of the cdh module.
 #   $hadoop_heapsize                          - -Xmx for NameNode and DataNode.  Default: undef
+#   $hadoop_namenode_opts                     - Any additional opts to pass to NameNode node on startup.  Default: undef
 #   $yarn_heapsize                            - -Xmx for YARN Daemons.           Default: undef
 #   $ganglia_hosts                            - Set this to an array of ganglia host:ports
 #                                               if you want to enable ganglia sinks in hadoop-metrics2.properites
@@ -129,6 +130,7 @@ class cdh::hadoop(
     $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,
     $yarn_scheduler_maximum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_mb,
     $hadoop_heapsize                             = $::cdh::hadoop::defaults::hadoop_heapsize,
+    $hadoop_namenode_opts                        = $::cdh::hadoop::defaults::hadoop_namenode_opts,
     $yarn_heapsize                               = $::cdh::hadoop::defaults::yarn_heapsize,
     $ganglia_hosts                               = $::cdh::hadoop::defaults::ganglia_hosts,
     $net_topology_script_template                = $::cdh::hadoop::defaults::net_topology_script_template,
