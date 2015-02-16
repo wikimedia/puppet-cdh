@@ -148,23 +148,6 @@ class cdh::hue(
 
         # make sure cdh::hive is applied before cdh::hue.
         Class['cdh::hive']  -> Class['cdh::hue']
-
-        # Growl.  The packaged hue init.d script
-        # has a bug where it doesn't --chuid to hue.
-        # this causes hue not to be able to read the
-        # hive-site.xml file here, even though it is
-        # in the hive group.  Install our own patched
-        # init.d instead.  This will be removed once
-        # Cloudera fixes the problem.
-        # See: https://issues.cloudera.org/browse/HUE-1398
-        file { '/etc/init.d/hue':
-            source  => 'puppet:///modules/cdh/hue/hue.init.d.sh',
-            mode    => '0755',
-            owner   => 'root',
-            group   => 'root',
-            require => Package['hue'],
-            notify  => Service['hue'],
-        }
     }
 
     # If SSL file paths are given, configure Hue to use SSL.
