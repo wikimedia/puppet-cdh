@@ -69,7 +69,7 @@ class cdh::hive(
 
     $variable_substitute_depth   = $cdh::hive::defaults::variable_substitute_depth,
     $auxpath                     = $cdh::hive::defaults::auxpath,
-    $parquet_compressions        = $cdh::hive::defaults::parquet_compression,
+    $parquet_compression         = $cdh::hive::defaults::parquet_compression,
 
     $exec_parallel_thread_number = $cdh::hive::defaults::exec_parallel_thread_number,
     $optimize_skewjoin           = $cdh::hive::defaults::optimize_skewjoin,
