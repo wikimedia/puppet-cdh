@@ -43,6 +43,10 @@
 # $ssl_certificate        - Path to SSL certificate.  Default: /etc/hue/hue.cert
 #                           If ssl_private_key and ssl_certificate are set to the defaults,
 #                           a self-signed certificate will be generated automatically for you.
+# $secure_proxy_ssl_header - Django support for HTTPS termination at the load-balancer
+#                            level with SECURE_PROXY_SSL_HEADER.
+#                            See: https://github.com/cloudera/hue/pull/68
+#                            Default: false
 #
 # === LDAP parameters:
 # See hue.ini comments for documentation.  By default these are undefined.
@@ -83,6 +87,7 @@ class cdh::hue(
 
     $ssl_private_key            = $cdh::hue::defaults::ssl_private_key,
     $ssl_certificate            = $cdh::hue::defaults::ssl_certificate,
+    $secure_proxy_ssl_header    = $cdh::hue::defaults::secure_proxy_ssl_header,
 
     $ldap_url                   = $cdh::hue::defaults::ldap_url,
     $ldap_cert                  = $cdh::hue::defaults::ldap_cert,

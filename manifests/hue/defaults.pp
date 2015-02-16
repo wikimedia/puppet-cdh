@@ -43,6 +43,7 @@ class cdh::hue::defaults {
 
     $ssl_private_key            = '/etc/ssl/private/hue.key'
     $ssl_certificate            = '/etc/ssl/certs/hue.cert'
+    $secure_proxy_ssl_header    = false
 
     $ldap_url                   = undef
     $ldap_cert                  = undef

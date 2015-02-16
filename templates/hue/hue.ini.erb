@@ -61,6 +61,9 @@
   # Filename of SSL Certificate
   <%= @ssl_certificate ? "ssl_certificate=#{@ssl_certificate}" : '## ssl_certificate=' %>
 
+  # Support for HTTPS termination at the load-balancer level with SECURE_PROXY_SSL_HEADER.
+  secure_proxy_ssl_header=<%= @secure_proxy_ssl_header %>
+
   # List of allowed and disallowed ciphers in cipher list format.
   # See http://www.openssl.org/docs/apps/ciphers.html for more information on cipher list format.
   ## ssl_cipher_list=DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2
