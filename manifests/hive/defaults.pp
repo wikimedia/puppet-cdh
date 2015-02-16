@@ -21,6 +21,8 @@ class cdh::hive::defaults {
     # Until Hive 0.12.0 this can only be a single path. See HIVE-2269.
     $auxpath                     = undef
 
+    $parquet_compression         = undef
+
     $exec_parallel_thread_number = 8  # set this to 0 to disable hive.exec.parallel
     $optimize_skewjoin           = false
     $skewjoin_key                = 10000

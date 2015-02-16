@@ -127,6 +127,21 @@ if (@metastore_host == @fqdn)
   </property>
 
   <property>
+    <name>hive.exec.stagingdir</name>
+    <value>/tmp/hive-staging</value>
+    <description>
+      Directory name that will be created inside table locations in order
+      to support HDFS encryption.This is the replacement of ${hive.exec.scratchdir}
+      for all Hive statements that deals with HDFS encryption zones. ${hive.exec.scratchdir}
+      is still used for other temporary, such as job plans.
+      NOTE:  This is being set explicitly as a work around for
+      https://issues.cloudera.org/browse/DISTRO-681?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel
+      See also: http://community.cloudera.com/t5/Batch-SQL-Apache-Hive/CDH-5-3-Hive-staging-directory-has-wrong-default-value/td-p/23585
+    </description>
+  </property>
+
+
+  <property>
     <name>hive.error.on.empty.partition</name>
     <description>Whether to throw an exception if dynamic partition insert generates empty results.</description>
     <value>true</value>
@@ -281,4 +296,15 @@ if (@metastore_host == @fqdn)
     <value><%= @auxpath %></value>
   </property>
 <% end -%>
+
+<% if @parquet_compression -%>
+  <!-- Default parquet output compressions codec to use. -->
+  <!-- See: http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_parquet.html -->
+  <property>
+    <name>parquet.compression</name>
+    <value><%= @parquet_compression %></value>
+    <description>The valid options for compression are: UNCOMPRESSED, GZIP, SNAPPY</description>
+  </property>
+<% end -%>
+
 </configuration>

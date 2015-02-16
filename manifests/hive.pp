@@ -26,9 +26,12 @@
 #                                  Only set these if your root user cannot issue database
 #                                  commands without a different username and password.
 #                                  Default: undef
-# $variable_substitute_depth      - The maximum replacements the substitution engine will do. Default: undef
+# $variable_substitute_depth     - The maximum replacements the substitution engine will do. Default: undef
 #
 # $auxpath                       - Additional path to pass to hive.  Default: undef
+# $parquet_compression           - Compression type for parquet-format to use.  It will
+#                                  ignore mapreduce_output_compession_codec.  Set this to
+#                                  one of UNCOMPRESSED, SNAPPY, GZIP.  Default: undef
 # $exec_parallel_thread_number   - Number of jobs at most can be executed in parallel.
 #                                  Set this to 0 to disable parallel execution.
 # $optimize_skewjoin             - Enable or disable skew join optimization.
@@ -66,6 +69,7 @@ class cdh::hive(
 
     $variable_substitute_depth   = $cdh::hive::defaults::variable_substitute_depth,
     $auxpath                     = $cdh::hive::defaults::auxpath,
+    $parquet_compressions        = $cdh::hive::defaults::parquet_compression,
 
     $exec_parallel_thread_number = $cdh::hive::defaults::exec_parallel_thread_number,
     $optimize_skewjoin           = $cdh::hive::defaults::optimize_skewjoin,
