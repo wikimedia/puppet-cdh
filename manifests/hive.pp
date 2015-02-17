@@ -11,6 +11,11 @@
 #                                  Default: undef (zookeeper lock management
 #                                  will not be used).
 #
+# $support_concurrency           - Whether Hive supports concurrency or not. A Zookeeper
+#                                  instance must be up and running for the default Hive
+#                                  lock manager to support read-write locks.
+#                                  Default: true if $zookeeper_hosts is set, false if not.
+#
 # $jdbc_database                 - Metastore JDBC database name.
 #                                  Default: 'hive_metastore'
 # $jdbc_username                 - Metastore JDBC username.  Default: hive
@@ -55,7 +60,7 @@
 class cdh::hive(
     $metastore_host,
     $zookeeper_hosts             = $cdh::hive::defaults::zookeeper_hosts,
-
+    $support_concurrency         = $cdh::hive::defaults::support_concurrency,
     $jdbc_database               = $cdh::hive::defaults::jdbc_database,
     $jdbc_username               = $cdh::hive::defaults::jdbc_username,
     $jdbc_password               = $cdh::hive::defaults::jdbc_password,

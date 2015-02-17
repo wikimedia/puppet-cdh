@@ -68,13 +68,15 @@ if (@metastore_host == @fqdn)
   </property>
 
 <% end -%>
-<% if @zookeeper_hosts and !@zookeeper_hosts.empty? -%>
-  <!-- Hive can use Zookeeper for table lock management -->
+
   <property>
     <name>hive.support.concurrency</name>
     <description>Enable Hive's Table Lock Manager Service</description>
-    <value>true</value>
+    <value><%= @support_concurrency %></value>
   </property>
+
+<% if @zookeeper_hosts and !@zookeeper_hosts.empty? -%>
+  <!-- Hive can use Zookeeper for table lock management -->
 
   <property>
     <name>hive.zookeeper.quorum</name>

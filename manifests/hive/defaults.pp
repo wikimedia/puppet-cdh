@@ -3,6 +3,12 @@
 #
 class cdh::hive::defaults {
     $zookeeper_hosts             = undef
+    # if $zookeeper_hosts is set, assume concurrency
+    # locking support is also wanted.
+    $support_concurrency         = $zookeeper_hosts ? {
+        undef   => false,
+        default => true,
+    }
 
     $jdbc_driver                 = 'com.mysql.jdbc.Driver'
     $jdbc_protocol               = 'mysql'
