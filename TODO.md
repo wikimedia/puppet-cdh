@@ -12,6 +12,9 @@
 - Make hadoop-metrics2.properties more configurable.
 - Support HA automatic failover.
 - HA NameNode Fencing support.
+- YARN HA
+- Create one variable for namenode address independent of nameservice_id and primary_namenode_host_
+- Spark History Server?
 
 ## Zookeeper
 
