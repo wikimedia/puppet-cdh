@@ -73,7 +73,7 @@ class cdh::spark {
         require => Exec['spark_assembly_jar_install'],
     }
 
-    file { "${config_directory}/log4j.properties.erb":
+    file { "${config_directory}/log4j.properties":
         source => 'puppet:///modules/cdh/spark/log4j.properties',
     }
 }
