@@ -86,10 +86,3 @@ export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
 ### you want to run with scala version, that is included with the package
 #export SCALA_HOME=${SCALA_HOME:-/usr/lib/spark/scala}
 #export PATH=$PATH:$SCALA_HOME/bin
-
-# Set SPARK_JAR to the spark-assembly.jar in HDFS.  This makes it so
-# that the spark jar doesn't have to be uploaded to HDFS every time
-# a user submits a job.
-# See: http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_ig_running_spark_apps.html
-# If you upgrade spark, be sure to upload the new spark-assembly.jar to this HDFS path.
-export SPARK_JAR=<%= @spark_jar_hdfs_path %>
