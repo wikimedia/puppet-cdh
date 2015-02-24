@@ -84,6 +84,13 @@
   </property>
 <% end -%>
 
+<% if @yarn_nodemanager_resource_cpu_vcores -%>
+  <property>
+    <name>yarn.nodemanager.resource.cpu-vcores</name>
+    <value><%= @yarn_nodemanager_resource_cpu_vcores %></value>
+  </property>
+<% end -%>
+
 <% if @yarn_scheduler_minimum_allocation_mb -%>
   <property>
     <name>yarn.scheduler.minimum-allocation-mb</name>

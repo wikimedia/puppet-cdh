@@ -63,6 +63,7 @@
 #   $mapreduce_output_compession_type         - Whether to output compress on BLOCK or RECORD level.
 #                                               Default: RECORD
 #   $yarn_nodemanager_resource_memory_mb
+#   $yarn_nodemanager_resource_cpu_vcores     - Default: $::processorcount - 1
 #   $yarn_scheduler_minimum_allocation_mb     - The minimum allocation for every container request at the RM,
 #                                               in MBs. Memory requests lower than this won't take effect, and
 #                                               the specified value will get allocated at minimum.
@@ -127,6 +128,7 @@ class cdh::hadoop(
     $mapreduce_output_compression_codec          = $::cdh::hadoop::defaults::mapreduce_output_compession_codec,
     $mapreduce_output_compression_type           = $::cdh::hadoop::defaults::mapreduce_output_compression_type,
     $yarn_nodemanager_resource_memory_mb         = $::cdh::hadoop::defaults::yarn_nodemanager_resource_memory_mb,
+    $yarn_nodemanager_resource_cpu_vcores        = $::cdh::hadoop::defaults::yarn_nodemanager_resource_cpu_vcores,
     $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,
     $yarn_scheduler_maximum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_mb,
     $hadoop_heapsize                             = $::cdh::hadoop::defaults::hadoop_heapsize,
