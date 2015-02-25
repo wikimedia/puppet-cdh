@@ -86,3 +86,7 @@ export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
 ### you want to run with scala version, that is included with the package
 #export SCALA_HOME=${SCALA_HOME:-/usr/lib/spark/scala}
 #export PATH=$PATH:$SCALA_HOME/bin
+
+# pyspark and spark-shell don't pick up Hadoop native libs on their own.
+# See: http://apache-spark-user-list.1001560.n3.nabble.com/LZO-support-in-Spark-1-0-0-nothing-seems-to-work-td14494.html
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/hadoop/lib/native
