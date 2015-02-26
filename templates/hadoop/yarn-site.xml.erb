@@ -142,4 +142,14 @@
         $HADOOP_YARN_HOME/*,$HADOOP_YARN_HOME/lib/*
      </value>
   </property>
+
+<% if @yarn_site_extra_properties -%>
+<% @yarn_site_extra_properties.each do |key, value| -%>
+  <property>
+      <name><%= key %></name>
+      <value><%= value %></value>
+  </property>
+
+<% end -%>
+<% end -%>
 </configuration>
