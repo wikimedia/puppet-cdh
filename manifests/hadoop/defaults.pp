@@ -39,7 +39,10 @@ class cdh::hadoop::defaults {
     $mapreduce_output_compression_type        = 'RECORD'
 
     $yarn_nodemanager_resource_memory_mb      = undef
-    $yarn_nodemanager_resource_cpu_vcores     = max($::processorcount - 1, 1)
+    # Note:  Apparently puppet interprets a literal 1 as a String when it is on
+    # its own.  Adding 0 to it converts it to a Fixnum, which will avoid a
+    # 'comparison of String with X faild 'puppet failure.
+    $yarn_nodemanager_resource_cpu_vcores     = max($::processorcount - 1, 1 + 0)
     $yarn_scheduler_minimum_allocation_mb     = undef
     $yarn_scheduler_maximum_allocation_mb     = undef
 
