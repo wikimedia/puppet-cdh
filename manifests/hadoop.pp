@@ -63,7 +63,7 @@
 #   $mapreduce_output_compession_type         - Whether to output compress on BLOCK or RECORD level.
 #                                               Default: RECORD
 #   $yarn_nodemanager_resource_memory_mb
-#   $yarn_nodemanager_resource_cpu_vcores     - Default: $::processorcount - 1
+#   $yarn_nodemanager_resource_cpu_vcores     - Default: max($::processorcount - 1, 1)
 #   $yarn_scheduler_minimum_allocation_mb     - The minimum allocation for every container request at the RM,
 #                                               in MBs. Memory requests lower than this won't take effect, and
 #                                               the specified value will get allocated at minimum.

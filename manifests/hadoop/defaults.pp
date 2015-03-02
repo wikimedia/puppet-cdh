@@ -39,7 +39,7 @@ class cdh::hadoop::defaults {
     $mapreduce_output_compression_type        = 'RECORD'
 
     $yarn_nodemanager_resource_memory_mb      = undef
-    $yarn_nodemanager_resource_cpu_vcores     = $::processorcount - 1
+    $yarn_nodemanager_resource_cpu_vcores     = max($::processorcount - 1, 1)
     $yarn_scheduler_minimum_allocation_mb     = undef
     $yarn_scheduler_maximum_allocation_mb     = undef
 
