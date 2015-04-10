@@ -90,3 +90,16 @@ export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
 # pyspark and spark-shell don't pick up Hadoop native libs on their own.
 # See: http://apache-spark-user-list.1001560.n3.nabble.com/LZO-support-in-Spark-1-0-0-nothing-seems-to-work-td14494.html
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/hadoop/lib/native
+
+<% if @hive_support_enabled -%>
+# Add all hive jars to driver classpath in order to use SparkSQL's HiveContext.
+# NOTE:  The use of SPARK_CLASSPATH is deprecated.  However, spark-defaults.conf
+# properties do not give us any way of programatically altering the classpath,
+# so we would have to hardcode all of the Hive jars there.  This allows us to
+# pick up all Hive jars automatically.
+HIVE_HOME=/usr/lib/hive
+for f in ${HIVE_HOME}/lib/*.jar; do
+  SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
+done
+export SPARK_CLASSPATH
+<% end -%>

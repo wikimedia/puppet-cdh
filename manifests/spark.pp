@@ -3,9 +3,23 @@
 # You should include this on your client nodes.
 # This does not need to be on all worker nodes.
 #
-class cdh::spark {
+# == Parameters
+# $hive_support_enabled - If true, Hive jars will be automatically loaded
+#                         into Spark's classpath, and hive-site.xml will
+#                         be symlinked into /etc/spark/conf and cdh::hive
+#                         will be added as a dependency.  Default: true
+#
+class cdh::spark(
+    $hive_support_enabled = true,
+)
+{
     # Spark requires Hadoop configs installed.
     Class['cdh::hadoop'] -> Class['cdh::spark']
+
+    # If we are using Hive, then require cdh::hive
+    if $hive_support_enabled {
+        Class['cdh::hive'] -> Class['cdh::spark']
+    }
 
     package { ['spark-core', 'spark-python']:
         ensure => 'installed',
@@ -81,5 +95,15 @@ class cdh::spark {
 
     file { "${config_directory}/log4j.properties":
         source => 'puppet:///modules/cdh/spark/log4j.properties',
+    }
+
+    $hive_site_symlink_ensure = $hive_support_enabled ? {
+        true    => 'link',
+        default => 'absent'
+    }
+    # If Hive support is enabled, then symlink hive-site.xml into /etc/spark/conf
+    file { "${config_directory}/hive-site.xml":
+        ensure => $hive_site_symlink_ensure,
+        target => "${::cdh::hive::config_directory}/hive-site.xml",
     }
 }
