@@ -4,7 +4,7 @@ class cdh::hue::defaults {
     $http_host                  = '0.0.0.0'
     $http_port                  = 8888
     $secret_key                 = undef
-    $app_blacklist              = ['hbase', 'impala', 'search', 'rdbms', 'zookeeper']
+    $app_blacklist              = ['hbase', 'impala', 'search', 'spark', 'rdbms', 'zookeeper']
 
     $hive_server_host           = undef
 
