@@ -77,6 +77,10 @@
 #   $hadoop_heapsize                          - -Xmx for NameNode and DataNode.  Default: undef
 #   $hadoop_namenode_opts                     - Any additional opts to pass to NameNode node on startup.  Default: undef
 #   $yarn_heapsize                            - -Xmx for YARN Daemons.           Default: undef
+#   $dfs_datanode_hdfs_blocks_metadata_enabled - Boolean which enables backend datanode-side support for the experimental
+#                                                DistributedFileSystem#getFileVBlockStorageLocations API..
+#                                                This is required if you want to use Impala.  Default: undef (false)
+
 #   $ganglia_hosts                            - Set this to an array of ganglia host:ports
 #                                               if you want to enable ganglia sinks in hadoop-metrics2.properites
 #   $net_topology_script_template             - Puppet ERb template path  to script that will be
@@ -136,6 +140,7 @@ class cdh::hadoop(
     $hadoop_heapsize                             = $::cdh::hadoop::defaults::hadoop_heapsize,
     $hadoop_namenode_opts                        = $::cdh::hadoop::defaults::hadoop_namenode_opts,
     $yarn_heapsize                               = $::cdh::hadoop::defaults::yarn_heapsize,
+    $dfs_datanode_hdfs_blocks_metadata_enabled   = $::cdh::hadoop::defaults::dfs_datanode_hdfs_blocks_metadata_enabled,
     $ganglia_hosts                               = $::cdh::hadoop::defaults::ganglia_hosts,
     $net_topology_script_template                = $::cdh::hadoop::defaults::net_topology_script_template,
     $gelf_logging_enabled                        = $::cdh::hadoop::defaults::gelf_logging_enabled,
@@ -225,6 +230,24 @@ class cdh::hadoop(
         }
     }
 
+    $fair_scheduler_enabled = $fair_scheduler_template ? {
+        undef   => false,
+        false   => false,
+        default => true,
+    }
+
+    $fair_scheduler_allocation_file_ensure = $fair_scheduler_enabled ? {
+        true  => 'present',
+        false => 'absent',
+    }
+    # FairScheduler can be enabled
+    # and this file will be used to configure
+    # FairScheduler queues.
+    file { "${config_directory}/fair-scheduler.xml":
+        ensure  => $fair_scheduler_allocation_file_ensure,
+        content => template($fair_scheduler_template),
+    }
+
     file { "${config_directory}/log4j.properties":
         content => template('cdh/hadoop/log4j.properties.erb'),
     }
@@ -253,14 +276,6 @@ class cdh::hadoop(
         content => template('cdh/hadoop/yarn-env.sh.erb'),
     }
 
-    # If this is set, FairScheduler will be enabled
-    # and this file will be used to configure
-    # FairScheduler queues.
-    if $fair_scheduler_template {
-        file { "${config_directory}/fair-scheduler.xml":
-            content => template($fair_scheduler_template),
-        }
-    }
 
     # Render hadoop-metrics2.properties
     # if we have Ganglia Hosts to send metrics to.

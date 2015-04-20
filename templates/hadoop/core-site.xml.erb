@@ -62,6 +62,16 @@
     <value>*</value>
   </property>
 
+  <!-- llama (impala) proxy user -->
+  <property>
+    <name>hadoop.proxyuser.llama.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.llama.groups</name>
+    <value>*</value>
+  </property>
+
 <% if @net_topology_script_template -%>
   <!-- Script used to map nodes to rack or rows in datacenter. -->
   <property>

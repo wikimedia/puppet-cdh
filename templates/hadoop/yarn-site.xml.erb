@@ -12,7 +12,7 @@
     <value><%= @primary_namenode_host %></value>
   </property>
 
-<% if @fair_scheduler_template -%>
+<% if @fair_scheduler_enabled -%>
   <property>
     <name>yarn.resourcemanager.scheduler.class</name>
     <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>

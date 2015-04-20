@@ -96,6 +96,13 @@ end
    <value><%= @dfs_block_size %></value>
   </property>
 
+<% if @dfs_datanode_hdfs_blocks_metadata_enabled -%>
+  <property>
+    <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
+    <value><%= @dfs_datanode_hdfs_blocks_metadata_enabled %></value>
+  </property>
+<% end -%>
+
   <!--
   Enable space choosing policy when choosing from data directories on which
   to allocate new blocks.  This will help keep disks space usage balanced.
@@ -118,5 +125,19 @@ end
       This is useful for decommissioning nodes.
     </description>
   </property>
+
+<% if @hdfs_site_impala_extra_properties
+# Impala requires that a special hdfs-site.xml file is rendered at
+# /etc/impala/conf/hdfs-site.xml.  This property allows the
+# cdh::impala::config class to inherit from cdh::hadoop and
+# render a similar hdfs-site.xml, but with these additional values.
+-%>
+<% Hash[@hdfs_site_impala_extra_properties.sort].each do |name, value| -%>
+  <property>
+    <name><%= name %></name>
+    <value><%= value %></value>
+  </property>
+<% end -%>
+<% end -%>
 
 </configuration>
