@@ -4,7 +4,7 @@
 # hdfs-site.xml, core-site.xml and hdfs-site.xml in
 # /etc/impala/conf.
 #
-# All other impala classes require this one.
+# All other impala classes inherit from this one.
 #
 # Please make sure you set
 #    dfs_datanode_hdfs_blocks_metadata_enabled => true,

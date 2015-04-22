@@ -7,7 +7,6 @@ class cdh::impala::worker inherits cdh::impala {
         ensure => 'installed',
     }
 
-    $master_host = $::cdh::impala::master_host
     $hadoop_config_directory = $::cdh::hadoop::config_directory
     $fair_scheduler_enabled = $::cdh::hadoop::fair_scheduler_enabled
 
