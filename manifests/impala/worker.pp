@@ -2,9 +2,7 @@
 # Installs and runs impalad server.
 # You should probably include this on all your Hadoop worker nodes
 #
-class cdh::impala::worker {
-    require cdh::impala
-
+class cdh::impala::worker inherits cdh::impala {
     package {'impala-server':
         ensure => 'installed',
     }

@@ -3,9 +3,7 @@
 # This assumes you want to run state-store, catalog, and llama on the same node.
 # This does not yet support HA llama.
 #
-class cdh::impala::master {
-    require cdh::impala
-
+class cdh::impala::master inherits cdh::impala {
     package {[
         'impala-state-store',
         'impala-catalog',
