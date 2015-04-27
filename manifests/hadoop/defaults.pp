@@ -45,6 +45,8 @@ class cdh::hadoop::defaults {
     $yarn_nodemanager_resource_cpu_vcores     = max($::processorcount - 1, 1 + 0)
     $yarn_scheduler_minimum_allocation_mb     = undef
     $yarn_scheduler_maximum_allocation_mb     = undef
+    $yarn_scheduler_minimum_allocation_vcores = undef
+    $yarn_scheduler_maximum_allocation_vcores = undef
 
     $fair_scheduler_template                  = 'cdh/hadoop/fair-scheduler.xml.erb'
     $yarn_site_extra_properties               = undef

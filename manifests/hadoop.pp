@@ -70,6 +70,13 @@
 #   $yarn_scheduler_maximum_allocation_mb     - The maximum allocation for every container request at the RM,
 #                                               in MBs. Memory requests higher than this won't take effect, and
 #                                               will get capped to this value.
+#   $yarn_scheduler_minimum_allocation_vcores - The minimum allocation for every container request at the RM,
+#                                               in terms of virtual CPU cores. Requests lower than this won't
+#                                               take effect, and the specified value will get allocated the
+#                                               minimum.  Default: undef (1)
+#   $yarn_scheduler_maximum_allocation_vcores - The maximum allocation for every container request at the RM,
+#                                               in terms of virtual CPU cores. Requests higher than this won't
+#                                               take effect, and will get capped to this value.  Default: undef (32)
 #   $yarn_resourcemanager_scheduler_class     - If you change this (e.g. to
 #                                               FairScheduler), you should also provide
 #                                               your own scheduler config .xml files
@@ -137,6 +144,8 @@ class cdh::hadoop(
     $yarn_nodemanager_resource_cpu_vcores        = $::cdh::hadoop::defaults::yarn_nodemanager_resource_cpu_vcores,
     $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,
     $yarn_scheduler_maximum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_mb,
+    $yarn_scheduler_minimum_allocation_vcores    = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_vcores,
+    $yarn_scheduler_maximum_allocation_vcores    = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_vcores,
     $hadoop_heapsize                             = $::cdh::hadoop::defaults::hadoop_heapsize,
     $hadoop_namenode_opts                        = $::cdh::hadoop::defaults::hadoop_namenode_opts,
     $yarn_heapsize                               = $::cdh::hadoop::defaults::yarn_heapsize,

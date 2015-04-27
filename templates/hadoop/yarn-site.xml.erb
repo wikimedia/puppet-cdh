@@ -105,6 +105,20 @@
   </property>
 <% end -%>
 
+<% if @yarn_scheduler_minimum_allocation_vcores -%>
+  <property>
+    <name>yarn.scheduler.minimum-allocation-vcores</name>
+    <value><%= @yarn_scheduler_minimum_allocation_vcores %></value>
+  </property>
+<% end -%>
+
+<% if @yarn_scheduler_maximum_allocation_vcores -%>
+  <property>
+    <name>yarn.scheduler.maximum-allocation-vcores</name>
+    <value><%= @yarn_scheduler_maximum_allocation_vcores %></value>
+  </property>
+<% end -%>
+
   <property>
     <name>yarn.log-aggregation-enable</name>
     <value>true</value>
