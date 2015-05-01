@@ -132,9 +132,9 @@ end
 # cdh::impala::config class to inherit from cdh::hadoop and
 # render a similar hdfs-site.xml, but with these additional values.
 -%>
-<% Hash[@hdfs_site_impala_extra_properties.sort].each do |name, value| -%>
+<% @hdfs_site_impala_extra_properties.sort.map do |key, value| -%>
   <property>
-    <name><%= name %></name>
+    <name><%= key %></name>
     <value><%= value %></value>
   </property>
 <% end -%>
