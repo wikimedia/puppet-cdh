@@ -8,6 +8,11 @@ class cdh::hadoop::defaults {
 
     $datanode_mounts                          = undef
     $dfs_data_path                            = 'hdfs/dn'
+
+    # $resourcemanager_hosts is not set here, because it defaults to the user
+    # provided value of $namenode_hosts in hadoop.pp.
+    $zookeeper_hosts                          = undef
+
     $yarn_local_path                          = 'yarn/local'
     $yarn_logs_path                           = 'yarn/logs'
     $dfs_block_size                           = 67108864 # 64MB default

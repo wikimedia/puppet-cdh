@@ -111,7 +111,9 @@ This installs and starts up the DataNode.  If using YARN, this will install
 and set up the NodeManager.  If using MRv1, this will install and set up the
 TaskTracker.
 
-## High Availability NameNode
+## High Availability
+
+### High Availibility NameNode
 
 For detailed documentation, see the
 [CDH5 High Availability Guide](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-High-Availability-Guide/cdh5hag_hdfs_ha_config.html).
@@ -202,7 +204,7 @@ puppet manifests to nodes in this order:
 3. StandBy NameNodes
 4. Worker nodes (DataNodes)
 
-### Adding High Availability to a running cluster
+#### Adding High Availability NameNode to a running cluster
 
 Go through all of the same steps as described in the above section.  Once all
 of your puppet manifests have been applied (JournalNodes running, NameNodes running and
@@ -259,6 +261,74 @@ sudo -u hdfs /usr/bin/hdfs haadmin -transitionToActive <namenode_id>
 with dot ('.') characters replaced with dashes ('-').  E.g.  ```namenode1-domain-org```.
 
 
+### High Availability YARN ResourceManager
+To configure automatic failover for the ResourceManager, you'll need a running
+zookeeper cluster.  If both $resourcemanager_hosts (which defaults to the value you
+provide for $namenode_hosts) has multiple hosts set and $zookeeper_hosts is set, then yarn-site.xml
+will be configured to use HA ResourceManager.
+
+This module does not support running HA ResourceManager without also running
+HA NameNodes.  Your primary NameNode and primary ResourceManager must be configured
+to run on the same host via the inclusion of the ```cdh::hadoop::master``` class.
+Make sure that the first host listed in $namenode_hosts and in $resoucemanager_hosts
+is this primary node (namenode1.domain.org in the following example).
+
+```puppet
+class my::hadoop {
+    class { 'cdh::hadoop':
+        cluster_name        => 'mycluster',
+        zookeeper_hosts     => [
+            'zk1.domain.org:2181',
+            'zk2.domain.org:2181',
+            'zk3.domain.org:2181'
+        ],
+        namenode_hosts      => [
+            'namenode1.domain.org',
+            'namenode2.domain.org
+        ],
+        journalnode_hosts   => [
+            'datanode1.domain.org',
+            'datanode2.domain.org',
+            'datanode3.domain.org'
+        ],
+        datanode_mounts    => [
+            '/var/lib/hadoop/data/a',
+            '/var/lib/hadoop/data/b',
+            '/var/lib/hadoop/data/c'
+        ],
+        dfs_name_dir       => ['/var/lib/hadoop/name', '/mnt/hadoop_name'],
+    }
+}
+
+```
+
+Note the differences from the non-HA RM setup:
+
+- zookeeper_hosts has been provided.  This list of hosts will be used for auto failover of the RM.
+- On your standby ResourceManagers, explicitly include ```cdh::hadoop::resourcemanager```.
+
+``` puppet
+class my::hadoop::master inherits my::hadoop {
+    include cdh::hadoop::master
+}
+class my::hadoop::standby inherits my::hadoop {
+    include cdh::hadoop::namenode::standby
+    include cdh::hadoop::resourcemanager
+}
+
+node 'namenode1.domain.org' {
+    include my::hadoop::master
+}
+
+node 'namenode2.domain.org' {
+    include my::hadoop::standby
+}
+```
+
+#### Adding High Availability YARN ResourceManager to a running cluster
+Apply the above puppetization to your nodes, and then restart all YARN services (ResouceManagers and NodeManagers).
+
+
 # Hive
 
 ## Hive Clients
@@ -266,7 +336,7 @@ with dot ('.') characters replaced with dashes ('-').  E.g.  ```namenode1-domain
 ```puppet
 class { 'cdh::hive':
   metastore_host  => 'hive-metastore-node.domain.org',
-  zookeeper_hosts => ['zk1.domain.org', 'zk2.domain.org'],
+  zookeeper_hosts => ['zk1.domain.org', 'zk2.domain.org', 'zk3.domain.org'],
   jdbc_password   => $secret_password,
 }
 ```

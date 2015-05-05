@@ -31,6 +31,15 @@
 #   $datanode_mounts            - Array of JBOD mount points.  Hadoop datanode and
 #                                 mapreduce/yarn directories will be here.
 #   $dfs_data_path              - Path relative to JBOD mount point for HDFS data directories.
+#
+#   $resourcemanager_hosts      - Array of hosts on which ResourceManager is running.  If this has
+#                                 more than one host in it AND $zookeeper_hosts is set, HA YARN ResourceManager
+#                                 and automatic failover will be enabled.  This defaults to the value provided
+#                                 for $namenode_hosts.  Please be sure to include cdh::hadoop::resourcemanager
+#                                 directly on any standby RM hosts.  (The master RM will be included automatically)
+#                                 when you include cdh::hadoop::master).
+#   $zookeeper_hosts            - Array of Zookeeper hosts to use for HA YARN ResouceManager.
+#                                 Default: ['localhost:2181'].
 #   $enable_jmxremote           - enables remote JMX connections for all Hadoop services.
 #                                 Ports are not currently configurable.  Default: true.
 #   $yarn_local_path            - Path relative to JBOD mount point for yarn local directories.
@@ -114,6 +123,9 @@ class cdh::hadoop(
     $datanode_mounts                             = $::cdh::hadoop::defaults::datanode_mounts,
     $dfs_data_path                               = $::cdh::hadoop::defaults::dfs_data_path,
 
+    $resourcemanager_hosts                       = $namenode_hosts,
+    $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
+
     $yarn_local_path                             = $::cdh::hadoop::defaults::yarn_local_path,
     $yarn_logs_path                              = $::cdh::hadoop::defaults::yarn_logs_path,
     $dfs_block_size                              = $::cdh::hadoop::defaults::dfs_block_size,
@@ -164,6 +176,10 @@ class cdh::hadoop(
     # This used in a couple of execs throughout this module.
     $dfs_name_dir_main = inline_template('<%= (@dfs_name_dir.class == Array) ? @dfs_name_dir[0] : @dfs_name_dir %>')
 
+    # Config files are installed into a directory
+    # based on the value of $cluster_name.
+    $config_directory = "/etc/hadoop/conf.${cluster_name}"
+
     # Set a boolean used to indicate that HA NameNodes
     # are intended to be used for this cluster.  HA NameNodes
     # require the JournalNodes are configured.
@@ -171,22 +187,11 @@ class cdh::hadoop(
         undef   => false,
         default => true,
     }
-
     # If $ha_enabled is true, use $cluster_name as $nameservice_id.
     $nameservice_id = $ha_enabled ? {
         true    => $cluster_name,
         default => undef,
     }
-
-    # Config files are installed into a directory
-    # based on the value of $cluster_name.
-    $config_directory = "/etc/hadoop/conf.${cluster_name}"
-
-    # Parameter Validation:
-    if ($ha_enabled and !$journalnode_hosts) {
-        fail('Must provide multiple $journalnode_hosts when using HA and setting $nameservice_id.')
-    }
-
     # Assume the primary namenode is the first entry in $namenode_hosts,
     # Set a variable here for reference in other classes.
     $primary_namenode_host = $namenode_hosts[0]
@@ -196,6 +201,25 @@ class cdh::hadoop(
     # will be used in the names of some Java properties,
     # which are '.' delimited.
     $primary_namenode_id   = inline_template('<%= @primary_namenode_host.tr(\'.\', \'-\') %>')
+
+
+    # Set a boolean used to indicate that HA YARN
+    # is intended to be used for this cluster.  HA YARN
+    # require the zookeeper is configured, and that
+    # multiple ResourceManagers are specificed.
+    if $ha_enabled and size($resourcemanager_hosts) > 1 and $zookeeper_hosts {
+        $yarn_ha_enabled = true
+        $yarn_cluster_id = $cluster_name
+    }
+    else {
+        $yarn_ha_enabled = false
+        $yarn_cluster_id = undef
+    }
+
+    # Assume the primary resourcemanager is the first entry in $resourcemanager_hosts
+    # Set a variable here for reference in other classes.
+    $primary_resourcemanager_host = $resourcemanager_hosts[0]
+
 
     package { 'hadoop-client':
         ensure => 'installed'
