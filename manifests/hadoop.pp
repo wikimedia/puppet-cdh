@@ -39,7 +39,7 @@
 #                                 directly on any standby RM hosts.  (The master RM will be included automatically)
 #                                 when you include cdh::hadoop::master).
 #   $zookeeper_hosts            - Array of Zookeeper hosts to use for HA YARN ResouceManager.
-#                                 Default: ['localhost:2181'].
+#                                 Default: undef
 #   $enable_jmxremote           - enables remote JMX connections for all Hadoop services.
 #                                 Ports are not currently configurable.  Default: true.
 #   $yarn_local_path            - Path relative to JBOD mount point for yarn local directories.
