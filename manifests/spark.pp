@@ -70,7 +70,7 @@ class cdh::spark(
 
     # Put Spark assembly jar into HDFS so that it d
     # doesn't have to be loaded for each spark job submission.
-    $namenode_address = $ha_enabled ? {
+    $namenode_address = $::cdh::hadoop::ha_enabled ? {
         true    => $cdh::hadoop::nameservice_id,
         default => $cdh::hadoop::primary_namenode_host,
     }
