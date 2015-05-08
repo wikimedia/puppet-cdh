@@ -59,10 +59,10 @@
 # if running in Standalone mode, then set these.
 if @standalone_enabled
 -%>
-export SPARK_WORKER_CORES=<%= @worker_cores %>
-export SPARK_WORKER_MEMORY=<%= @worker_memory %>
-export SPARK_WORKER_INSTANCES=<%= @worker_instances %>
-export SPARK_DAEMON_MEMORY=<%= @daemon_memory %>
+<% if @worker_cores %>export SPARK_WORKER_CORES=<%= @worker_cores %><% end %>
+<% if @worker_memory %>export SPARK_WORKER_MEMORY=<%= @worker_memory %><% end %>
+<% if @worker_instances %>export SPARK_WORKER_INSTANCES=<%= @worker_instances %><% end %>
+<% if @daemon_memory %>export SPARK_DAEMON_MEMORY=<%= @daemon_memory %><% end %>
 
 export STANDALONE_SPARK_MASTER_HOST=<%= @standalone_enabled ? @master_host : '`hostname`' %>
 export SPARK_MASTER_IP=$STANDALONE_SPARK_MASTER_HOST

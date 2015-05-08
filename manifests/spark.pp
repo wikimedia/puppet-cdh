@@ -15,26 +15,27 @@
 #                             Default: undef
 #
 # $worker_cores             - Number of cores to allocate per spark worker.
-#                             This is only used in standalone mode.  Default: $::processorcount
+#                             This is only used in standalone mode.  Default: undef ($::processorcount)
 #
 # $worker_memory            - Total amount of memory workers are allowed to use on a node.
-#                             This is only used in standalone mode.  Default:  "${::memorysize_mb - 1024}m",
+#                             This is only used in standalone mode.  Default:  undef ($::memorysize_mb - 1024)
 #
 # $worker_instances         - Number of worker instances to run on a node.  Note that $worker_cores
 #                             will apply to each worker.  If you increase this, make sure to
 #                             make $worker_cores smaller appropriately.
-#                             This is only used in standalone mode.  Default: 1
+#                             This is only used in standalone mode.  Default: undef (1)
 #
 # $daemon_memory            - Memory to allocate to the Spark master and worker daemons themselves.
-#                             This is only used in standalone mode.  Default: 512m
+#
+#                             This is only used in standalone mode.  Default: undef (512m)
 #
 class cdh::spark(
     $hive_support_enabled   = true,
     $master_host            = undef,
-    $worker_cores           = $::processorcount,
-    $worker_memory          = "${::memorysize_mb - 1024}m",
-    $worker_instances       = 1,
-    $daemon_memory          = '512m',
+    $worker_cores           = undef,
+    $worker_memory          = undef,
+    $worker_instances       = undef,
+    $daemon_memory          = undef,
 )
 {
     # Spark requires Hadoop configs installed.
