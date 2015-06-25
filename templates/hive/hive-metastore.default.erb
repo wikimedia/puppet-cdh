@@ -22,5 +22,5 @@
 <%= @port ? "PORT=#{@port}" : '#PORT=' %>
 
 <% if @heapsize -%>
-HADOOP_HEAPSIZE=<%= @heapsize %>
+export HADOOP_HEAPSIZE=<%= @heapsize %>
 <% end -%>
