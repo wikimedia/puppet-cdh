@@ -117,7 +117,7 @@ class cdh::oozie::server(
     }
 
     # Put oozie sharelib into HDFS:
-    $oozie_sharelib_archive = '/usr/lib/oozie/oozie-sharelib-yarn.tar.gz'
+    $oozie_sharelib_archive = '/usr/lib/oozie/oozie-sharelib-yarn'
     $hdfs_uri               = "hdfs://${cdh::hadoop::namenode_hosts[0]}"
 
     exec { 'oozie_sharelib_install':
