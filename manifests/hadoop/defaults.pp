@@ -17,6 +17,7 @@ class cdh::hadoop::defaults {
     $yarn_local_path                          = 'yarn/local'
     $yarn_logs_path                           = 'yarn/logs'
     $dfs_block_size                           = 67108864 # 64MB default
+    $dfs_replication                          = 3
     $enable_jmxremote                         = true
     $webhdfs_enabled                          = false
     $httpfs_enabled                           = true

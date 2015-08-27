@@ -47,6 +47,7 @@
 #   $yarn_local_path            - Path relative to JBOD mount point for yarn local directories.
 #   $yarn_logs_path             - Path relative to JBOD mount point for yarn log directories.
 #   $dfs_block_size             - HDFS block size in bytes.  Default 64MB.
+#   $dfs_replication            - Default block replication. Default: 3
 #   $io_file_buffer_size
 #   $map_tasks_maximum
 #   $reduce_tasks_maximum
@@ -132,6 +133,7 @@ class cdh::hadoop(
     $yarn_local_path                             = $::cdh::hadoop::defaults::yarn_local_path,
     $yarn_logs_path                              = $::cdh::hadoop::defaults::yarn_logs_path,
     $dfs_block_size                              = $::cdh::hadoop::defaults::dfs_block_size,
+    $dfs_replication                             = $::cdh::hadoop::defaults::dfs_replication,
     $enable_jmxremote                            = $::cdh::hadoop::defaults::enable_jmxremote,
     $webhdfs_enabled                             = $::cdh::hadoop::defaults::webhdfs_enabled,
     $httpfs_enabled                              = $::cdh::hadoop::defaults::httpfs_enabled,
