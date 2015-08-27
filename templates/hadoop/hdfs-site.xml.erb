@@ -125,6 +125,11 @@ end
       This is useful for decommissioning nodes.
     </description>
   </property>
+  
+  <property>
+    <name>dfs.datanode.failed.volumes.tolerated</name>
+    <value><%= @datanode_failed_volumes_tolerated %></value>
+  </property>
 
 <% if @hdfs_site_impala_extra_properties
 # Impala requires that a special hdfs-site.xml file is rendered at

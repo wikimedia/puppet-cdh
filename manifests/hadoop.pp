@@ -12,25 +12,27 @@
 # yarn.nodemanager.log-dirs will be set to each of ${dfs_data_dir_mounts}/$yarn_logs_path
 #
 # == Parameters
-#   $namenode_hosts             - Array of NameNode host(s).  The first entry in this
-#                                 array will be the primary NameNode.  The primary NameNode
-#                                 will also be used as the host for the historyserver, proxyserver,
-#                                 and resourcemanager.   Use multiple hosts hosts if you
-#                                 configuring Hadoop with HA NameNodes.
-#   $dfs_name_dir               - Path to hadoop NameNode name directory.  This
-#                                 can be an array of paths or a single string path.
-#   $cluster_name               - Arbitrary logical HDFS cluster name.  This will be used
-#                                 as the nameserivce id if you set $ha_enabled to true.
-#                                 Default: 'cdh'.
-#   $journalnode_hosts          - Array of JournalNode hosts.  If this is provided,
-#                                 Hadoop will be configured to expect to have
-#                                 a primary NameNode as well as at least
-#                                 one Standby NameNode for use in high availibility mode.
-#   $dfs_journalnode_edits_dir  - Path to JournalNode edits dir.  This will be
-#                                 ignored if $ha_enabled is false.
-#   $datanode_mounts            - Array of JBOD mount points.  Hadoop datanode and
-#                                 mapreduce/yarn directories will be here.
-#   $dfs_data_path              - Path relative to JBOD mount point for HDFS data directories.
+#   $namenode_hosts                     - Array of NameNode host(s).  The first entry in this
+#                                         array will be the primary NameNode.  The primary NameNode
+#                                         will also be used as the host for the historyserver, proxyserver,
+#                                         and resourcemanager.   Use multiple hosts hosts if you
+#                                         configuring Hadoop with HA NameNodes.
+#   $dfs_name_dir                       - Path to hadoop NameNode name directory.  This
+#                                         can be an array of paths or a single string path.
+#   $cluster_name                       - Arbitrary logical HDFS cluster name.  This will be used
+#                                         as the nameserivce id if you set $ha_enabled to true.
+#                                         Default: 'cdh'.
+#   $journalnode_hosts                  - Array of JournalNode hosts.  If this is provided,
+#                                         Hadoop will be configured to expect to have
+#                                         a primary NameNode as well as at least
+#                                         one Standby NameNode for use in high availibility mode.
+#   $dfs_journalnode_edits_dir          - Path to JournalNode edits dir.  This will be
+#                                         ignored if $ha_enabled is false.
+#   $datanode_mounts                    - Array of JBOD mount points.  Hadoop datanode and
+#                                         mapreduce/yarn directories will be here.
+#   $dfs_data_path                      - Path relative to JBOD mount point for HDFS data directories.
+#   $datanode_failed_volumes_tolerated  - The number of volumes that are allowed to fail before a datanode stops offering service.
+#                                         Default: 0 
 #
 #   $resourcemanager_hosts      - Array of hosts on which ResourceManager is running.  If this has
 #                                 more than one host in it AND $zookeeper_hosts is set, HA YARN ResourceManager
@@ -122,6 +124,7 @@ class cdh::hadoop(
 
     $datanode_mounts                             = $::cdh::hadoop::defaults::datanode_mounts,
     $dfs_data_path                               = $::cdh::hadoop::defaults::dfs_data_path,
+    $datanode_failed_volumes_tolerated           = $::cdh::hadoop::defaults::datanode_failed_volumes_tolerated,
 
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,

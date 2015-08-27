@@ -8,6 +8,7 @@ class cdh::hadoop::defaults {
 
     $datanode_mounts                          = undef
     $dfs_data_path                            = 'hdfs/dn'
+    $datanode_failed_volumes_tolerated        = 0
 
     # $resourcemanager_hosts is not set here, because it defaults to the user
     # provided value of $namenode_hosts in hadoop.pp.
