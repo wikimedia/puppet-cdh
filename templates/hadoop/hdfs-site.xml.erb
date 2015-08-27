@@ -136,6 +136,15 @@ end
     <value><%= @datanode_failed_volumes_tolerated %></value>
   </property>
 
+<% if @hdfs_site_extra_properties -%>
+<% @hdfs_site_extra_properties.sort.map do |key, value| -%>
+  <property>
+    <name><%= key %></name>
+    <value><%= value %></value>
+  </property>
+<% end -%>
+<% end -%>
+
 <% if @hdfs_site_impala_extra_properties
 # Impala requires that a special hdfs-site.xml file is rendered at
 # /etc/impala/conf/hdfs-site.xml.  This property allows the

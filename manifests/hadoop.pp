@@ -115,6 +115,8 @@
 #                                               be disabled.  Default: cdh/hadoop/fair-scheduler.xml.erb
 #   $yarn_site_extra_properties               - Hash of extra property names to values that will be
 #                                               be rendered in yarn-site.xml.erb.  Default: undef
+#   $hdfs_site_extra_properties               - Hash of extra property names to values that will be
+#                                               rendered in hdfs-site.xml.erb. Default: undef
 #
 class cdh::hadoop(
     $namenode_hosts,
@@ -174,6 +176,7 @@ class cdh::hadoop(
     $gelf_logging_port                           = $::cdh::hadoop::defaults::gelf_logging_port,
     $fair_scheduler_template                     = $::cdh::hadoop::defaults::fair_scheduler_template,
     $yarn_site_extra_properties                  = $::cdh::hadoop::defaults::yarn_site_extra_properties,
+    $hdfs_site_extra_properties                  = $::cdh::hadoop::defaults::hdfs_site_extra_properties,
 ) inherits cdh::hadoop::defaults
 {
     # If $dfs_name_dir is a list, this will be the
