@@ -129,6 +129,13 @@
   </property>
 <% end -%>
 
+<% if @yarn_app_mapreduce_am_job_client_port_range -%>
+  <property>
+    <name>yarn.app.mapreduce.am.job.client.port-range</name>
+    <value><%= @yarn_app_mapreduce_am_job_client_port_range %></value>
+  </property>
+<% end -%>
+
   <!-- MapReduce intermediate compression -->
   <property>
     <name>mapreduce.map.output.compress</name>

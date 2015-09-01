@@ -59,7 +59,10 @@
 #   $mapreduce_child_java_opts
 #   $yarn_app_mapreduce_am_resource_mb        - The amount of memory the MR AppMaster needs.
 #   $yarn_app_mapreduce_am_command_opts       - Java opts for the MR App Master processes. The following symbol, if
-#                                              present, will be interpolated: @taskid@ is replaced by current TaskID
+#                                               present, will be interpolated: @taskid@ is replaced by current TaskID
+#   $yarn_app_mapreduce_am_job_client_port_range - Range of ports that the MapReduce AM can use when binding.
+#                                                  Leave blank if you want all possible ports.
+#                                                  For example. 50000-50050,50100-50200.  Default: undef
 #   $mapreduce_shuffle_port
 #   $mapreduce_intermediate_compression       - If true, intermediate MapReduce data
 #                                               will be compressed.  Default: true.
@@ -142,6 +145,7 @@ class cdh::hadoop(
     $mapreduce_reduce_memory_mb                  = $::cdh::hadoop::defaults::mapreduce_reduce_memory_mb,
     $yarn_app_mapreduce_am_resource_mb           = $::cdh::hadoop::defaults::yarn_app_mapreduce_am_resource_mb,
     $yarn_app_mapreduce_am_command_opts          = $::cdh::hadoop::defaults::yarn_app_mapreduce_am_command_opts,
+    $yarn_app_mapreduce_am_job_client_port_range = $::cdh::hadoop::defaults::yarn_app_mapreduce_am_job_client_port_range,
     $mapreduce_task_io_sort_mb                   = $::cdh::hadoop::defaults::mapreduce_task_io_sort_mb,
     $mapreduce_task_io_sort_factor               = $::cdh::hadoop::defaults::mapreduce_task_io_sort_factor,
     $mapreduce_map_java_opts                     = $::cdh::hadoop::defaults::mapreduce_map_java_opts,
