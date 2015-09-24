@@ -19,6 +19,7 @@
 #                                         configuring Hadoop with HA NameNodes.
 #   $dfs_name_dir                       - Path to hadoop NameNode name directory.  This
 #                                         can be an array of paths or a single string path.
+#   $dfs_hosts_exclude                  - Path to dfs.exclude file
 #   $cluster_name                       - Arbitrary logical HDFS cluster name.  This will be used
 #                                         as the nameserivce id if you set $ha_enabled to true.
 #                                         Default: 'cdh'.
@@ -121,6 +122,7 @@
 class cdh::hadoop(
     $namenode_hosts,
     $dfs_name_dir,
+    $dfs_hosts_exclude                           = undef,
     $cluster_name                                = $::cdh::hadoop::defaults::cluster_name,
     $journalnode_hosts                           = $::cdh::hadoop::defaults::journalnode_hosts,
     $dfs_journalnode_edits_dir                   = $::cdh::hadoop::defaults::dfs_journalnode_edits_dir,
