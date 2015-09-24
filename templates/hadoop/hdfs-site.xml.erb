@@ -124,7 +124,7 @@ end
 
   <property>
     <name>dfs.hosts.exclude</name>
-    <value><%= @config_directory %>/hosts.exclude</value>
+    <value><%= @dfs_hosts_exclude ||= @config_directory %>/hosts.exclude</value>
     <description>
       A file that contains a list of DataNodes to exclude.
       This is useful for decommissioning nodes.
