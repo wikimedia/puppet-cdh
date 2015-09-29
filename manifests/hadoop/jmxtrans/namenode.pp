@@ -31,11 +31,11 @@ class cdh::hadoop::jmxtrans::namenode(
 
     # query for metrics from Hadoop NameNode's JVM
     jmxtrans::metrics::jvm { 'hadoop-hdfs-namenode':
-        jmx                  => $jmx,
-        group_prefix         => "${group_name}.",
-        outfile              => $outfile,
-        ganglia              => $ganglia,
-        graphite             => $graphite,
+        jmx          => $jmx,
+        group_prefix => "${group_name}.",
+        outfile      => $outfile,
+        ganglia      => $ganglia,
+        graphite     => $graphite,
     }
 
     $namenode_objects = $objects ? {

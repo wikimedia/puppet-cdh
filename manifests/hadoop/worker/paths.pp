@@ -42,10 +42,10 @@ define cdh::hadoop::worker::paths($basedir = $title) {
 
     # make sure mounts exist
     file { $basedir:
-        ensure  => 'directory',
-        owner   => 'hdfs',
-        group   => 'hdfs',
-        mode    => '0755',
+        ensure => 'directory',
+        owner  => 'hdfs',
+        group  => 'hdfs',
+        mode   => '0755',
     }
 
     # Assume that $dfs_data_path is two levels.  e.g. hdfs/dn
@@ -62,9 +62,9 @@ define cdh::hadoop::worker::paths($basedir = $title) {
 
     # create yarn local directories
     file { ["${basedir}/yarn", "${basedir}/yarn/local", "${basedir}/yarn/logs"]:
-        ensure  => 'directory',
-        owner   => 'yarn',
-        group   => 'yarn',
-        mode    => '0755',
+        ensure => 'directory',
+        owner  => 'yarn',
+        group  => 'yarn',
+        mode   => '0755',
     }
 }

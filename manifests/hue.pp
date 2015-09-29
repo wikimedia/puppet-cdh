@@ -126,8 +126,8 @@ class cdh::hue(
         require => Package['hue'],
     }
     cdh::alternative { 'hue-conf':
-        link    => '/etc/hue/conf',
-        path    => $config_directory,
+        link => '/etc/hue/conf',
+        path => $config_directory,
     }
 
     # Managing the hue user here so we can add
@@ -206,16 +206,16 @@ class cdh::hue(
 
         # Ensure SSL files have proper permissions.
         file { $ssl_private_key:
-            mode    => '0440',
-            owner   => 'root',
-            group   => 'hue',
-            before  => Service['hue'],
+            mode   => '0440',
+            owner  => 'root',
+            group  => 'hue',
+            before => Service['hue'],
         }
         file { $ssl_certificate:
-            mode    => '0444',
-            owner   => 'root',
-            group   => 'hue',
-            before  => Service['hue'],
+            mode   => '0444',
+            owner  => 'root',
+            group  => 'hue',
+            before => Service['hue'],
         }
     }
 

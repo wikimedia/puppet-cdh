@@ -31,11 +31,11 @@ class cdh::hadoop::jmxtrans::datanode(
 
     # query for metrics from Hadoop DataNode's JVM
     jmxtrans::metrics::jvm { 'hadoop-yarn-datanode':
-        jmx                  => $jmx,
-        group_prefix         => "${group_name}.",
-        outfile              => $outfile,
-        ganglia              => $ganglia,
-        graphite             => $graphite,
+        jmx          => $jmx,
+        group_prefix => "${group_name}.",
+        outfile      => $outfile,
+        ganglia      => $ganglia,
+        graphite     => $graphite,
     }
 
 
@@ -86,7 +86,7 @@ class cdh::hadoop::jmxtrans::datanode(
                     'WriteBlockOpNumOps'                         => { 'slope' => 'positive' },
                     'WritesFromLocalClient'                      => { 'slope' => 'both' },
                     'WritesFromRemoteClient'                     => { 'slope' => 'both' },
-                 },
+                },
             },
 
             {
@@ -155,7 +155,7 @@ class cdh::hadoop::jmxtrans::datanode(
                     'InitReplicaRecoveryNumOps'                 => { 'slope' => 'positive' },
                     'UpdateReplicaUnderRecoveryAvgTime'         => { 'slope' => 'both' },
                     'UpdateReplicaUnderRecoveryNumOps'          => { 'slope' => 'positive' },
-               },
+                },
             },
         ],
         # else use $objects

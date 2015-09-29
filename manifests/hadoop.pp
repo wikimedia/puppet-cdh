@@ -244,8 +244,8 @@ class cdh::hadoop(
         require => Package['hadoop-client'],
     }
     cdh::alternative { 'hadoop-conf':
-        link    => '/etc/hadoop/conf',
-        path    => $config_directory,
+        link => '/etc/hadoop/conf',
+        path => $config_directory,
     }
 
     # Render net-topology.sh from $net_topology_script_template
@@ -256,8 +256,8 @@ class cdh::hadoop(
     }
     $net_topology_script_path = "${config_directory}/net-topology.sh"
     file { $net_topology_script_path:
-        ensure  => $net_topology_script_ensure,
-        mode    => '0755',
+        ensure => $net_topology_script_ensure,
+        mode   => '0755',
     }
     # Conditionally overriding content attribute since
     # $net_topology_script_template is default undef.

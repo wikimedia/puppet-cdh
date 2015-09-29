@@ -31,11 +31,11 @@ class cdh::hadoop::jmxtrans::resourcemanager(
 
     # query for metrics from Hadoop ResourceManager's JVM
     jmxtrans::metrics::jvm { 'hadoop-hdfs-resourcemanager':
-        jmx                  => $jmx,
-        group_prefix         => "${group_name}.",
-        outfile              => $outfile,
-        ganglia              => $ganglia,
-        graphite             => $graphite,
+        jmx          => $jmx,
+        group_prefix => "${group_name}.",
+        outfile      => $outfile,
+        ganglia      => $ganglia,
+        graphite     => $graphite,
     }
 
 

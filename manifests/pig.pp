@@ -24,8 +24,8 @@ class cdh::pig(
         require => Package['pig'],
     }
     cdh::alternative { 'pig-conf':
-        link    => '/etc/pig/conf',
-        path    => $config_directory,
+        link => '/etc/pig/conf',
+        path => $config_directory,
     }
 
     file { "${config_directory}/pig.properties":

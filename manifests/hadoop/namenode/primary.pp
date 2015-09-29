@@ -42,18 +42,18 @@ class cdh::hadoop::namenode::primary inherits cdh::hadoop::namenode {
     # sudo -u hdfs hdfs dfs -mkdir /tmp
     # sudo -u hdfs hdfs dfs -chmod 1777 /tmp
     cdh::hadoop::directory { '/tmp':
-        owner   => 'hdfs',
-        group   => 'hdfs',
-        mode    => '1777',
+        owner => 'hdfs',
+        group => 'hdfs',
+        mode  => '1777',
     }
 
     # sudo -u hdfs hdfs dfs -mkdir /user
     # sudo -u hdfs hdfs dfs -chmod 0775 /user
     # sudo -u hdfs hdfs dfs -chown hdfs:hadoop /user
     cdh::hadoop::directory { '/user':
-        owner   => 'hdfs',
-        group   => 'hadoop',
-        mode    => '0775',
+        owner => 'hdfs',
+        group => 'hadoop',
+        mode  => '0775',
     }
 
     # sudo -u hdfs hdfs dfs -mkdir /user/hdfs
@@ -66,9 +66,9 @@ class cdh::hadoop::namenode::primary inherits cdh::hadoop::namenode {
 
     # sudo -u hdfs hdfs dfs -mkdir /var
     cdh::hadoop::directory { '/var':
-        owner   => 'hdfs',
-        group   => 'hdfs',
-        mode    => '0755',
+        owner => 'hdfs',
+        group => 'hdfs',
+        mode  => '0755',
     }
 
     # sudo -u hdfs hdfs dfs -mkdir /var/lib

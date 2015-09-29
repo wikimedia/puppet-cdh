@@ -31,11 +31,11 @@ class cdh::hadoop::jmxtrans::nodemanager(
 
     # query for metrics from Hadoop DataNode's JVM
     jmxtrans::metrics::jvm { 'hadoop-hdfs-nodemanager':
-        jmx                  => $jmx,
-        group_prefix         => "${group_name}.",
-        outfile              => $outfile,
-        ganglia              => $ganglia,
-        graphite             => $graphite,
+        jmx          => $jmx,
+        group_prefix => "${group_name}.",
+        outfile      => $outfile,
+        ganglia      => $ganglia,
+        graphite     => $graphite,
     }
 
 

@@ -103,8 +103,8 @@ class cdh::hive(
         require => Package['hive'],
     }
     cdh::alternative { 'hive-conf':
-        link    => '/etc/hive/conf',
-        path    => $config_directory,
+        link => '/etc/hive/conf',
+        path => $config_directory,
     }
 
     # If we need more hcatalog services

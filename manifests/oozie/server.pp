@@ -79,8 +79,8 @@ class cdh::oozie::server(
         require => Package['oozie'],
     }
     cdh::alternative { 'oozie-conf':
-        link    => '/etc/oozie/conf',
-        path    => $config_directory,
+        link => '/etc/oozie/conf',
+        path => $config_directory,
     }
 
     # TODO: This doesn't work, Oozie Web UI references ext-2.2
