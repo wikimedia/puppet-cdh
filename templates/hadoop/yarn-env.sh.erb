@@ -122,3 +122,8 @@ YARN_OPTS="$YARN_OPTS -Dyarn.policy.file=$YARN_POLICYFILE"
 # Enable YARN ProxyServer JMX connections on port <%= @proxyserver_jmxremote_port %>
 YARN_PROXYSERVER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @proxyserver_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 <% end -%>
+
+# In order to support Spark with Python 3, all python processes
+# must start with the same random seed.  See:
+# http://blog.stuartowen.com/python-3-on-spark-return-of-the-pythonhashseed
+export PYTHONHASHSEED=0
