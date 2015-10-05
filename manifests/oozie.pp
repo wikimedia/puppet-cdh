@@ -7,7 +7,7 @@ class cdh::oozie(
 )
 {
     # oozie server url
-    $url = "http://$oozie_host:11000/oozie"
+    $url = "http://${oozie_host}:11000/oozie"
 
     package { 'oozie-client':
         ensure => 'installed',

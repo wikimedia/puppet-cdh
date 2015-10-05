@@ -12,7 +12,7 @@ class cdh::hue::defaults {
     # set in the cdh::oozie class.
     if (defined(Class['cdh::oozie'])) {
         $oozie_url              = $cdh::oozie::url
-        $oozie_proxy_regex      = "$cdh::oozie::oozie_host:(11000|11443)"
+        $oozie_proxy_regex      = "${cdh::oozie::oozie_host}:(11000|11443)"
     }
     # Otherwise disable Oozie interface for Hue.
     else {

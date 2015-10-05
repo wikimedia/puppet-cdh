@@ -293,7 +293,7 @@ class cdh::hadoop(
         content => template('cdh/hadoop/core-site.xml.erb'),
     }
 
-    file { "$config_directory/hdfs-site.xml":
+    file { "${config_directory}/hdfs-site.xml":
         content => template('cdh/hadoop/hdfs-site.xml.erb'),
     }
 
