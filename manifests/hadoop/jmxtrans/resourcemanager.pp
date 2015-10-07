@@ -8,6 +8,7 @@
 # $jmx_port      - ResourceManager JMX port.  Default: 9983
 # $ganglia       - Ganglia host:port
 # $graphite      - Graphite host:port
+# $statsd        - statsd host:port
 # $outfile       - outfile to which Kafka stats will be written.
 # $objects       - objects parameter to pass to jmxtrans::metrics.  Only use
 #                  this if you need to override the default ones that this
@@ -22,6 +23,7 @@ class cdh::hadoop::jmxtrans::resourcemanager(
     $jmx_port       = $cdh::hadoop::defaults::resourcemanager_jmxremote_port,
     $ganglia        = undef,
     $graphite       = undef,
+    $statsd         = undef,
     $outfile        = undef,
     $objects        = undef,
 ) inherits cdh::hadoop::defaults
@@ -36,6 +38,7 @@ class cdh::hadoop::jmxtrans::resourcemanager(
         outfile      => $outfile,
         ganglia      => $ganglia,
         graphite     => $graphite,
+        statsd       => $statsd,
     }
 
 
@@ -368,6 +371,8 @@ class cdh::hadoop::jmxtrans::resourcemanager(
         ganglia_group_name   => $group_name,
         graphite             => $graphite,
         graphite_root_prefix => $group_name,
+        statsd               => $statsd,
+        statsd_root_prefix   => $group_name,
         objects              => $resourcemanager_objects,
     }
 }

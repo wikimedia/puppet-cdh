@@ -3,6 +3,7 @@
 class cdh::hadoop::jmxtrans::master(
     $ganglia        = undef,
     $graphite       = undef,
+    $statsd         = undef,
     $outfile        = undef,
 )
 {
@@ -10,5 +11,6 @@ class cdh::hadoop::jmxtrans::master(
         ganglia  => $ganglia,
         graphite => $graphite,
         outfile  => $outfile,
+        statsd   => $statsd,
     }
 }
