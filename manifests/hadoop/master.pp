@@ -14,4 +14,14 @@ class cdh::hadoop::master {
 
     include cdh::hadoop::resourcemanager
     include cdh::hadoop::historyserver
+
+    # Install a check_active_namenode script, this can be run
+    # from any Hadoop client, but we will only run it from master nodes.
+    # This script is useful for nagios/icinga checks.
+    file { '/usr/local/bin/check_hdfs_active_namenode':
+        source => 'puppet:///modules/cdh/hadoop/check_hdfs_active_namenode',
+        owner  => 'root',
+        group  => 'hdfs',
+        mode   => '0554',
+    }
 }
