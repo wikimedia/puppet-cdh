@@ -22,6 +22,6 @@ class cdh::hadoop::master {
         source => 'puppet:///modules/cdh/hadoop/check_hdfs_active_namenode',
         owner  => 'root',
         group  => 'hdfs',
-        mode   => '0554',
+        mode   => '0555',
     }
 }
