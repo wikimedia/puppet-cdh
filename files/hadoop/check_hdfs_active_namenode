@@ -6,8 +6,7 @@ import sys
 import subprocess
 import xml.etree.ElementTree as ET
 
-usage = """
-%s [<hdfs-site-xml>]
+usage = """%s [<hdfs-site-xml>]
 
 Parses <hdfs-site-xml> (default /etc/hadoop/conf/hdfs-site.xml)
 for a list of HDFS HA NameNode service IDs from the
@@ -15,23 +14,27 @@ dfs.ha.namenodes.analytics-hadoop property.  Each of these will be
 examined for 'active' state.  If none are active, then this will print
 CRITICAL.  Otherwise things will be OKAY!
 
-Must be run as hdfs user on a node with hdfs CLI installed.
+Must be run as hdfs user or a user that can sudo -u hdfs
+on a node with the hdfs CLI installed.
 """ % sys.argv[0]
 
 
 def get_namenode_state(namenode_service_id):
-    command = 'sudo -u hdfs hdfs haadmin -getServiceState %s' % namenode_service_id
+    command = 'hdfs haadmin -getServiceState %s' % namenode_service_id
+    if getpass.getuser() != 'hdfs':
+        command = 'sudo -u hdfs ' + command
+
     return os.popen(command).read().strip()
 
 
 if __name__ == '__main__':
-    if getpass.getuser() != 'hdfs' and getpass.getuser() != 'root':
-        sys.stderr.write('Error: must run as hdfs user.\n')
-        sys.exit(1)
-
     hdfs_site_xml = '/etc/hadoop/conf/hdfs-site.xml'
     if len(sys.argv) > 1:
-        hdfs_site_xml = sys.argv[1]
+        if sys.argv[1] == '-h' or sys.argv[1] == '--help':
+            print(usage)
+            exit(0)
+        else:
+            hdfs_site_xml = sys.argv[1]
 
     # Load and parse hdfs-site.xml
     hdfs_properties = ET.parse(hdfs_site_xml).getroot()
