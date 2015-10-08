@@ -50,4 +50,4 @@ if __name__ == '__main__':
 
     # if we get this far, no NameNode was active
     print('Hadoop Active NameNode CRITICAL: no namenodes are active')
-    sys.exit(1)
+    sys.exit(2)
