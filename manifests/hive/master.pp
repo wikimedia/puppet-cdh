@@ -13,18 +13,20 @@
 # $metastore_database - Name of metastore database to use.  This should be
 #                       the name of a cdh::hive::metastore::* class in
 #                       hive/metastore/*.pp.
-# $heapsize           - -Xmx in MB to pass to hive-server2 and hive-metastore.  Default: undef
+# $server_heapsize    - -Xmx in MB to pass to hive-server2. Default: undef
+# $metastore_heapsize - -Xmx in MB to pass to hive-metastore. Default: undef
 #
 class cdh::hive::master(
     $metastore_database = 'mysql',
-    $heapsize           = undef,
+    $server_heapsize    = undef,
+    $metastore_heapsize = undef,
 )
 {
     class { 'cdh::hive::server':
-        heapsize => $heapsize,
+        heapsize => $server_heapsize,
     }
     class { 'cdh::hive::metastore':
-        heapsize => $heapsize,
+        heapsize => $metastore_heapsize,
     }
 
     # Set up the metastore database by including
