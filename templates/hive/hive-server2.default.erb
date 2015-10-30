@@ -19,8 +19,8 @@
 # Unfortunatelly, there is no way to specify the interfaces
 # to which the daemon binds.
 #
-<%= @port ? "PORT=#{@port}" : '#PORT=' %>
+<%= @port ? "export PORT=#{@port}" : '#export PORT=' %>
 
 <% if @heapsize -%>
-HADOOP_HEAPSIZE=<%= @heapsize %>
+export HADOOP_HEAPSIZE=<%= @heapsize %>
 <% end -%>
