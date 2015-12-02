@@ -64,8 +64,8 @@ class cdh::spark(
         require => Package['spark-core'],
     }
     cdh::alternative { 'spark-conf':
-        link    => '/etc/spark/conf',
-        path    => $config_directory,
+        link => '/etc/spark/conf',
+        path => $config_directory,
     }
 
     # Only need to ensure these directories once.
