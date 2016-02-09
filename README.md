@@ -341,24 +341,20 @@ class { 'cdh::hive':
 }
 ```
 
-## Hive Master (hive-server2 and hive-metastore)
+## hive-server2 and hive-metastore
 
 Include the same ```cdh::hive``` class as indicated above, and then:
 
 ```puppet
-class { 'cdh::hive::master': }
+class { 'cdh::hive::server': }
+class { 'cdh::hive::metastore': }
+
 ```
 
 By default, a Hive metastore backend MySQL database will be used.  You must
-separately ensure that your $metastore_database (e.g. mysql) package is installed.
-If you want to disable automatic setup of your metastore backend
-database, set the ```metastore_database``` parameter to undef:
+separately ensure that your metastore database (e.g. mysql) package is
+installed.
 
-```puppet
-class { 'cdh::hive::master':
-  metastore_database => undef,
-}
-```
 
 # Oozie
 
@@ -374,7 +370,9 @@ The following will install and run oozie-server, as well as create a MySQL
 database for it to use. A MySQL database is the only currently supported
 automatically installable backend database.  Alternatively, you may set
 ```database => undef``` to avoid setting up MySQL and then configure your own
-Oozie database manually.
+Oozie database manually.  The database much be reachable using the
+```$jdbc_*``` parameters.  If ```$jdbc_protocol = 'mysql'```, a mysql client
+must be available at /usr/bin/mysql.
 
 ```puppet
 class { 'cdh::oozie::server:

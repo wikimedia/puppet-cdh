@@ -1,15 +1,19 @@
 # == Class cdh::oozie::server
 #
-# Installs and configureds oozie server.  If database is set,
-# The oozie database will also be created by the database class.
+# Installs and configureds oozie server.  You must have an oozie
+# database somewhere that is reachable by this oozie server.
+# Configure the various $jdbc_ parameters to inform oozie server
+# of how to connect to this database.
+#
+# If $jdbc_protocol = 'mysql', this class will attempt to
+# initialize the oozie database using /usr/lib/oozie/bin/ooziedb.sh.
+# To ensure this only happens initially, a mysql client is
+# required at /usr/bin/mysql.
+#
 #
 # See: http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-Installation-Guide/cdh5ig_oozie_configure.html
 #
 # == Parameters
-# $database                      - Name of database class.
-#                                  Set to undef to disable configuartion of Oozie database.
-#                                  Default: mysql
-#
 # $jdbc_database                 - Oozie database name.                   Default: oozie
 # $jdbc_username                 - Oozie JDBC username.                   Default: oozie
 # $jdbc_password                 - Oozie JDBC password.                   Default: oozie
@@ -35,8 +39,6 @@
 # $heapsize                      - Xmx in MB to pass to oozie server.  Default: 1024
 #
 class cdh::oozie::server(
-    $database                                    = $cdh::oozie::defaults::database,
-
     $jdbc_database                               = $cdh::oozie::defaults::jdbc_database,
     $jdbc_username                               = $cdh::oozie::defaults::jdbc_username,
     $jdbc_password                               = $cdh::oozie::defaults::jdbc_password,
@@ -118,7 +120,12 @@ class cdh::oozie::server(
 
     # Put oozie sharelib into HDFS:
     $oozie_sharelib_archive = '/usr/lib/oozie/oozie-sharelib-yarn'
-    $hdfs_uri               = "hdfs://${cdh::hadoop::namenode_hosts[0]}"
+
+    $namenode_address = $::cdh::hadoop::ha_enabled ? {
+        true    => $cdh::hadoop::nameservice_id,
+        default => $cdh::hadoop::primary_namenode_host,
+    }
+    $hdfs_uri               = "hdfs://${namenode_address}"
 
     exec { 'oozie_sharelib_install':
         command => "/usr/bin/oozie-setup sharelib create -fs ${hdfs_uri} -locallib ${oozie_sharelib_archive}",
@@ -157,15 +164,33 @@ class cdh::oozie::server(
         ensure  => 'directory',
     }
 
-    if ($database) {
-        $database_class = "cdh::oozie::database::${database}"
+    if ($jdbc_protocol == 'mysql') {
+        # Need libmysql-java in /var/lib/oozie.
+        if (!defined(Package['libmysql-java'])) {
+            package { 'libmysql-java':
+                ensure => 'installed',
+            }
+        }
 
-        # Set up the database by including $database_class
-        class { $database_class: }
+        # symlink mysql.jar into /var/lib/oozie
+        file { '/var/lib/oozie/mysql.jar':
+            ensure  => 'link',
+            target  => '/usr/share/java/mysql.jar',
+            require => [Package['oozie'], Package['libmysql-java']],
+        }
 
-        # Make sure the $database_class is included and set up
-        # before we start the oozie server service
-        Class[$database_class] -> Service['oozie']
+        # Run ooziedb.sh to create the oozie database schema.
+        # This is here instead of in the cdh::oozie::database::mysql
+        # class because ooziedb.sh is included in the 'oozie' server
+        # package.
+        exec { 'oozie_mysql_create_schema':
+            command => '/usr/lib/oozie/bin/ooziedb.sh create -run',
+            require => File['/var/lib/oozie/mysql.jar'],
+            # TODO: Are we sure /usr/bin/mysql is installed?!
+            unless  => "/usr/bin/mysql -h${jdbc_host} -P'${jdbc_port}' -u'${jdbc_username}' -p'${jdbc_password}' ${jdbc_database} -BNe 'SHOW TABLES;' | /bin/grep -q OOZIE_SYS",
+            user    => 'oozie',
+            before  => Service['oozie'],
+        }
     }
 
     service { 'oozie':

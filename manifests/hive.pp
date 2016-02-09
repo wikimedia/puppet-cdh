@@ -26,8 +26,6 @@
 #                                  Default: org.apache.derby.jdbc.EmbeddedDriver
 # $jdbc_protocol                 - Metastore JDBC protocol.  Default: mysql
 #
-# $db_root_username              - username for metastore database creation commands. Default: undef
-# $db_root_password              - password for metastore database creation commands.
 #                                  Only set these if your root user cannot issue database
 #                                  commands without a different username and password.
 #                                  Default: undef
@@ -68,9 +66,6 @@ class cdh::hive(
     $jdbc_port                   = $cdh::hive::defaults::jdbc_port,
     $jdbc_driver                 = $cdh::hive::defaults::jdbc_driver,
     $jdbc_protocol               = $cdh::hive::defaults::jdbc_protocol,
-
-    $db_root_username            = $cdh::hive::defaults::db_root_username,
-    $db_root_password            = $cdh::hive::defaults::db_root_password,
 
     $variable_substitute_depth   = $cdh::hive::defaults::variable_substitute_depth,
     $auxpath                     = $cdh::hive::defaults::auxpath,
