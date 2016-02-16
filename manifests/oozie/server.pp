@@ -187,7 +187,7 @@ class cdh::oozie::server(
             command => '/usr/lib/oozie/bin/ooziedb.sh create -run',
             require => File['/var/lib/oozie/mysql.jar'],
             # TODO: Are we sure /usr/bin/mysql is installed?!
-            unless  => "/usr/bin/mysql -h${jdbc_host} -P'${jdbc_port}' -u'${jdbc_username}' -p'${jdbc_password}' ${jdbc_database} -BNe 'SHOW TABLES;' | /bin/grep -q OOZIE_SYS",
+            unless  => "/usr/bin/mysql -h${jdbc_host} -P'${jdbc_port}' -u'${jdbc_username}' -p'${jdbc_password}' ${jdbc_database} -BNe 'SHOW TABLES;' | /bin/grep -q WF_JOBS",
             user    => 'oozie',
             before  => Service['oozie'],
         }
