@@ -4,11 +4,6 @@
 # This does not need to be on all worker nodes.
 #
 # == Parameters
-# $hive_support_enabled     - If true, Hive jars will be automatically loaded
-#                             into Spark's classpath, and hive-site.xml will
-#                             be symlinked into /etc/spark/conf and cdh::hive
-#                             will be added as a dependency.  Default: true
-#
 # $master_host              - If set, Spark will be configured to work in standalone mode,
 #                             rather than in YARN.  Include cdh::spark::master on this host
 #                             and cdh::spark::worker on all standalone Spark Worker nodes.
@@ -30,7 +25,6 @@
 #                             This is only used in standalone mode.  Default: undef (512m)
 #
 class cdh::spark(
-    $hive_support_enabled   = true,
     $master_host            = undef,
     $worker_cores           = undef,
     $worker_memory          = undef,
@@ -40,11 +34,6 @@ class cdh::spark(
 {
     # Spark requires Hadoop configs installed.
     Class['cdh::hadoop'] -> Class['cdh::spark']
-
-    # If we are using Hive, then require cdh::hive
-    if $hive_support_enabled {
-        Class['cdh::hive'] -> Class['cdh::spark']
-    }
 
     # If $standalone_master_host was set,
     # then we will be configuring a standalone spark cluster.
@@ -137,11 +126,11 @@ class cdh::spark(
         source => 'puppet:///modules/cdh/spark/log4j.properties',
     }
 
-    $hive_site_symlink_ensure = $hive_support_enabled ? {
+    $hive_site_symlink_ensure = defined(Class['cdh::hive']) ? {
         true    => 'link',
         default => 'absent'
     }
-    # If Hive support is enabled, then symlink hive-site.xml into /etc/spark/conf
+
     file { "${config_directory}/hive-site.xml":
         ensure => $hive_site_symlink_ensure,
         target => "${::cdh::hive::config_directory}/hive-site.xml",

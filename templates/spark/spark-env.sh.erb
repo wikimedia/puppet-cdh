@@ -71,7 +71,6 @@ export SPARK_MASTER_IP=$STANDALONE_SPARK_MASTER_HOST
 ### Let's run everything with JVM runtime, instead of Scala
 export SPARK_LAUNCH_WITH_SCALA=0
 export SPARK_LIBRARY_PATH=${SPARK_HOME}/lib
-export SCALA_LIBRARY_PATH=${SPARK_HOME}/lib
 export SPARK_MASTER_WEBUI_PORT=18080
 export SPARK_MASTER_PORT=7077
 export SPARK_WORKER_PORT=7078
@@ -80,35 +79,31 @@ export SPARK_WORKER_DIR=/var/run/spark/work
 export SPARK_LOG_DIR=/var/log/spark
 export SPARK_PID_DIR='/var/run/spark/'
 
-if [ -n "$HADOOP_HOME" ]; then
-  export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/libfakeroot:/usr/lib64/libfakeroot:/usr/lib32/libfakeroot:/lib/native
-fi
+# NOTE: This conditional has been changed from the CDH and Spark
+# upstream ones.  The original one does not set this
+# unless HADOOP_HOME is also set.
+test -d /usr/lib/hadoop/lib/native && export LD_LIBRARY_PATH=/usr/lib/hadoop/lib/native
 
-# NOTE:  This is a hack to fix a bug in the spark-env.sh currently shipped with CDH.
-# See: https://issues.cloudera.org/browse/DISTRO-664 and
-#      https://groups.google.com/a/cloudera.org/forum/#!topic/cdh-user/Q9wjkdoTqKg
-#
-# export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-etc/hadoop/conf}
 export HADOOP_CONF_DIR=${HADOOP_CONF_DIR:-/etc/hadoop/conf}
 
-### Comment above 2 lines and uncomment the following if
-### you want to run with scala version, that is included with the package
-#export SCALA_HOME=${SCALA_HOME:-/usr/lib/spark/scala}
-#export PATH=$PATH:$SCALA_HOME/bin
+if [[ -d $SPARK_HOME/python ]]
+then
+    for i in
+    do
+        SPARK_DIST_CLASSPATH=${SPARK_DIST_CLASSPATH}:$i
+    done
+fi
 
-# pyspark and spark-shell don't pick up Hadoop native libs on their own.
-# See: http://apache-spark-user-list.1001560.n3.nabble.com/LZO-support-in-Spark-1-0-0-nothing-seems-to-work-td14494.html
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/hadoop/lib/native
-
-<% if @hive_support_enabled -%>
-# Add all hive jars to driver classpath in order to use SparkSQL's HiveContext.
-# NOTE:  The use of SPARK_CLASSPATH is deprecated.  However, spark-defaults.conf
-# properties do not give us any way of programatically altering the classpath,
-# so we would have to hardcode all of the Hive jars there.  This allows us to
-# pick up all Hive jars automatically.
-HIVE_HOME=/usr/lib/hive
-for f in ${HIVE_HOME}/lib/*.jar; do
-  SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
-done
-export SPARK_CLASSPATH
-<% end -%>
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$SPARK_LIBRARY_PATH/spark-assembly.jar"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop-hdfs/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop-hdfs/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop-mapreduce/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop-mapreduce/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop-yarn/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hadoop-yarn/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/hive/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/flume-ng/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/paquet/lib/*"
+SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:/usr/lib/avro/lib/*"
