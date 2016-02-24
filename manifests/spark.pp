@@ -70,7 +70,7 @@ class cdh::spark(
 
     # Only need to ensure these directories once.
     # TODO: In default YARN mode, how to make sure we only check these directories from one puppet host?
-    if !$standalone_enabled or $standalone_master_host == $::fqdn {
+    if !$standalone_enabled or $master_host == $::fqdn {
         # sudo -u hdfs hdfs dfs -mkdir /user/spark
         # sudo -u hdfs hdfs dfs -chmod 0775 /user/spark
         # sudo -u hdfs hdfs dfs -chown spark:spark /user/spark
