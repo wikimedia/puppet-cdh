@@ -37,6 +37,9 @@
 #                                           system and manage any job.  Default: true
 # $admin_users                   - Array of users that are oozie admins.  Default: ['hdfs']
 # $heapsize                      - Xmx in MB to pass to oozie server.  Default: 1024
+# $purge_jobs_older_than_days    - Completed workflow, coordinator, and bundle
+#                                  jobs will be deleted after this many days.
+#                                  Default: 90
 #
 class cdh::oozie::server(
     $jdbc_database                               = $cdh::oozie::defaults::jdbc_database,
@@ -59,7 +62,7 @@ class cdh::oozie::server(
     $authorization_service_authorization_enabled = $cdh::oozie::defaults::authorization_service_authorization_enabled,
     $admin_users                                 = $cdh::oozie::defaults::admin_users,
     $heapsize                                    = $cdh::oozie::defaults::heapsize,
-
+    $purge_jobs_older_than_days                  = $cdh::oozie::defaults::purge_jobs_older_than_days,
     $oozie_site_template                         = $cdh::oozie::defaults::oozie_site_template,
     $oozie_env_template                          = $cdh::oozie::defaults::oozie_env_template,
     $oozie_log4j_template                        = $cdh::oozie::defaults::oozie_log4j_template

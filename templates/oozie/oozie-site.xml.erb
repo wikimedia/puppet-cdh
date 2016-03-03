@@ -51,9 +51,39 @@
 
     <property>
         <name>oozie.service.PurgeService.older.than</name>
-        <value>30</value>
+        <value><%= @purge_jobs_older_than_days %></value>
         <description>
-            Jobs older than this value, in days, will be purged by the PurgeService.
+            Completed workflow jobs older than this value, in days, will be
+            purged by the PurgeService.
+        </description>
+    </property>
+
+    <property>
+        <name>oozie.service.PurgeService.coord.older.than</name>
+        <value><%= @purge_jobs_older_than_days %></value>
+        <description>
+            Completed coordinator jobs older than this value, in days, will be
+            purged by the PurgeService.
+        </description>
+    </property>
+
+    <property>
+        <name>oozie.service.PurgeService.bundle.older.than</name>
+        <value><%= @purge_jobs_older_than_days %></value>
+        <description>
+            Completed bundle jobs older than this value, in days, will be
+            purged by the PurgeService.
+        </description>
+    </property>
+
+    <property>
+        <name>oozie.service.PurgeService.purge.old.coord.action</name>
+        <value>true</value>
+        <description>
+            Whether to purge completed workflows and their corresponding
+            coordinator actions of long running coordinator jobs if the
+            completed workflow jobs are older than the value specified in
+            oozie.service.PurgeService.older.than.
         </description>
     </property>
 

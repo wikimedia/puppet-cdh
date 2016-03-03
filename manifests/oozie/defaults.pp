@@ -23,6 +23,7 @@ class cdh::oozie::defaults {
     $authorization_service_authorization_enabled = true
     $admin_users                                 = ['hdfs']
     $heapsize                                    = 1024
+    $purge_jobs_older_than_days                  = 90
 
     # Default puppet paths to template config files.
     # This allows us to use custom template config files
