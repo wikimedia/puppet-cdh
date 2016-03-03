@@ -262,6 +262,21 @@
     </property>
 
     <property>
+        <name>oozie.services.ext</name>
+        <value>
+            org.apache.oozie.service.EventHandlerService,
+            org.apache.oozie.sla.service.SLAService
+        </value>
+    </property>
+    <property>
+        <name>oozie.service.EventHandlerService.event.listeners</name>
+        <value>
+            org.apache.oozie.sla.listener.SLAJobEventListener,
+            org.apache.oozie.sla.listener.SLAEmailEventListener
+        </value>
+    </property>
+
+    <property>
         <name>use.system.libpath.for.mapreduce.and.pig.jobs</name>
         <value>false</value>
         <description>
