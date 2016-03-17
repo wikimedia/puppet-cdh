@@ -16,6 +16,12 @@ class cdh::hadoop::namenode {
         ensure => 'installed',
     }
 
+    if ($::cdh::hadoop::ha_enabled and $::cdh::hadoop::zookeeper_hosts) {
+        package { 'hadoop-hdfs-zkfc':
+            ensure => 'installed',
+        }
+    }
+
     # NameNodes expect that the hosts.exclude file exists.
     # I don't want to manage this as a puppet file resource,
     # as users of this class might want to manage it themselves.
@@ -52,5 +58,37 @@ class cdh::hadoop::namenode {
         hasrestart => true,
         alias      => 'namenode',
         require    => Exec['hadoop-namenode-format'],
+    }
+
+    if ($::cdh::hadoop::ha_enabled and $::cdh::hadoop::zookeeper_hosts) {
+        # Create a znode in ZooKeeper inside of which the automatic failover
+        # system stores its data. The command will create a znode in ZooKeeper
+        # and it needs to be executed only when the znode is not present.
+        $zookeeper_hosts_string = join($::cdh::hadoop::zookeper_hosts, ',')
+        exec { 'hadoop-hdfs-zkfc-init':
+            command     => '/usr/bin/hdfs zkfc -formatZK',
+            user        => 'hdfs',
+            require     => [
+                            Service['hadoop-hdfs-namenode'],
+                            File['/usr/lib/zookeeper/bin/zkCli.sh']
+                            ],
+            unless      => "/usr/lib/zookeeper/bin/zkCli.sh \
+                                -server ${zookeeper_hosts_string} \
+                                stat /hadoop-ha/${::cdh::hadoop::cluster_name} 2>&1 \
+                                | /bin/grep -q ctime",
+        }
+
+        # Supporting daemon to enable automatic-failover via health-check.
+        # Stores its state in zookeper.
+        service { 'hadoop-hdfs-zkfc':
+            ensure     => 'running',
+            enable     => true,
+            hasstatus  => true,
+            hasrestart => true,
+            require    => [
+                            Exec['hadoop-hdfs-zkfc-init'],
+                            Service['hadoop-hdfs-namenode'],
+                        ],
+        }
     }
 }

@@ -38,7 +38,8 @@
 #                                 for $namenode_hosts.  Please be sure to include cdh::hadoop::resourcemanager
 #                                 directly on any standby RM hosts.  (The master RM will be included automatically)
 #                                 when you include cdh::hadoop::master).
-#   $zookeeper_hosts            - Array of Zookeeper hosts to use for HA YARN ResouceManager.
+#   $zookeeper_hosts            - Array of Zookeeper hosts to use for HA failover. If provided, HA YARN Resourcemanager will be enabled.
+#                                 Also if set AND $ha_enabled for HDFS is also set, automatic failover for HDFS NameNodes will be enabled.
 #                                 Default: undef
 #   $enable_jmxremote           - enables remote JMX connections for all Hadoop services.
 #                                 Ports are not currently configurable.  Default: true.

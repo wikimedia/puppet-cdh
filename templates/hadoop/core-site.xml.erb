@@ -12,6 +12,13 @@
     <value>hdfs://<%= @ha_enabled ? @nameservice_id : @primary_namenode_host %>/</value>
   </property>
 
+<% if @ha_enabled and @zookeeper_hosts %>
+  <property>
+    <name>ha.zookeeper.quorum</name>
+    <value><%= Array(@zookeeper_hosts).sort.join(',') %></value>
+  </property>
+<% end -%>
+
 <% if @io_file_buffer_size -%>
   <property>
     <name>io.file.buffer.size</name>

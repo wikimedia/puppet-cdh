@@ -21,6 +21,13 @@ end
    <value>hadoop</value>
   </property>
 
+<% if @ha_enabled and @zookeeper_hosts %>
+  <property>
+    <name>dfs.ha.automatic-failover.enabled</name>
+    <value>true</value>
+  </property>
+<% end -%>
+
 <% if @ha_enabled -%>
   <property>
     <name>dfs.nameservices</name>

@@ -248,9 +248,8 @@ sudo service hadoop-yarn-nodemanager start
 sudo service hadoop-hdfs-datanode start
 ```
 
-When there are multiple NameNodes and automatic failover is not configured
-(it is not yet supported by this puppet module), both NameNodes start up
-in standby mode.  You will have to manually transition one of them to active.
+When there are multiple NameNodes and automatic failover is not configured (it is enabled by setting
+```zookeeper_hosts```), both NameNodes start up in standby mode. You will have to manually transition one of them to active.
 
 ```bash
 # on your hadoop master node:
