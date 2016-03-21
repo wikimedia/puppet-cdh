@@ -118,8 +118,11 @@ TaskTracker.
 For detailed documentation, see the
 [CDH5 High Availability Guide](http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-High-Availability-Guide/cdh5hag_hdfs_ha_config.html).
 
-This puppet module only supports Quorum-based HA storage using JournalNodes.
-It does not support NFS based HA.
+This puppet module supports Quorum-based HA storage using JournalNodes and HDFS Namenode
+Automatic failover via Zookeeper.
+
+Namenode Automatic failover is enabled and configured automatically simply setting
+```zookeeper_hosts``` and configuring the JournalNodes.
 
 Your JournalNodes will be automatically configured based on the value of
 ```$cdh::hadoop::journalnode_hosts```.  When ```cdh::hadoop``` is included,
@@ -221,6 +224,9 @@ JournalNodes' shared edit directories.
 sudo service hadoop-yarn-resourcemanager stop
 sudo service hadoop-hdfs-namenode stop
 
+# If HDFS Automatic Failover is configured for the Master node:
+sudo service hadoop-hdfs-zkfc stop
+
 # On your hadoop worker nodes:
 sudo service hadoop-hdfs-datanode stop
 sudo service hadoop-yarn-nodemanager stop
@@ -236,6 +242,9 @@ sudo -u hdfs /usr/bin/hdfs namenode -initializeSharedEdits
 # On your hadoop master node:
 sudo service hadoop-hdfs-namenode start
 sudo service hadoop-yarn-resourcemanager start
+
+# If HDFS Automatic Failover is configured for the Master node:
+sudo service hadoop-hdfs-zkfc start
 
 # Now that your primary NameNode is back up, and
 # JournalNodes have been initialized, bootstrap

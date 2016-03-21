@@ -64,13 +64,16 @@ class cdh::hadoop::namenode {
         # Create a znode in ZooKeeper inside of which the automatic failover
         # system stores its data. The command will create a znode in ZooKeeper
         # and it needs to be executed only when the znode is not present.
-        $zookeeper_hosts_string = join($::cdh::hadoop::zookeper_hosts, ',')
+
+        # Catch-all if the zookeeper_hosts is not an array.
+        $zookeeper_hosts_string = inline_template('<%= Array(@zookeeper_hosts).join(",") %>')
+
         exec { 'hadoop-hdfs-zkfc-init':
             command     => '/usr/bin/hdfs zkfc -formatZK',
             user        => 'hdfs',
             require     => [
                             Service['hadoop-hdfs-namenode'],
-                            File['/usr/lib/zookeeper/bin/zkCli.sh']
+                            Package['zookeeper'],
                             ],
             unless      => "/usr/lib/zookeeper/bin/zkCli.sh \
                                 -server ${zookeeper_hosts_string} \
