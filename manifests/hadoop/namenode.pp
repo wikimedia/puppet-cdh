@@ -66,19 +66,31 @@ class cdh::hadoop::namenode {
         # and it needs to be executed only when the znode is not present.
 
         # Catch-all if the zookeeper_hosts is not an array.
-        $zookeeper_hosts_string = inline_template('<%= Array(@zookeeper_hosts).join(",") %>')
+        $zookeeper_hosts = $::cdh::hadoop::zookeeper_hosts
+        $zookeeper_hosts_string = inline_template(
+            '<%= Array(@zookeeper_hosts).join(",") %>'
+        )
 
         exec { 'hadoop-hdfs-zkfc-init':
-            command     => '/usr/bin/hdfs zkfc -formatZK',
+            # If the znode created by -formatZK already exists, and for
+            # some buggy reason it happens to run, -formatZK will prompt
+            # the user to confirm if the znode should be reformatted.
+            # Puppet isn't able to answer this question on its own.
+            # Default to answering with 'N' if the command asks.
+            # This should never happen, but just in case it does,
+            # We don't want this eternally unanswered prompt to fill up
+            # puppet logs and disks.
+            command     => '/bin/echo N | /usr/bin/hdfs zkfc -formatZK',
             user        => 'hdfs',
             require     => [
-                            Service['hadoop-hdfs-namenode'],
-                            Package['zookeeper'],
-                            ],
+                Service['hadoop-hdfs-namenode'],
+                Package['zookeeper'],
+            ],
+            # Don't attempt to run this command if the znode already exists.
             unless      => "/usr/lib/zookeeper/bin/zkCli.sh \
-                                -server ${zookeeper_hosts_string} \
-                                stat /hadoop-ha/${::cdh::hadoop::cluster_name} 2>&1 \
-                                | /bin/grep -q ctime",
+                -server ${zookeeper_hosts_string} \
+                stat /hadoop-ha/${::cdh::hadoop::cluster_name} 2>&1 \
+                | /bin/grep -q ctime",
         }
 
         # Supporting daemon to enable automatic-failover via health-check.
@@ -89,9 +101,9 @@ class cdh::hadoop::namenode {
             hasstatus  => true,
             hasrestart => true,
             require    => [
-                            Exec['hadoop-hdfs-zkfc-init'],
-                            Service['hadoop-hdfs-namenode'],
-                        ],
+                Exec['hadoop-hdfs-zkfc-init'],
+                Service['hadoop-hdfs-namenode'],
+            ],
         }
     }
 }
