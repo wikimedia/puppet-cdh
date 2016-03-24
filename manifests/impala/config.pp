@@ -27,8 +27,8 @@ class cdh::impala::config inherits cdh::hadoop {
         require => Package['hive'],
     }
     cdh::alternative { 'impala-conf':
-        link    => '/etc/impala/conf',
-        path    => $config_directory,
+        link => '/etc/impala/conf',
+        path => $config_directory,
     }
 
     # Set these in Impala's version of hdfs-site.xml according to

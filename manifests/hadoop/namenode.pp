@@ -80,14 +80,14 @@ class cdh::hadoop::namenode {
             # This should never happen, but just in case it does,
             # We don't want this eternally unanswered prompt to fill up
             # puppet logs and disks.
-            command     => '/bin/echo N | /usr/bin/hdfs zkfc -formatZK',
-            user        => 'hdfs',
-            require     => [
+            command => '/bin/echo N | /usr/bin/hdfs zkfc -formatZK',
+            user    => 'hdfs',
+            require => [
                 Service['hadoop-hdfs-namenode'],
                 Package['zookeeper'],
             ],
             # Don't attempt to run this command if the znode already exists.
-            unless      => "/usr/lib/zookeeper/bin/zkCli.sh \
+            unless  => "/usr/lib/zookeeper/bin/zkCli.sh \
                 -server ${zookeeper_hosts_string} \
                 stat /hadoop-ha/${::cdh::hadoop::cluster_name} 2>&1 \
                 | /bin/grep -q ctime",
