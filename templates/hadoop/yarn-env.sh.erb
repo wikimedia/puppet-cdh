@@ -23,7 +23,7 @@ JAVA_HEAP_MAX=-Xmx1000m
 
 # For setting YARN specific HEAP sizes please use this
 # Parameter and set appropriately
-<%= @yarn_heapsize ? "YARN_HEAPSIZE=#{@hadoop_heapsize}" : '# YARN_HEAPSIZE=1000' %>
+<%= @yarn_heapsize ? "YARN_HEAPSIZE=#{@yarn_heapsize}" : '# YARN_HEAPSIZE=1000' %>
 
 # check envvars which might override default args
 if [ "$YARN_HEAPSIZE" != "" ]; then
