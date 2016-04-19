@@ -9,44 +9,57 @@
 # with hive and oozie.
 #
 # == Parameters
-# $http_host              - IP for webservice to bind.
-# $http_port              - Port for webservice to bind.
-# $secret_key             - Secret key used for session hashing.
-# $app_blacklist          - Array of application names that Hue should not load.
-#                           Default: hbase, impala, search, spark, rdbms, zookeeper
+# $http_host               - IP for webservice to bind.
+# $http_port               - Port for webservice to bind.
+# $secret_key              - Secret key used for session hashing.
+# $app_blacklist           - Array of application names that Hue should not load.
+#                            Default: hbase, impala, search, spark, rdbms, zookeeper
 #
-# $hive_server_host       - FQDN of host running hive-server2
+# $hive_server_host        - FQDN of host running hive-server2
 #
-# $oozie_url              - URL for Oozie API.  If cdh::oozie is included,
-#                           this will be inferred.  Else this will be disabled.
-# $oozie_security_enabled - Default: false.
+# $oozie_url               - URL for Oozie API.  If cdh::oozie is included,
+#                            this will be inferred.  Else this will be disabled.
+# $oozie_security_enabled  - Default: false.
 #
-# $proxy_whitelist        - Comma-separated regular expressions,
-#                           which match 'host:port' of requested proxy target.
-#                           Default: (localhost|127\.0\.0\.1):(50030|50070|50060|50075|8088|8042|19888|11001)
-# $proxy_blacklist        - Comma-separated regular expressions,
-#                           which match any prefix of 'host:port/path' of requested
-#                           proxy target.  Default: undef
+# $proxy_whitelist         - Comma-separated regular expressions,
+#                            which match 'host:port' of requested proxy target.
+#                            Default: (localhost|127\.0\.0\.1):(50030|50070|50060|50075|8088|8042|19888|11001)
+# $proxy_blacklist         - Comma-separated regular expressions,
+#                            which match any prefix of 'host:port/path' of requested
+#                            proxy target.  Default: undef
 #
-# $smtp_host              - SMTP host for email notifications.
-#                           Default: undef, SMTP will not be configured.
-# $smtp_port              - SMTP port.                             Default: 25
-# $smtp_from_email        - Sender email address of notifications. Default: undef
-# $smtp_username          - Username for SMTP authentication.      Default: undef
-# $smtp_password          - Password for SMTP authentication.      Default: undef
+# $smtp_host               - SMTP host for email notifications.
+#                            Default: undef, SMTP will not be configured.
+# $smtp_port               - SMTP port.                             Default: 25
+# $smtp_from_email         - Sender email address of notifications. Default: undef
+# $smtp_username           - Username for SMTP authentication.      Default: undef
+# $smtp_password           - Password for SMTP authentication.      Default: undef
 #
-# $httpfs_enabled         - If true, Hue will be configured to interact with HDFS via
-#                           HttpFS rather than the default WebHDFS.  You must
-#                           manually configure HttpFS on your namenode.
+# $httpfs_enabled          - If true, Hue will be configured to interact with HDFS via
+#                            HttpFS rather than the default WebHDFS.  You must
+#                            manually configure HttpFS on your namenode.
 #
-# $ssl_private_key        - Path to SSL private key.  Default: /etc/hue/hue.key
-# $ssl_certificate        - Path to SSL certificate.  Default: /etc/hue/hue.cert
-#                           If ssl_private_key and ssl_certificate are set to the defaults,
-#                           a self-signed certificate will be generated automatically for you.
+# $ssl_private_key         - Path to SSL private key.  Default: /etc/hue/hue.key
+# $ssl_certificate         - Path to SSL certificate.  Default: /etc/hue/hue.cert
+#                            If ssl_private_key and ssl_certificate are set to the defaults,
+#                            a self-signed certificate will be generated automatically for you.
 # $secure_proxy_ssl_header - Django support for HTTPS termination at the load-balancer
 #                            level with SECURE_PROXY_SSL_HEADER.
 #                            See: https://github.com/cloudera/hue/pull/68
 #                            Default: false
+#
+# === Database parameters:
+# The default DB is Sqlite, but it is possible to configure a external database.
+# Database schema/username/tables creation is not handled by puppet but it is
+# expected to be there before proceeding.
+# INFO: http://www.cloudera.com/documentation/enterprise/5-5-x/topics/cdh_ig_hue_database.html
+#
+# $database_username       - Database username.  Default: undef
+# $database_password       - Database password.  Default: undef
+# $database_host           - Database hostname.  Default: undef
+# $database_port           - Database port.      Default: undef
+# $database_engine         - Database type.      Default: sqlite3
+# $database_name           - Database name.      Default: /var/lib/hue/desktop.db
 #
 # === LDAP parameters:
 # See hue.ini comments for documentation.  By default these are undefined.
@@ -105,7 +118,14 @@ class cdh::hue(
 
     $hue_ini_template           = $cdh::hue::defaults::hue_ini_template,
     $hue_log4j_template         = $cdh::hue::defaults::hue_log4j_template,
-    $hue_log_conf_template      = $cdh::hue::defaults::hue_log_conf_template
+    $hue_log_conf_template      = $cdh::hue::defaults::hue_log_conf_template,
+
+    $database_host              = $cdh::hue::defaults::database_host,
+    $database_port              = $cdh::hue::defaults::database_port,
+    $database_user              = $cdh::hue::defaults::database_user,
+    $database_password          = $cdh::hue::defaults::database_password,
+    $database_name              = $cdh::hue::defaults::database_name,
+    $database_engine            = $cdh::hue::defaults::database_engine,
 
 ) inherits cdh::hue::defaults
 {

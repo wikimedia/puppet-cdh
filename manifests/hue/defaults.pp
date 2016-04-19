@@ -63,4 +63,10 @@ class cdh::hue::defaults {
     $hue_log4j_template         = 'cdh/hue/log4j.properties.erb'
     $hue_log_conf_template      = 'cdh/hue/log.conf.erb'
 
+    $database_host              = undef
+    $database_port              = undef
+    $database_user              = undef
+    $database_password          = undef
+    $database_name              = '/var/lib/hue/desktop.db'
+    $database_engine            = 'sqlite3'
 }

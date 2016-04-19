@@ -400,9 +400,29 @@ class { 'cdh::hue':
 }
 ```
 
+## The Hue database
+
+By default Hue uses a Sqlite database with the following settings:
+
+```
+    database_engine    => 'sqlite3'
+    database_name      => '/var/lib/hue/desktop.db'
+```
+
+It is possible to use a external database but schema, tables and username
+need to be pre-configured by other means:
+
+```
+    database_host      => 'localhost'
+    database_port      => '3316'
+    database_user      => 'hue'
+    database_password  => 'hue'
+    database_name      => 'hue'
+    database_engine    => 'mysql'
+```
+
 There are many more parameters to the ```cdh::hue``` class.  See the class
 documentation in manifests/hue.pp.
-
 
 If you include ```cdh::hive``` or ```cdh::oozie``` classes on this node,
 Hue will be configured to run its Hive and Oozie apps.
