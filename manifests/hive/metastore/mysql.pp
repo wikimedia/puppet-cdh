@@ -26,17 +26,9 @@ class cdh::hive::metastore::mysql(
         }
     }
 
-    if (!defined(Package['libmysql-java'])) {
-        package { 'libmysql-java':
-            ensure => 'installed',
-        }
-    }
-    # symlink the mysql.jar into /var/lib/hive/lib
-    file { '/usr/lib/hive/lib/libmysql-java.jar':
-        ensure  => 'link',
-        target  => '/usr/share/java/mysql.jar',
-        require => Package['libmysql-java'],
-    }
+    # Install the libmysql-java .jar into Hive's classpath so that
+    # hive schematool can run.
+    include cdh::hive::metastore::mysql::jar
 
     # Infer mysql creds from either cdh::hive class
     # or from hiera, if the cdh::hive class has not been included.
@@ -85,7 +77,7 @@ FLUSH PRIVILEGES;\"",
         unless  => "/usr/bin/mysql ${username_option} ${password_option} -D ${jdbc_database} -e \"SHOW TABLES;\" | grep -q 'VERSION'",
         user    => 'root',
         require => [
-            File['/usr/lib/hive/lib/libmysql-java.jar'],
+            Class['cdh::hive::metastore::mysql::jar'],
             Exec['hive_mysql_create_user'],
             Exec['hive_mysql_create_database'],
             Package['hive'],
