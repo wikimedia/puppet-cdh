@@ -19,10 +19,6 @@
 # to this HDFS path.
 spark.yarn.jar                          <%= @spark_jar_hdfs_path %>
 
-# Spark Dynamic executor allocation
-# http://www.cloudera.com/documentation/enterprise/5-5-x/topics/cdh_ig_running_spark_on_yarn.html#concept_zdf_rbw_ft
-spark.dynamicAllocation.maxExecutors    10
-
 <%
 # If configuring a stand alone (non YARN) Spark Cluster,
 # we need to set a few more properties.
