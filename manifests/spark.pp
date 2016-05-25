@@ -4,32 +4,43 @@
 # This does not need to be on all worker nodes.
 #
 # == Parameters
-# $master_host              - If set, Spark will be configured to work in standalone mode,
-#                             rather than in YARN.  Include cdh::spark::master on this host
-#                             and cdh::spark::worker on all standalone Spark Worker nodes.
-#                             Default: undef
+# $master_host                                      - If set, Spark will be configured to work in standalone mode,
+#                                                     rather than in YARN.  Include cdh::spark::master on this host
+#                                                     and cdh::spark::worker on all standalone Spark Worker nodes.
+#                                                     Default: undef
 #
-# $worker_cores             - Number of cores to allocate per spark worker.
-#                             This is only used in standalone mode.  Default: undef ($::processorcount)
+# $worker_cores                                     - Number of cores to allocate per spark worker.
+#                                                     This is only used in standalone mode.  Default: undef ($::processorcount)
 #
-# $worker_memory            - Total amount of memory workers are allowed to use on a node.
-#                             This is only used in standalone mode.  Default:  undef ($::memorysize_mb - 1024)
+# $worker_memory                                    - Total amount of memory workers are allowed to use on a node.
+#                                                     This is only used in standalone mode.  Default:  undef ($::memorysize_mb - 1024)
 #
-# $worker_instances         - Number of worker instances to run on a node.  Note that $worker_cores
-#                             will apply to each worker.  If you increase this, make sure to
-#                             make $worker_cores smaller appropriately.
-#                             This is only used in standalone mode.  Default: undef (1)
+# $worker_instances                                 - Number of worker instances to run on a node.  Note that $worker_cores
+#                                                     will apply to each worker.  If you increase this, make sure to
+#                                                     make $worker_cores smaller appropriately.
+#                                                     This is only used in standalone mode.  Default: undef (1)
 #
-# $daemon_memory            - Memory to allocate to the Spark master and worker daemons themselves.
+# $daemon_memory                                    - Memory to allocate to the Spark master and worker daemons themselves.
+#                                                     This is only used in standalone mode.  Default: undef (512m)
 #
-#                             This is only used in standalone mode.  Default: undef (512m)
+# $dynamic_allocation_enabled                       - If set, Spark will be configured to use Dynamic Resource Allocation.
+#                                                     This is only available in YARN mode. Default: true
+#
+# $dynamic_allocation_executor_idle_timeout         - Corresponds to the related Spark Dynamic Resource Allocation timeout setting.
+#                                                     This is only available in YARN mode. Default: '60s'
+#
+# $dynamic_allocation_cached_executor_idle_timeout  - Corresponds to the related Spark Dynamic Resource Allocation timeout setting
+#                                                     This is only available in YARN mode. Default: '3600s'
 #
 class cdh::spark(
-    $master_host            = undef,
-    $worker_cores           = undef,
-    $worker_memory          = undef,
-    $worker_instances       = undef,
-    $daemon_memory          = undef,
+    $master_host                                     = undef,
+    $worker_cores                                    = undef,
+    $worker_memory                                   = undef,
+    $worker_instances                                = undef,
+    $daemon_memory                                   = undef,
+    $dynamic_allocation_enabled                      = true,
+    $dynamic_allocation_executor_idle_timeout        = '60s',
+    $dynamic_allocation_cached_executor_idle_timeout = '3600s',
 )
 {
     # Spark requires Hadoop configs installed.
@@ -40,6 +51,10 @@ class cdh::spark(
     $standalone_enabled = $master_host ? {
         undef   => false,
         default => true,
+    }
+
+    if $standalone_enabled and $dynamic_allocation_enabled {
+        fail('Spark Dynamic Resource Allocation is only available in YARN mode.')
     }
 
     package { ['spark-core', 'spark-python']:
