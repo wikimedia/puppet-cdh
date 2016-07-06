@@ -94,6 +94,13 @@
 #                                               FairScheduler), you should also provide
 #                                               your own scheduler config .xml files
 #                                               outside of the cdh module.
+#   $yarn_log_aggregation_retain_seconds      - How long (in secs) to keep aggregation logs before deleting them.
+#                                               -1 disables it. Be careful, if you set this too small
+#                                               you will spam the name node.
+#                                               If yarn.log-aggregation.retain-check-interval-seconds is not set
+#                                               or set to 0 or a negative value (default) then the check interval is
+#                                               one-tenth of the aggregated log retention time.
+#
 #   $hadoop_heapsize                          - -Xmx for NameNode and DataNode.  Default: undef
 #   $hadoop_namenode_opts                     - Any additional opts to pass to NameNode node on startup.  Default: undef
 #   $yarn_heapsize                            - -Xmx for YARN Daemons.           Default: undef

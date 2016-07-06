@@ -258,6 +258,19 @@ end
      </value>
   </property>
 
+  <property>
+      <name>yarn.log-aggregation.retain-seconds</name>
+      <value><% @yarn_log_aggregation_retain_seconds%></value>
+      <description>
+        How long (in secs) to keep aggregation logs before deleting them. -1 disables.
+        Be careful, if you set this too small you will spam the name node. Set to 10 days.
+        If yarn.log-aggregation.retain-check-interval-seconds is not set
+        or set to 0 or a negative value (default) then the check interval is
+        one-tenth of the aggregated log retention time. So we will be checking
+        whether logs are old daily.
+      </description>
+  </property>
+
 <% if @yarn_site_extra_properties -%>
 <% @yarn_site_extra_properties.sort.map do |key, value| -%>
   <property>
