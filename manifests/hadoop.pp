@@ -166,6 +166,7 @@ class cdh::hadoop(
     $mapreduce_output_compression_type           = $::cdh::hadoop::defaults::mapreduce_output_compression_type,
     $yarn_nodemanager_resource_memory_mb         = $::cdh::hadoop::defaults::yarn_nodemanager_resource_memory_mb,
     $yarn_nodemanager_resource_cpu_vcores        = $::cdh::hadoop::defaults::yarn_nodemanager_resource_cpu_vcores,
+    $yarn_log_aggregation_retain_seconds         = $::cdh::hadoop::defaults::yarn_log_aggregation_retain_seconds,
     $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,
     $yarn_scheduler_maximum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_mb,
     $yarn_scheduler_minimum_allocation_vcores    = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_vcores,
