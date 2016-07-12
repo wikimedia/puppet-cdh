@@ -55,6 +55,7 @@ class cdh::hadoop::defaults {
     $yarn_scheduler_maximum_allocation_vcores    = undef
     # logs would be retained for 3 months
     $yarn_log_aggregation_retain_seconds         = 7776000
+    $yarn_log_aggregation_retain_check_interval_seconds = 86400
 
     $fair_scheduler_template                     = 'cdh/hadoop/fair-scheduler.xml.erb'
     $yarn_site_extra_properties                  = undef

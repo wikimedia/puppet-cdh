@@ -270,6 +270,13 @@ end
       </description>
   </property>
 
+  <property>
+      <name>yarn.log-aggregation.retain-check-interval-seconds</name>
+      <value><%= @yarn_log_aggregation_retain_check_interval_seconds %></value>
+      <description>
+        How long to wait between aggregated log retention checks.
+      </description>
+  </property>
 <% if @yarn_site_extra_properties -%>
 <% @yarn_site_extra_properties.sort.map do |key, value| -%>
   <property>

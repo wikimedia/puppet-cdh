@@ -100,6 +100,7 @@
 #                                               If yarn.log-aggregation.retain-check-interval-seconds is not set
 #                                               or set to 0 or a negative value (default) then the check interval is
 #                                               one-tenth of the aggregated log retention time.
+#  $yarn_log_aggregation_retain_check_interval_seconds - How long to wait between aggregated log retention checks.
 #
 #   $hadoop_heapsize                          - -Xmx for NameNode and DataNode.  Default: undef
 #   $hadoop_namenode_opts                     - Any additional opts to pass to NameNode node on startup.  Default: undef
@@ -167,6 +168,7 @@ class cdh::hadoop(
     $yarn_nodemanager_resource_memory_mb         = $::cdh::hadoop::defaults::yarn_nodemanager_resource_memory_mb,
     $yarn_nodemanager_resource_cpu_vcores        = $::cdh::hadoop::defaults::yarn_nodemanager_resource_cpu_vcores,
     $yarn_log_aggregation_retain_seconds         = $::cdh::hadoop::defaults::yarn_log_aggregation_retain_seconds,
+    $yarn_log_aggregation_retain_check_interval_seconds = $::cdh::hadoop::defaults::yarn_log_aggregation_retain_check_interval_seconds,
     $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,
     $yarn_scheduler_maximum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_maximum_allocation_mb,
     $yarn_scheduler_minimum_allocation_vcores    = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_vcores,
