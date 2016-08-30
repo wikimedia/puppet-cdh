@@ -9,6 +9,15 @@ class cdh::hadoop::nodemanager {
         ensure => 'installed',
     }
 
+    # Some Hadoop jobs need Zookeeper libraries, but for some reason they
+    # are not installed via package dependencies.  Install the CDH
+    # zookeeper package here explicitly.  This avoids
+    # java.lang.NoClassDefFoundError: org/apache/zookeeper/KeeperException
+    # errors.
+    package { 'zookeeper':
+        ensure => 'installed'
+    }
+
     # NodeManager (YARN TaskTracker)
     service { 'hadoop-yarn-nodemanager':
         ensure     => 'running',
