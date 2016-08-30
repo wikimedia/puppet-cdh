@@ -14,8 +14,10 @@ class cdh::hadoop::nodemanager {
     # zookeeper package here explicitly.  This avoids
     # java.lang.NoClassDefFoundError: org/apache/zookeeper/KeeperException
     # errors.
-    package { 'zookeeper':
-        ensure => 'installed'
+    if !defined(Package['zoookeeper']) {
+        package { 'zookeeper':
+            ensure => 'installed'
+        }
     }
 
     # NodeManager (YARN TaskTracker)
