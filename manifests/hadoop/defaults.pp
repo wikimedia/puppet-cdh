@@ -49,6 +49,7 @@ class cdh::hadoop::defaults {
     # its own.  Adding 0 to it converts it to a Fixnum, which will avoid a
     # 'comparison of String with X faild 'puppet failure.
     $yarn_nodemanager_resource_cpu_vcores        = max($::processorcount - 1, 1 + 0)
+    $yarn_nodemanager_nofiles_ulimit             = 65536
     $yarn_scheduler_minimum_allocation_mb        = undef
     $yarn_scheduler_maximum_allocation_mb        = undef
     $yarn_scheduler_minimum_allocation_vcores    = undef

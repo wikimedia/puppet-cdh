@@ -77,6 +77,7 @@
 #                                               Default: RECORD
 #   $yarn_nodemanager_resource_memory_mb
 #   $yarn_nodemanager_resource_cpu_vcores     - Default: max($::processorcount - 1, 1)
+#   $yarn_nodemanager_nofiles_ulimit          - Default: 65536
 #   $yarn_scheduler_minimum_allocation_mb     - The minimum allocation for every container request at the RM,
 #                                               in MBs. Memory requests lower than this won't take effect, and
 #                                               the specified value will get allocated at minimum.
@@ -167,6 +168,7 @@ class cdh::hadoop(
     $mapreduce_output_compression_type           = $::cdh::hadoop::defaults::mapreduce_output_compression_type,
     $yarn_nodemanager_resource_memory_mb         = $::cdh::hadoop::defaults::yarn_nodemanager_resource_memory_mb,
     $yarn_nodemanager_resource_cpu_vcores        = $::cdh::hadoop::defaults::yarn_nodemanager_resource_cpu_vcores,
+    $yarn_nodemanager_nofiles_ulimit             = $::cdh::hadoop::defaults::yarn_nodemanager_nofiles_ulimit,
     $yarn_log_aggregation_retain_seconds         = $::cdh::hadoop::defaults::yarn_log_aggregation_retain_seconds,
     $yarn_log_aggregation_retain_check_interval_seconds = $::cdh::hadoop::defaults::yarn_log_aggregation_retain_check_interval_seconds,
     $yarn_scheduler_minimum_allocation_mb        = $::cdh::hadoop::defaults::yarn_scheduler_minimum_allocation_mb,

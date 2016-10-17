@@ -9,6 +9,15 @@ class cdh::hadoop::nodemanager {
         ensure => 'installed',
     }
 
+    $nofiles_ulimit = $cdh::hadoop::yarn_nodemanager_nofiles_ulimit
+    # Some NodeManager defaults can be overridden
+    file { '/etc/default/hadoop-yarn-nodemanager':
+        content => template('cdh/hadoop/hadoop-yarn-nodemanager.default.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => 0644,
+    }
+
     # Some Hadoop jobs need Zookeeper libraries, but for some reason they
     # are not installed via package dependencies.  Install the CDH
     # zookeeper package here explicitly.  This avoids
