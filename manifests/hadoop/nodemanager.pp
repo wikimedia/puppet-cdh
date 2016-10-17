@@ -36,7 +36,10 @@ class cdh::hadoop::nodemanager {
         hasstatus  => true,
         hasrestart => true,
         alias      => 'nodemanager',
-        require    => [Package['hadoop-yarn-nodemanager', 'hadoop-mapreduce']],
+        require    => [
+            Package['hadoop-yarn-nodemanager', 'hadoop-mapreduce'],
+            File['/etc/default/hadoop-yarn-nodemanager'],
+        ],
     }
 }
 
