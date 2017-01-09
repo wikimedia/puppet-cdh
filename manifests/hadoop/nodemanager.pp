@@ -15,7 +15,7 @@ class cdh::hadoop::nodemanager {
         content => template('cdh/hadoop/hadoop-yarn-nodemanager.default.erb'),
         owner   => 'root',
         group   => 'root',
-        mode    => 0644,
+        mode    => '0644',
     }
 
     # Some Hadoop jobs need Zookeeper libraries, but for some reason they
