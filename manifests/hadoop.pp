@@ -57,6 +57,7 @@
 #   $mapreduce_task_io_sort_mb
 #   $mapreduce_task_io_sort_factor
 #   $mapreduce_map_java_opts
+#   $mapreduce_history_java_opts              - Java opts for the MapReduce History server process.
 #   $mapreduce_child_java_opts
 #   $yarn_app_mapreduce_am_resource_mb        - The amount of memory the MR AppMaster needs.
 #   $yarn_app_mapreduce_am_command_opts       - Java opts for the MR App Master processes. The following symbol, if
@@ -160,6 +161,7 @@ class cdh::hadoop(
     $mapreduce_task_io_sort_factor               = $::cdh::hadoop::defaults::mapreduce_task_io_sort_factor,
     $mapreduce_map_java_opts                     = $::cdh::hadoop::defaults::mapreduce_map_java_opts,
     $mapreduce_reduce_java_opts                  = $::cdh::hadoop::defaults::mapreduce_reduce_java_opts,
+    $mapreduce_history_java_opts                 = $::cdh::hadoop::defaults::mapreduce_history_java_opts,
     $mapreduce_shuffle_port                      = $::cdh::hadoop::defaults::mapreduce_shuffle_port,
     $mapreduce_intermediate_compression          = $::cdh::hadoop::defaults::mapreduce_intermediate_compression,
     $mapreduce_intermediate_compression_codec    = $::cdh::hadoop::defaults::mapreduce_intermediate_compression_codec,

@@ -33,6 +33,7 @@ class cdh::hadoop::defaults {
     $mapreduce_task_io_sort_factor               = undef
     $mapreduce_map_java_opts                     = undef
     $mapreduce_reduce_java_opts                  = undef
+    $mapreduce_history_java_opts                 = undef
     $yarn_app_mapreduce_am_resource_mb           = undef
     $yarn_app_mapreduce_am_command_opts          = undef
     $yarn_app_mapreduce_am_job_client_port_range = undef
@@ -78,4 +79,5 @@ class cdh::hadoop::defaults {
     $resourcemanager_jmxremote_port              = 9983
     $nodemanager_jmxremote_port                  = 9984
     $proxyserver_jmxremote_port                  = 9985
+    $mapreduce_history_jmxremote_port            = 9986
 }
