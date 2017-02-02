@@ -17,7 +17,7 @@ class cdh::hadoop::namenode {
     }
 
     if ($::cdh::hadoop::ha_enabled and $::cdh::hadoop::zookeeper_hosts) {
-        if !defined(Package['zoookeeper']) {
+        if !defined(Package['zookeeper']) {
             package { 'zookeeper':
                 ensure => 'installed'
             }
