@@ -26,6 +26,10 @@
   http_host=<%= @http_host %>
   http_port=<%= @http_port %>
 
+  # Need to set allowed_hosts in order to access hue from localhost and other domains.
+  # See: http://community.cloudera.com/t5/Web-UI-Hue-Beeswax/New-Cloudera-installation-Hue-Bad-Request-400/td-p/50344/page/5
+  allowed_hosts=*
+
   # Time zone name
   time_zone=<%= @timezone %>
 
