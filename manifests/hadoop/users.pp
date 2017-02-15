@@ -30,5 +30,6 @@ class cdh::hadoop::users($groups = ['hadoop']) {
         unless    => "/usr/local/bin/create_hdfs_user_directories.sh --check-for-changes ${groups}",
         user      => 'hdfs',
         logoutput => true,
+        timeout   => 120,
     }
 }

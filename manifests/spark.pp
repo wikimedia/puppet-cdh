@@ -126,6 +126,7 @@ class cdh::spark(
                 File["${config_directory}/spark-env.sh"],
                 File["${config_directory}/spark-defaults.conf"]
             ],
+            timeout => 60,
         }
     }
 

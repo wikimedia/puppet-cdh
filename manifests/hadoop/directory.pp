@@ -41,6 +41,7 @@ define cdh::hadoop::directory (
             command => "/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
             unless  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
+            timeout => 30,
         }
     }
     else {
@@ -49,6 +50,7 @@ define cdh::hadoop::directory (
             onlyif  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             require => Service['hadoop-hdfs-namenode'],
+            timeout => 30,
         }
     }
 }
