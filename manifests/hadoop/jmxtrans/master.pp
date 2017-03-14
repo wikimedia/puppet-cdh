@@ -7,7 +7,9 @@ class cdh::hadoop::jmxtrans::master(
     $outfile        = undef,
 )
 {
-    class { ['cdh::hadoop::jmxtrans::namenode', 'cdh::hadoop::jmxtrans::resourcemanager']:
+    class { ['cdh::hadoop::jmxtrans::namenode',
+          'cdh::hadoop::jmxtrans::resourcemanager',
+          'cdh::hadoop::jmxtrans::historyserver']:
         ganglia  => $ganglia,
         graphite => $graphite,
         outfile  => $outfile,
