@@ -53,5 +53,10 @@ HADOOP_HEAPSIZE=<%= @hadoop_heapsize %>
 
 <% if @hadoop_namenode_opts -%>
 # Any additionally supplied HADOOP_NAMENODE_OPTS
-HADOOP_NAMENODE_OPTS="<%= @hadoop_namenode_opts %> $HADOOP_NAMENODE_OPTS"
+HADOOP_NAMENODE_OPTS="$HADOOP_NAMENODE_OPTS <%= @hadoop_namenode_opts %>"
+<% end -%>
+
+<% if @hadoop_datanode_opts -%>
+# Any additionally supplied HADOOP_DATANODE_OPTS
+HADOOP_DATANODE_OPTS="$HADOOP_DATANODE_OPTS <%= @hadoop_datanode_opts %>"
 <% end -%>

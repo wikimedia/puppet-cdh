@@ -64,8 +64,11 @@ class cdh::hadoop::defaults {
 
     $hadoop_heapsize                             = undef
     $hadoop_namenode_opts                        = undef
+    $yarn_resourcemanager_opts                   = undef
     $yarn_heapsize                               = undef
     $dfs_datanode_hdfs_blocks_metadata_enabled   = undef
+    $yarn_nodemanager_opts                       = undef
+    $hadoop_datanode_opts                        = undef
 
     $ganglia_hosts                               = undef
     $net_topology_script_template                = undef

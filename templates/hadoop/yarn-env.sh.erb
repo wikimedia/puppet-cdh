@@ -56,8 +56,10 @@ fi
 <% if @resourcemanager_jmxremote_port -%>
 # Enable YARN ResourceManager JMX connections on port <%= @resourcemanager_jmxremote_port %>
 YARN_RESOURCEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @resourcemanager_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
-<% else -%>
-#export YARN_RESOURCEMANAGER_OPTS=
+<% end -%>
+
+<% if @yarn_resourcemanager_opts -%>
+YARN_RESOURCEMANAGER_OPTS="$YARN_RESOURCEMANAGER_OPTS <%= @yarn_resourcemanager_opts %>"
 <% end -%>
 
 
@@ -78,8 +80,10 @@ YARN_RESOURCEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @resourcemana
 <% if @nodemanager_jmxremote_port -%>
 # Enable YARN NodeManager JMX connections on port <%= @nodemanager_jmxremote_port %>
 YARN_NODEMANAGER_OPTS="-Dcom.sun.management.jmxremote.port=<%= @nodemanager_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
-<% else -%>
-#export YARN_NODEMANAGER_OPTS=
+<% end -%>
+
+<% if @yarn_nodemanager_opts -%>
+YARN_NODEMANAGER_OPTS="$YARN_NODEMANAGER_OPTS <%= @yarn_nodemanager_opts %>"
 <% end -%>
 
 # so that filenames w/ spaces are handled correctly in loops below
