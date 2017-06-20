@@ -121,7 +121,7 @@ class cdh::hive(
         content => template($hive_site_template),
         mode    => $hive_site_mode,
         owner   => 'hive',
-        group   => 'hive',
+        group   => 'hdfs',
         require => Package['hive'],
     }
     file { "${config_directory}/hive-log4j.properties":
