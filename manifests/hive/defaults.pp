@@ -47,8 +47,11 @@ class cdh::hive::defaults {
     $hive_site_template          = 'cdh/hive/hive-site.xml.erb'
     $hive_log4j_template         = 'cdh/hive/hive-log4j.properties.erb'
     $hive_exec_log4j_template    = 'cdh/hive/hive-exec-log4j.properties.erb'
+    $hive_env_template           = 'cdh/hive/hive-env.sh.erb'
 
     # Jmx ports
     $hive_server_jmx_port        = 9978
     $hive_metastore_jmx_port     = 9979
+    $hive_metastore_opts         = '-Xmx2048m'
+    $hive_server_opts            = '-Xmx2048m'
 }

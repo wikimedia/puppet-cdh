@@ -6,13 +6,9 @@
 #
 # == Parameters
 # $port       - Port on which hive-server2 listens.  Default: undef
-# $heapsize   - -Xmx in MB. Default: undef
 #
 class cdh::hive::server(
     $port             = undef,
-    $heapsize         = undef,
-    $jmx_port         = $cdh::hive::defaults::hive_server_jmx_port,
-    $default_template = 'cdh/hive/hive-server2.default.erb'
 )
 {
     # cdh::hive::server requires hadoop client and configs are installed.
@@ -22,11 +18,6 @@ class cdh::hive::server(
     package { 'hive-server2':
         ensure => 'installed',
         alias  => 'hive-server',
-    }
-
-    file { '/etc/default/hive-server2':
-        content => template($default_template),
-        require => Package['hive-server2'],
     }
 
     # sudo -u hdfs hdfs dfs -mkdir /user/hive

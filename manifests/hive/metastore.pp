@@ -4,24 +4,15 @@
 #
 # == Parameters
 # $port       - Port on which hive-metastore listens.  Default: undef
-# $heapsize   - -Xmx in MB. Default: undef
 #
 class cdh::hive::metastore(
     $port             = undef,
-    $heapsize         = undef,
-    $jmx_port         = $cdh::hive::defaults::hive_metastore_jmx_port,
-    $default_template = 'cdh/hive/hive-metastore.default.erb',
 )
 {
     Class['cdh::hive'] -> Class['cdh::hive::metastore']
 
     package { 'hive-metastore':
         ensure => 'installed',
-    }
-
-    file { '/etc/default/hive-metastore':
-        content => template($default_template),
-        require => Package['hive-metastore'],
     }
 
     # If the metastore will use MySQL for storage, then

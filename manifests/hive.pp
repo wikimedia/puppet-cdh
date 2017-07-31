@@ -83,7 +83,14 @@ class cdh::hive(
 
     $hive_site_template          = $cdh::hive::defaults::hive_site_template,
     $hive_log4j_template         = $cdh::hive::defaults::hive_log4j_template,
-    $hive_exec_log4j_template    = $cdh::hive::defaults::hive_exec_log4j_template
+    $hive_exec_log4j_template    = $cdh::hive::defaults::hive_exec_log4j_template,
+    $hive_env_template           = $cdh::hive::defaults::hive_env_template,
+
+    $hive_metastore_heap_size    = $cdh::hive::defaults::hive_metastore_heap_size,
+    $hive_server_heap_size       = $cdh::hive::defaults::hive_server_heap_size,
+    $hive_metastore_jmx_port     = $cdh::hive::defaults::hive_metastore_jmx_port,
+    $hive_server_jmx_port        = $cdh::hive::defaults::hive_server_jmx_port,
+
 ) inherits cdh::hive::defaults
 {
     Class['cdh::hadoop'] -> Class['cdh::hive']
@@ -116,6 +123,13 @@ class cdh::hive(
     $hive_site_mode = $metastore_host ? {
         $::fqdn => '0440',
         default => '0444',
+    }
+    file { "${config_directory}/hive-env.sh":
+        content => template($hive_env_template),
+        mode    => '0444',
+        owner   => 'root',
+        group   => 'hdfs',
+        require => Package['hive'],
     }
     file { "${config_directory}/hive-site.xml":
         content => template($hive_site_template),
