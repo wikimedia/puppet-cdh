@@ -11,6 +11,7 @@
 class cdh::hive::server(
     $port             = undef,
     $heapsize         = undef,
+    $jmx_port         = $cdh::hive::defaults::hive_server_jmx_port,
     $default_template = 'cdh/hive/hive-server2.default.erb'
 )
 {

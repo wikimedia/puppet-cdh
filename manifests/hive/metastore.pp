@@ -9,7 +9,8 @@
 class cdh::hive::metastore(
     $port             = undef,
     $heapsize         = undef,
-    $default_template = 'cdh/hive/hive-metastore.default.erb'
+    $jmx_port         = $cdh::hive::defaults::hive_metastore_jmx_port,
+    $default_template = 'cdh/hive/hive-metastore.default.erb',
 )
 {
     Class['cdh::hive'] -> Class['cdh::hive::metastore']

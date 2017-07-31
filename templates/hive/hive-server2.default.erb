@@ -22,5 +22,9 @@
 <%= @port ? "export PORT=#{@port}" : '#export PORT=' %>
 
 <% if @heapsize -%>
-export HADOOP_HEAPSIZE=<%= @heapsize %>
+export HADOOP_OPTS="$HADOOP_OPTS -Xmx<%= @heapsize %>"
+<% end -%>
+
+<% if @jmx_port -%>
+HADOOP_OPTS="$HADOOP_OPTS -Dcom.sun.management.jmxremote.port=<%= @jmx_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 <% end -%>
