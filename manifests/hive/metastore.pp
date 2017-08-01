@@ -27,7 +27,6 @@ class cdh::hive::metastore(
         ensure     => 'running',
         require    => [
             Package['hive-metastore'],
-            File['/etc/default/hive-metastore'],
         ],
         hasrestart => true,
         hasstatus  => true,

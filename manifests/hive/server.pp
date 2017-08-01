@@ -43,7 +43,6 @@ class cdh::hive::server(
         ensure     => 'running',
         require    => [
             Package['hive-server2'],
-            File['/etc/default/hive-server2'],
             Cdh::Hadoop::Directory['/user/hive/warehouse'],
         ],
         hasrestart => true,
