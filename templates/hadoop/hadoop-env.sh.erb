@@ -60,3 +60,8 @@ HADOOP_NAMENODE_OPTS="$HADOOP_NAMENODE_OPTS <%= @hadoop_namenode_opts %>"
 # Any additionally supplied HADOOP_DATANODE_OPTS
 HADOOP_DATANODE_OPTS="$HADOOP_DATANODE_OPTS <%= @hadoop_datanode_opts %>"
 <% end -%>
+
+<% if @hadoop_journalnode_opts -%>
+# Any additionally supplied HADOOP_JOURNALNODE_OPTS
+HADOOP_JOURNALNODE_OPTS="$HADOOP_JOURNALNODE_OPTS <%= @hadoop_journalnode_opts %>"
+<% end -%>

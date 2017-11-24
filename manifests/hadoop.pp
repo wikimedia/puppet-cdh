@@ -180,6 +180,7 @@ class cdh::hadoop(
     $hadoop_heapsize                             = $::cdh::hadoop::defaults::hadoop_heapsize,
     $hadoop_namenode_opts                        = $::cdh::hadoop::defaults::hadoop_namenode_opts,
     $hadoop_datanode_opts                        = $::cdh::hadoop::defaults::hadoop_datanode_opts,
+    $hadoop_journalnode_opts                     = $::cdh::hadoop::defaults::hadoop_journalnode_opts,
     $yarn_resourcemanager_opts                   = $::cdh::hadoop::defaults::yarn_resourcemanager_opts,
     $yarn_nodemanager_opts                       = $::cdh::hadoop::defaults::yarn_nodemanager_opts,
     $yarn_heapsize                               = $::cdh::hadoop::defaults::yarn_heapsize,

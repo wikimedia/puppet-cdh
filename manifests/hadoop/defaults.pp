@@ -69,6 +69,7 @@ class cdh::hadoop::defaults {
     $dfs_datanode_hdfs_blocks_metadata_enabled   = undef
     $yarn_nodemanager_opts                       = undef
     $hadoop_datanode_opts                        = undef
+    $hadoop_journalnode_opts                     = undef
 
     $ganglia_hosts                               = undef
     $net_topology_script_template                = undef
