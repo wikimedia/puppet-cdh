@@ -323,7 +323,6 @@ class cdh::hadoop(
         content => template('cdh/hadoop/yarn-env.sh.erb'),
     }
 
-
     # Render hadoop-metrics2.properties
     # if we have Ganglia Hosts to send metrics to.
     $hadoop_metrics2_ensure = $ganglia_hosts ? {
@@ -333,16 +332,5 @@ class cdh::hadoop(
     file { "${config_directory}/hadoop-metrics2.properties":
         ensure  => $hadoop_metrics2_ensure,
         content => template('cdh/hadoop/hadoop-metrics2.properties.erb'),
-    }
-
-    # If the current node is meant to be JournalNode,
-    # include the journalnode class.  JournalNodes can
-    # be started at any time.
-    if ($journalnode_hosts and (
-            ($::fqdn           and $::fqdn           in $journalnode_hosts) or
-            ($::ipaddress      and $::ipaddress      in $journalnode_hosts) or
-            ($::ipaddress_eth1 and $::ipaddress_eth1 in $journalnode_hosts)))
-    {
-            include cdh::hadoop::journalnode
     }
 }

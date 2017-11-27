@@ -124,10 +124,9 @@ Automatic failover via Zookeeper.
 Namenode Automatic failover is enabled and configured automatically simply setting
 ```zookeeper_hosts``` and configuring the JournalNodes.
 
-Your JournalNodes will be automatically configured based on the value of
-```$cdh::hadoop::journalnode_hosts```.  When ```cdh::hadoop``` is included,
-if the current hostname or IP address matches a value in the $journalnode_hosts
-array, then ```cdh::hadoop::journalnode``` will be included.
+Your JournalNodes will not be automatically configured based on the value of
+```$cdh::hadoop::journalnode_hosts```, but ```cdh::hadoop::journalnode``` should
+be specifically instanciated where needed.
 
 Before applying ```cdh::hadoop::journalnode```, make sure the
 ```dfs_journalnode_edits_dir``` is partitioned and mounted on each of the hosts
