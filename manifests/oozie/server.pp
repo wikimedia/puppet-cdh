@@ -200,7 +200,7 @@ class cdh::oozie::server(
         ensure     => 'running',
         hasrestart => true,
         hasstatus  => true,
-        subscribe  => [
+        require    => [
             File["${config_directory}/oozie-site.xml"],
             File["${config_directory}/oozie-env.sh"]
         ],
