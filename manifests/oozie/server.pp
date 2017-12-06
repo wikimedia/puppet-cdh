@@ -61,7 +61,7 @@ class cdh::oozie::server(
 
     $authorization_service_authorization_enabled = $cdh::oozie::defaults::authorization_service_authorization_enabled,
     $admin_users                                 = $cdh::oozie::defaults::admin_users,
-    $heapsize                                    = $cdh::oozie::defaults::heapsize,
+    $jvm_opts                                    = $cdh::oozie::defaults::jvm_opts,
     $purge_jobs_older_than_days                  = $cdh::oozie::defaults::purge_jobs_older_than_days,
     $oozie_site_template                         = $cdh::oozie::defaults::oozie_site_template,
     $oozie_env_template                          = $cdh::oozie::defaults::oozie_env_template,
