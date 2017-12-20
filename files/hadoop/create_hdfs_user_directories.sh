@@ -110,7 +110,7 @@ for user in $group_members; do
     # Turn off set +e so a mis-matched grep doesn't abort the script.
     set +e
     # Look for the user's directory in the list of existant directories.
-    echo "${hdfs_user_directories}" | grep -q "${user}"
+    echo "${hdfs_user_directories}" | grep -q "${user}$"
     directory_exists=$?
     set -e
 
