@@ -60,6 +60,7 @@ class cdh::hadoop::defaults {
     $yarn_log_aggregation_retain_check_interval_seconds = 86400
 
     $fair_scheduler_template                     = 'cdh/hadoop/fair-scheduler.xml.erb'
+    $core_site_extra_properties                  = undef
     $yarn_site_extra_properties                  = undef
 
     $hadoop_heapsize                             = undef

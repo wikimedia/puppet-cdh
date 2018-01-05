@@ -124,6 +124,10 @@
 #   $fair_scheduler_template                  - The fair-scheduler.xml queue configuration template.
 #                                               If you set this to false or undef, FairScheduler will
 #                                               be disabled.  Default: cdh/hadoop/fair-scheduler.xml.erb
+#
+#   $core_site_extra_properties               - Hash of extra property names to values that will be
+#                                               be rendered in core-site.xml.erb.  Default: undef
+#
 #   $yarn_site_extra_properties               - Hash of extra property names to values that will be
 #                                               be rendered in yarn-site.xml.erb.  Default: undef
 #
@@ -191,6 +195,7 @@ class cdh::hadoop(
     $gelf_logging_host                           = $::cdh::hadoop::defaults::gelf_logging_host,
     $gelf_logging_port                           = $::cdh::hadoop::defaults::gelf_logging_port,
     $fair_scheduler_template                     = $::cdh::hadoop::defaults::fair_scheduler_template,
+    $core_site_extra_properites                  = $::cdh::hadoop::defaults::core_site_extra_properties,
     $yarn_site_extra_properties                  = $::cdh::hadoop::defaults::yarn_site_extra_properties,
 ) inherits cdh::hadoop::defaults
 {
