@@ -49,6 +49,8 @@ class cdh::hive::defaults {
     $hive_exec_log4j_template    = 'cdh/hive/hive-exec-log4j.properties.erb'
     $hive_env_template           = 'cdh/hive/hive-env.sh.erb'
 
+    $java_home                   = undef
+
     # Jmx ports
     $hive_server_jmx_port        = 9978
     $hive_metastore_jmx_port     = 9979

@@ -86,6 +86,8 @@ class cdh::hive(
     $hive_exec_log4j_template    = $cdh::hive::defaults::hive_exec_log4j_template,
     $hive_env_template           = $cdh::hive::defaults::hive_env_template,
 
+    $java_home                   = $cdh::hive::defaults::java_home,
+
     $hive_metastore_opts         = $cdh::hive::defaults::hive_metastore_opts,
     $hive_server_opts            = $cdh::hive::defaults::hive_server_opts,
     $hive_metastore_jmx_port     = $cdh::hive::defaults::hive_metastore_jmx_port,

@@ -6,8 +6,9 @@ export HADOOP_YARN_USER=${HADOOP_YARN_USER:-yarn}
 # resolve links - $0 may be a softlink
 export YARN_CONF_DIR="${YARN_CONF_DIR:-$HADOOP_YARN_HOME/conf}"
 
-# some Java parameters
-# export JAVA_HOME=/home/y/libexec/jdk1.6.0/
+<% if @java_home -%>
+export JAVA_HOME=<%= @java_home %>
+<% end -%>
 if [ "$JAVA_HOME" != "" ]; then
   #echo "run java in $JAVA_HOME"
   JAVA_HOME=$JAVA_HOME

@@ -13,6 +13,8 @@ class cdh::hadoop::defaults {
     # provided value of $namenode_hosts in hadoop.pp.
     $zookeeper_hosts                             = undef
 
+    $java_home                                   = undef
+
     $yarn_local_path                             = 'yarn/local'
     $yarn_logs_path                              = 'yarn/logs'
     $dfs_block_size                              = 67108864 # 64MB default

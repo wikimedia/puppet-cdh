@@ -1,5 +1,9 @@
 # Note: This file is managed by Puppet.
 
+<% if @java_home -%>
+export JAVA_HOME=<%= @java_home %>
+<% end -%>
+
 # Use YARN for all hadoop commands
 export HADOOP_MAPRED_HOME=/usr/lib/hadoop-mapreduce
 

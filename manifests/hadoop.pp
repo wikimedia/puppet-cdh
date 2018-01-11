@@ -144,6 +144,8 @@ class cdh::hadoop(
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
 
+    $java_home                                   = $::cdh::hadoop::defaults::java_home,
+
     $yarn_local_path                             = $::cdh::hadoop::defaults::yarn_local_path,
     $yarn_logs_path                              = $::cdh::hadoop::defaults::yarn_logs_path,
     $dfs_block_size                              = $::cdh::hadoop::defaults::dfs_block_size,

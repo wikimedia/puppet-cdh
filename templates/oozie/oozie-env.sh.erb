@@ -3,6 +3,10 @@
 
 # Set Oozie specific environment variables here.
 
+<% if @java_home -%>
+export JAVA_HOME=<%= @java_home %>
+<% end -%>
+
 export OOZIE_DATA=/var/lib/oozie
 export OOZIE_CATALINA_HOME=/usr/lib/bigtop-tomcat
 export CATALINA_TMPDIR=/var/lib/oozie
