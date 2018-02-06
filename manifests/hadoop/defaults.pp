@@ -20,7 +20,7 @@ class cdh::hadoop::defaults {
     $dfs_block_size                              = 67108864 # 64MB default
     $enable_jmxremote                            = true
     $webhdfs_enabled                             = false
-    $httpfs_enabled                              = true
+    $httpfs_enabled                              = false
     $mapreduce_system_dir                        = undef
     $io_file_buffer_size                         = undef
 

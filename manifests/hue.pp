@@ -38,6 +38,8 @@
 # $httpfs_enabled          - If true, Hue will be configured to interact with HDFS via
 #                            HttpFS rather than the default WebHDFS.  You must
 #                            manually configure HttpFS on your namenode.
+# $webhdfs_enabled         - If true, Hue will be configured to interact with HDFS
+#                            using WebHDFS.
 #
 # $ssl_private_key         - Path to SSL private key.  Default: /etc/hue/hue.key
 # $ssl_certificate         - Path to SSL certificate.  Default: /etc/hue/hue.cert
@@ -134,6 +136,7 @@ class cdh::hue(
     # If httpfs is enabled, the default httpfs port
     # will be used, instead of the webhdfs port.
     $httpfs_enabled = $cdh::hadoop::httpfs_enabled
+    $webhdfs_enabled = $cdh::hadoop::webhdfs_enabled
 
     package { 'hue':
         ensure => 'installed'

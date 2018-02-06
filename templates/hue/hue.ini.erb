@@ -503,10 +503,12 @@
       # NameNode logical name.
       ## logical_name=
 
+<% if @httpfs_enabled or @webhdfs_enabled -%>
       # Use WebHdfs/HttpFs as the communication mechanism.
       # Domain should be the NameNode or HttpFs host.
       # Default port is 14000 for HttpFs.
       webhdfs_url=http://<%= @namenode_host %>:<%= @httpfs_enabled ? '14000' : '50070' %>/webhdfs/v1/
+<% end -%>
 
       # Change this if your HDFS cluster is Kerberos-secured
       ## security_enabled=false
