@@ -6,9 +6,9 @@ export JAVA_HOME=<%= @java_home %>
 <% end -%>
 
 if [ "$SERVICE" = "metastore" ]; then
-    export HADOOP_OPTS="$HADOOP_OPTS <%= @hive_metastore_opts %>"
+    export HIVE_METASTORE_HADOOP_OPTS="$HIVE_METASTORE_HADOOP_OPTS <%= @hive_metastore_opts %>"
     <% if @hive_metastore_jmx_port %>
-    export HADOOP_OPTS="$HADOOP_OPTS -Dcom.sun.management.jmxremote.port=<%= @hive_metastore_jmx_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+    export HIVE_METASTORE_HADOOP_OPTS="$HIVE_METASTORE_HADOOP_OPTS -Dcom.sun.management.jmxremote.port=<%= @hive_metastore_jmx_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
     <% end %>
 fi
 
