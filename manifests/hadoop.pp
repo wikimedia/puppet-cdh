@@ -251,7 +251,7 @@ class cdh::hadoop(
     $primary_resourcemanager_host = $resourcemanager_hosts[0]
 
 
-    package { 'hadoop-client':
+    package { ['hadoop-client', 'libhdfs0']:
         ensure => 'installed'
     }
 
