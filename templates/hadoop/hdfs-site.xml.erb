@@ -21,6 +21,13 @@ end
    <value>hadoop</value>
   </property>
 
+<% if @dfs_datanode_failed_volumes_tolerated -%>
+  <property>
+    <name>dfs.datanode.failed.volumes.tolerated</name>
+    <value>@dfs_datanode_failed_volumes_tolerated</value>
+  </property>
+<% end -%>
+
 <% if @ha_enabled and @zookeeper_hosts %>
   <property>
     <name>dfs.ha.automatic-failover.enabled</name>

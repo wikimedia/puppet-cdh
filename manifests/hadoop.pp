@@ -131,6 +131,9 @@
 #   $yarn_site_extra_properties               - Hash of extra property names to values that will be
 #                                               be rendered in yarn-site.xml.erb.  Default: undef
 #
+#   $dfs_datanode_failed_volumes_tolerated    - Maximum amount of disk/volume failures tolerated by the Datanode
+#                                               before shutting down. Default: undef
+#
 class cdh::hadoop(
     $namenode_hosts,
     $dfs_name_dir,
@@ -140,6 +143,7 @@ class cdh::hadoop(
 
     $datanode_mounts                             = $::cdh::hadoop::defaults::datanode_mounts,
     $dfs_data_path                               = $::cdh::hadoop::defaults::dfs_data_path,
+    $dfs_datanode_failed_volumes_tolerated       = $::cdh::hadoop::defaults::dfs_datanode_failed_volumes_tolerated,
 
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
