@@ -51,6 +51,22 @@
 #     directly on any standby RM hosts (The master RM will be included automatically
 #     when you include cdh::hadoop::master).
 #
+#   [*fs_trash_checkpoint_interval*]
+#     Number of minutes between trash checkpoints. Should be smaller or equal
+#     to fs.trash.interval. If zero, the value is set to the value of fs.trash.interval.
+#     Every time the checkpointer runs it creates a new checkpoint out of current
+#     and removes checkpoints created more than fs.trash.interval minutes ago.
+#     Default: undef
+#
+#   [*fs_trash_interval*]
+#     Number of minutes after which a HDFS checkpoint gets deleted.
+#     If zero, the trash feature is disabled. This option may be configured both
+#     on the server and the client. If trash is disabled server side then the
+#     client side configuration is checked. If trash is enabled on the server side
+#     then the value configured on the server is used and the client configuration
+#     value is ignored.
+#     Default: undef
+#
 #   [*zookeeper_hosts*]
 #     Array of Zookeeper hosts to use for HA failover. If provided, HA YARN Resourcemanager
 #     will be enabled. Also if set AND $ha_enabled for HDFS is also set,
@@ -273,6 +289,9 @@ class cdh::hadoop(
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
 
     $java_home                                   = $::cdh::hadoop::defaults::java_home,
+
+    $fs_trash_interval                           = $::cdh::hadoop::defaults::fs_trash_interval,
+    $fs_trash_checkpoint_interval                = $::cdh::hadoop::defaults::fs_trash_checkpoint_interval,
 
     $yarn_local_path                             = $::cdh::hadoop::defaults::yarn_local_path,
     $yarn_logs_path                              = $::cdh::hadoop::defaults::yarn_logs_path,

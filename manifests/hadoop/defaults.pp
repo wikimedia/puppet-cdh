@@ -16,6 +16,9 @@ class cdh::hadoop::defaults {
 
     $java_home                                   = undef
 
+    $fs_trash_interval                           = undef
+    $fs_trash_checkpoint_interval                = undef
+
     $yarn_local_path                             = 'yarn/local'
     $yarn_logs_path                              = 'yarn/logs'
     $dfs_block_size                              = 67108864 # 64MB default

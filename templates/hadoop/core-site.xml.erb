@@ -56,6 +56,23 @@
     <value>*</value>
   </property>
 
+<% if @fs_trash_checkpoint_interval -%>
+  <property>
+    <!-- Emptier interval specifies how long (in minutes) the NameNode waits
+         before running a thread to manage checkpoints. -->
+    <name>fs.trash.checkpoint.interval</name>
+    <value><%= @fs_trash_checkpoint_interval %></value>
+  </property>
+<% end -%>
+<% if @fs_trash_interval -%>
+  <!-- Deletion interval specifies how long (in minutes) a checkpoint
+       will be expired before it is deleted. -->
+  <property>
+    <name>fs.trash.interval</name>
+    <value><%= @fs_trash_interval %></value>
+  </property>
+<% end -%>
+
 <% if @httpfs_enabled -%>
   <!-- httpfs proxy user -->
   <property>
