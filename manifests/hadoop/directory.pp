@@ -46,7 +46,7 @@ define cdh::hadoop::directory (
     }
     else {
         exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hdfs dfs -rm -R ${path}",
+            command => "/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
             onlyif  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             require => Service['hadoop-hdfs-namenode'],
