@@ -32,6 +32,11 @@ export HADOOP_SECONDARYNAMENODE_OPTS="-Dhadoop.security.logger=INFO,DRFAS,gelf -
 HADOOP_DATANODE_OPTS="-Dcom.sun.management.jmxremote.port=<%= @datanode_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 <% end -%>
 
+<% if @journalnode_jmxremote_port -%>
+# Enable JournalNode JMX connections on port <%= @journalnode_jmxremote_port %>
+HADOOP_JOURNALNODE_OPTS="-Dcom.sun.management.jmxremote.port=<%= @journalnode_jmxremote_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+<% end -%>
+
 <% if @gelf_logging_enabled -%>
 HADOOP_JOBTRACKER_OPTS="-Dhadoop.security.logger=INFO,DRFAS,gelf -Dmapred.audit.logger=INFO,MRAUDIT,gelf -Dmapred.jobsummary.logger=INFO,JSA,gelf $HADOOP_JOBTRACKER_OPTS"
 HADOOP_TASKTRACKER_OPTS="-Dhadoop.security.logger=ERROR,console,gelf -Dmapred.audit.logger=ERROR,console,gelf $HADOOP_TASKTRACKER_OPTS"
@@ -63,6 +68,11 @@ HADOOP_NAMENODE_OPTS="$HADOOP_NAMENODE_OPTS <%= @hadoop_namenode_opts %>"
 <% if @hadoop_datanode_opts -%>
 # Any additionally supplied HADOOP_DATANODE_OPTS
 HADOOP_DATANODE_OPTS="$HADOOP_DATANODE_OPTS <%= @hadoop_datanode_opts %>"
+<% end -%>
+
+<% if @hadoop_journalnode_opts -%>
+# Any additionally supplied HADOOP_JOURNALNODE_OPTS
+HADOOP_JOURNALNODE_OPTS="$HADOOP_JOURNALNODE_OPTS <%= @hadoop_journalnode_opts %>"
 <% end -%>
 
 <% if @hadoop_journalnode_opts -%>
