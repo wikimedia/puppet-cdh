@@ -309,4 +309,11 @@ if (@metastore_host == @fqdn)
   </property>
 <% end -%>
 
+<% if @hive_server_udf_blacklist -%>
+  <property>
+    <name>hive.server2.builtin.udf.blacklist</name>
+    <value><%= @hive_server_udf_blacklist %></value>
+    <description>A comma separated list of built-in UDFs that are not allowed to be executed. A UDF that is included in the list will return an error if invoked from a query.</description>
+  </property>
+<% end -%>
 </configuration>

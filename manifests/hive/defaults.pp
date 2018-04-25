@@ -56,4 +56,6 @@ class cdh::hive::defaults {
     $hive_metastore_jmx_port     = 9979
     $hive_metastore_opts         = '-Xmx2048m'
     $hive_server_opts            = '-Xmx2048m'
+
+    $hive_server_udf_blacklist   = undef
 }

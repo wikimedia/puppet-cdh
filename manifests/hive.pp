@@ -93,6 +93,8 @@ class cdh::hive(
     $hive_metastore_jmx_port     = $cdh::hive::defaults::hive_metastore_jmx_port,
     $hive_server_jmx_port        = $cdh::hive::defaults::hive_server_jmx_port,
 
+    $hive_server_udf_blacklist   = $cdh::hive::defaults::hive_server_udf_blacklist,
+
 ) inherits cdh::hive::defaults
 {
     Class['cdh::hadoop'] -> Class['cdh::hive']
