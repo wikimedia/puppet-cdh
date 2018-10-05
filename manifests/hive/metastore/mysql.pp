@@ -10,12 +10,18 @@
 # See: http://www.cloudera.com/content/cloudera-content/cloudera-docs/CDH5/latest/CDH5-Installation-Guide/cdh5ig_hive_metastore_configure.html
 #
 # == Parameters
-# $db_root_username              - username for metastore database creation commands. Default: undef
-# $db_root_password              - password for metastore database creation commands.
+# $db_root_username    - username for metastore database creation commands. Default: undef
+# $db_root_password    - password for metastore database creation commands.
+# $jdbc_database       - database name. Default: 'hive_metastore'
+# $jdbc_username       - username to access the Hive database. Default: 'hive'
+# $jdbc_password       - password to access the Hive database. Default: 'hive'
 #
 class cdh::hive::metastore::mysql(
-    $db_root_username            = $cdh::hive::defaults::db_root_username,
-    $db_root_password            = $cdh::hive::defaults::db_root_password,
+    $db_root_username = $cdh::oozie::defaults::db_root_username,
+    $db_root_password = $cdh::oozie::defaults::db_root_password,
+    $jdbc_database    = $cdh::oozie::defaults::jdbc_database,
+    $jdbc_username    = $cdh::oozie::defaults::jdbc_username,
+    $jdbc_password    = $cdh::oozie::defaults::jdbc_password,
 ) inherits cdh::hive::defaults
 {
     # Need to hive package in order to have
@@ -29,19 +35,6 @@ class cdh::hive::metastore::mysql(
     # Install the libmysql-java .jar into Hive's classpath so that
     # hive schematool can run.
     include cdh::hive::metastore::mysql::jar
-
-    # Infer mysql creds from either cdh::hive class
-    # or from hiera, if the cdh::hive class has not been included.
-    if defined(Class['cdh::hive']) {
-        $jdbc_database = $cdh::hive::jdbc_database
-        $jdbc_username = $cdh::hive::jdbc_username
-        $jdbc_password = $cdh::hive::jdbc_password
-    }
-    else {
-        $jdbc_database = hiera('cdh::hive::jdbc_database', $cdh::hive::defaults::jdbc_database)
-        $jdbc_username = hiera('cdh::hive::jdbc_username', $cdh::hive::defaults::jdbc_username)
-        $jdbc_password = hiera('cdh::hive::jdbc_password', $cdh::hive::defaults::jdbc_password)
-    }
 
     # Only use -u or -p flag to mysql commands if
     # root username or root password are set.
@@ -63,7 +56,6 @@ class cdh::hive::metastore::mysql(
     exec { 'hive_mysql_create_user':
         command => "/usr/bin/mysql ${username_option} ${password_option} -e \"
 CREATE USER '${jdbc_username}'@'localhost' IDENTIFIED BY '${jdbc_password}';
-CREATE USER '${jdbc_username}'@'127.0.0.1' IDENTIFIED BY '${jdbc_password}';
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'127.0.0.1' WITH GRANT OPTION;
 FLUSH PRIVILEGES;\"",
