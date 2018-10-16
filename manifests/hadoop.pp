@@ -235,8 +235,8 @@
 #     Set this to an array of ganglia host:ports if you want to enable ganglia
 #     sinks in hadoop-metrics2.properites.
 #
-#   [*net_topology_script_template*]
-#     Puppet ERb template path  to script that will be invoked to resolve node
+#   [*net_topology_script_content*]
+#     Rendered content of script that will be invoked to resolve node
 #     names to row or rack assignments.
 #     Default: undef
 #
@@ -339,7 +339,7 @@ class cdh::hadoop(
     $yarn_heapsize                               = $::cdh::hadoop::defaults::yarn_heapsize,
     $dfs_datanode_hdfs_blocks_metadata_enabled   = $::cdh::hadoop::defaults::dfs_datanode_hdfs_blocks_metadata_enabled,
     $ganglia_hosts                               = $::cdh::hadoop::defaults::ganglia_hosts,
-    $net_topology_script_template                = $::cdh::hadoop::defaults::net_topology_script_template,
+    $net_topology_script_content                 = $::cdh::hadoop::defaults::net_topology_script_content,
     $gelf_logging_enabled                        = $::cdh::hadoop::defaults::gelf_logging_enabled,
     $gelf_logging_host                           = $::cdh::hadoop::defaults::gelf_logging_host,
     $gelf_logging_port                           = $::cdh::hadoop::defaults::gelf_logging_port,
@@ -412,9 +412,8 @@ class cdh::hadoop(
         path => $config_directory,
     }
 
-    # Render net-topology.sh from $net_topology_script_template
-    # if it was given.
-    $net_topology_script_ensure = $net_topology_script_template ? {
+    # Use $net_topology_script_content as net-topology.sh if it was given.
+    $net_topology_script_ensure = $net_topology_script_content ? {
         undef   => 'absent',
         default => 'present',
     }
@@ -422,13 +421,7 @@ class cdh::hadoop(
     file { $net_topology_script_path:
         ensure => $net_topology_script_ensure,
         mode   => '0755',
-    }
-    # Conditionally overriding content attribute since
-    # $net_topology_script_template is default undef.
-    if ($net_topology_script_ensure == 'present') {
-        File[$net_topology_script_path] {
-            content => template($net_topology_script_template),
-        }
+        content => $net_topology_script_content,
     }
 
     $fair_scheduler_enabled = $fair_scheduler_template ? {

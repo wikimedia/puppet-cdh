@@ -79,7 +79,7 @@ class cdh::hadoop::defaults {
     $hadoop_journalnode_opts                     = undef
 
     $ganglia_hosts                               = undef
-    $net_topology_script_template                = undef
+    $net_topology_script_content                 = undef
     $gelf_logging_enabled                        = false
     $gelf_logging_host                           = 'localhost'
     $gelf_logging_port                           = 12201
