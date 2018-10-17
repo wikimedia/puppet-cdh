@@ -417,7 +417,10 @@ class cdh::hadoop(
         undef   => 'absent',
         default => 'present',
     }
-    $net_topology_script_path = "${config_directory}/net-topology.sh"
+    $net_topology_script_path = $net_topology_script_content ? {
+        undef   => undef,
+        default => "${config_directory}/net-topology.sh",
+    }
     file { $net_topology_script_path:
         ensure => $net_topology_script_ensure,
         mode   => '0755',
