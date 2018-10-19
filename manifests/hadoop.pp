@@ -421,10 +421,12 @@ class cdh::hadoop(
         undef   => undef,
         default => "${config_directory}/net-topology.sh",
     }
-    file { $net_topology_script_path:
-        ensure => $net_topology_script_ensure,
-        mode   => '0755',
-        content => $net_topology_script_content,
+    if $net_topology_script_path{
+        file { $net_topology_script_path:
+            ensure => $net_topology_script_ensure,
+            mode   => '0755',
+            content => $net_topology_script_content,
+        }
     }
 
     $fair_scheduler_enabled = $fair_scheduler_template ? {
