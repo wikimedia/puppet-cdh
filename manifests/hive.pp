@@ -83,6 +83,7 @@ class cdh::hive(
 
     $hive_site_template          = $cdh::hive::defaults::hive_site_template,
     $hive_log4j_template         = $cdh::hive::defaults::hive_log4j_template,
+    $java_logging_template       = $cdh::hive::defaults::java_logging_template,
     $hive_exec_log4j_template    = $cdh::hive::defaults::hive_exec_log4j_template,
     $hive_env_template           = $cdh::hive::defaults::hive_env_template,
 
@@ -102,7 +103,7 @@ class cdh::hive(
     package { 'hive':
         ensure => 'installed',
     }
-    $config_directory = "/etc/hive/conf.${cdh::hadoop::cluster_name}"
+    $config_directory            = "/etc/hive/conf.${cdh::hadoop::cluster_name}"
     # Create the $cluster_name based $config_directory.
     file { $config_directory:
         ensure  => 'directory',
@@ -128,6 +129,8 @@ class cdh::hive(
         $::fqdn => '0440',
         default => '0444',
     }
+    # variable needed to generate hive-env.sh.erb template
+    $java_logging_config_file = "${config_directory}/java-logging.properties"
     file { "${config_directory}/hive-env.sh":
         content => template($hive_env_template),
         mode    => '0444',
@@ -144,6 +147,10 @@ class cdh::hive(
     }
     file { "${config_directory}/hive-log4j.properties":
         content => template($hive_log4j_template),
+        require => Package['hive'],
+    }
+    file { "${java_logging_config_file}":
+        content => template($java_logging_template),
         require => Package['hive'],
     }
     file { "${config_directory}/hive-exec-log4j.properties":

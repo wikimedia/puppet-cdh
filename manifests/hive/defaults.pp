@@ -46,6 +46,7 @@ class cdh::hive::defaults {
     # module yet supports.
     $hive_site_template          = 'cdh/hive/hive-site.xml.erb'
     $hive_log4j_template         = 'cdh/hive/hive-log4j.properties.erb'
+    $java_logging_template       = 'cdh/hive/java-logging.properties.erb'
     $hive_exec_log4j_template    = 'cdh/hive/hive-exec-log4j.properties.erb'
     $hive_env_template           = 'cdh/hive/hive-env.sh.erb'
 

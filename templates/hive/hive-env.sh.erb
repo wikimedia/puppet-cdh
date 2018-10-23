@@ -5,6 +5,10 @@
 export JAVA_HOME=<%= @java_home %>
 <% end -%>
 
+# Adding java-logging configuration file as hadoop-client option
+export HADOOP_CLIENT_OPTS=-Djava.util.logging.config.file=<%= @java_logging_config_file %>
+
+
 if [ "$SERVICE" = "metastore" ]; then
     export HIVE_METASTORE_HADOOP_OPTS="$HIVE_METASTORE_HADOOP_OPTS <%= @hive_metastore_opts %>"
     <% if @hive_metastore_jmx_port %>
