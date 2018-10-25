@@ -17,8 +17,8 @@ if [ "$SERVICE" = "metastore" ]; then
 fi
 
 if [ "$SERVICE" = "hiveserver2" ]; then
-    export HADOOP_OPTS="$HADOOP_OPTS <%= @hive_server_opts %>"
+    export HIVE_SERVER2_HADOOP_OPTS="$HIVE_SERVER2_HADOOP_OPTS <%= @hive_server_opts %>"
     <% if @hive_server_jmx_port %>
-    export HADOOP_OPTS="$HADOOP_OPTS -Dcom.sun.management.jmxremote.port=<%= @hive_server_jmx_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+    export HIVE_SERVER2_HADOOP_OPTS="$HIVE_SERVER2_HADOOP_OPTS -Dcom.sun.management.jmxremote.port=<%= @hive_server_jmx_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
     <% end %>
 fi
