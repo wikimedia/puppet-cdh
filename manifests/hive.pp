@@ -103,7 +103,20 @@ class cdh::hive(
     package { 'hive':
         ensure => 'installed',
     }
-    $config_directory            = "/etc/hive/conf.${cdh::hadoop::cluster_name}"
+
+    # https://issues.apache.org/jira/browse/HIVE-12582
+    # Introduce the HIVE_SERVER2_HADOOP_OPTS environment variable
+    # to allow a fine tuning of JVM's parameters. Not yet included in
+    # upstream's Hive or related distributions.
+    file { '/usr/lib/hive/bin/ext/hiveserver2.sh':
+        source  => 'puppet:///modules/cdh/hive/hiveserver2.sh',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0555',
+        require => Package['hive'],
+    }
+
+    $config_directory = "/etc/hive/conf.${cdh::hadoop::cluster_name}"
     # Create the $cluster_name based $config_directory.
     file { $config_directory:
         ensure  => 'directory',
