@@ -424,8 +424,8 @@ class cdh::hadoop(
     }
     if $net_topology_script_path{
         file { $net_topology_script_path:
-            ensure => $net_topology_script_ensure,
-            mode   => '0755',
+            ensure  => $net_topology_script_ensure,
+            mode    => '0755',
             content => $net_topology_script_content,
         }
     }
