@@ -13,7 +13,7 @@ class cdh::hadoop::defaults {
     # $resourcemanager_hosts is not set here, because it defaults to the user
     # provided value of $namenode_hosts in hadoop.pp.
     $zookeeper_hosts                             = undef
-    $yarn_resourcemanager_zk_session_timeout     = undef
+    $yarn_resourcemanager_zk_timeout_ms          = undef
 
     $java_home                                   = undef
 
