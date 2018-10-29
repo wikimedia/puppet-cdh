@@ -287,6 +287,7 @@ class cdh::hadoop(
 
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
+    $yarn_resourcemanager_zk_session_timeout     = $::cdh::hadoop::defaults::yarn_resourcemanager_zk_session_timeout,
 
     $java_home                                   = $::cdh::hadoop::defaults::java_home,
 

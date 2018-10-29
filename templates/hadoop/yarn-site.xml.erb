@@ -70,6 +70,13 @@ end
     <value><%= Array(@zookeeper_hosts).sort.join(',') %></value>
   </property>
 
+<% if @yarn_resourcemanager_zk_session_timeout -%>
+  <property>
+    <name>yarn.resourcemanager.zk-timeout-ms</name>
+    <value><%= @yarn_resourcemanager_zk_session_timeout %></value>
+  </property>
+<% end -%>
+
   <property>
     <name>yarn.app.mapreduce.am.scheduler.connection.wait.interval-ms</name>
     <value>5000</value>
