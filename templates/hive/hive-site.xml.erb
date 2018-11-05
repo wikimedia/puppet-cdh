@@ -316,4 +316,11 @@ if (@metastore_host == @fqdn)
     <description>A comma separated list of built-in UDFs that are not allowed to be executed. A UDF that is included in the list will return an error if invoked from a query.</description>
   </property>
 <% end -%>
+
+  <property>
+    <name>hive.resultset.use.unique.column.names</name>
+    <value>false</value>
+    <description> Stop hive from printing the table name when printing column headers </description>
+  </property>
+
 </configuration>
