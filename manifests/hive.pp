@@ -170,13 +170,4 @@ class cdh::hive(
         content => template($hive_exec_log4j_template),
         require => Package['hive'],
     }
-    # Create /tmp/hive-parquet-logs folder with correct rights
-    # for parquet java-logging
-    file { '/tmp/hive-parquet-logs':
-        ensure  => 'directory',
-        mode    => '0777',
-        owner   => 'root',
-        group   => 'root',
-        require => Package['hive'],
-    }
 }

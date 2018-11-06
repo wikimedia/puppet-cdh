@@ -1,24 +1,13 @@
 # Make parquet handler a file handler
-parquet.handlers= java.util.logging.FileHandler
+parquet.handlers= java.util.logging.ConsoleHandler
 
 # Default global logging level.
 # Loggers and Handlers may override this level
 .level=INFO
 
-# --- FileHandler ---
-# Override of global logging level
-java.util.logging.FileHandler.level=ALL
-
-# Putting file in /tmp/hive-parquet-logs folder, with a numbered filename
-# See https://docs.oracle.com/javase/7/docs/api/java/util/logging/FileHandler.html
-java.util.logging.FileHandler.pattern=%t/hive-parquet-logs/parquet-%u.log
-
-# Limiting size of output file in bytes:
-java.util.logging.FileHandler.limit=50000000
-
-# Number of output files to cycle through, by appending an
-# integer to the base file name:
-java.util.logging.FileHandler.count=1
+# Override of global logging level is set to SEVERE
+# to prevent logging not needed parquet info
+java.util.logging.ConsoleHandler.level=SEVERE
 
 # Style of output (Simple or XML):
-java.util.logging.FileHandler.formatter=java.util.logging.SimpleFormatter
+java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
