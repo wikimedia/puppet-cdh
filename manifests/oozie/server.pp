@@ -40,7 +40,13 @@
 # $purge_jobs_older_than_days    - Completed workflow, coordinator, and bundle
 #                                  jobs will be deleted after this many days.
 #                                  Default: 90
-#
+# $oozie_service_kerberos_enabled           - Indicates if Oozie is configured to use Kerberos.
+# $local_realm                              - Kerberos Realm used by Oozie and Hadoop.
+# $oozie_service_keytab_file                - File path of the Kerberos keytab to use.
+# $oozie_service_kerberos_principal         - Kerberos Principal to use.
+# $oozie_authentication_type                - Defines authentication used for Oozie HTTP endpoint.
+# $oozie_authentication_kerberos_principal  - Indicates the Kerberos principal to be used for HTTP endpoint.
+# $oozie_authentication_kerberos_name_rules - The kerberos names rules is to resolve kerberos principal names.
 class cdh::oozie::server(
     $jdbc_database                               = $cdh::oozie::defaults::jdbc_database,
     $jdbc_username                               = $cdh::oozie::defaults::jdbc_username,
@@ -66,7 +72,14 @@ class cdh::oozie::server(
     $purge_jobs_older_than_days                  = $cdh::oozie::defaults::purge_jobs_older_than_days,
     $oozie_site_template                         = $cdh::oozie::defaults::oozie_site_template,
     $oozie_env_template                          = $cdh::oozie::defaults::oozie_env_template,
-    $oozie_log4j_template                        = $cdh::oozie::defaults::oozie_log4j_template
+    $oozie_log4j_template                        = $cdh::oozie::defaults::oozie_log4j_template,
+    $oozie_service_kerberos_enabled              = $cdh::oozie::defaults::oozie_service_kerberos_enabled,
+    $local_realm                                 = $cdh::oozie::defaults::local_realm,
+    $oozie_service_keytab_file                   = $cdh::oozie::defaults::oozie_service_keytab_file,
+    $oozie_service_kerberos_principal            = $cdh::oozie::defaults::oozie_service_kerberos_principal,
+    $oozie_authentication_type                   = $cdh::oozie::defaults::oozie_authentication_type,
+    $oozie_authentication_kerberos_principal     = $cdh::oozie::defaults::oozie_authentication_kerberos_principal,
+    $oozie_authentication_kerberos_name_rules    = $cdh::oozie::defaults::oozie_authentication_kerberos_name_rules,
 ) inherits cdh::oozie::defaults
 {
     # cdh::oozie::server requires Hadoop client and configs are installed.

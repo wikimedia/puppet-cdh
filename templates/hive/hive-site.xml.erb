@@ -67,6 +67,27 @@ if (@metastore_host == @fqdn)
     <value>SchemaTable</value>
   </property>
 
+<% if @hive_metastore_sasl_enabled -%>
+  <property>
+    <name>hive.metastore.sasl.enabled</name>
+    <value><%= @hive_metastore_sasl_enabled %></value>
+  </property>
+<% end -%>
+
+<% if @hive_metastore_kerberos_keytab_file -%>
+  <property>
+    <name>hive.metastore.kerberos.keytab.file</name>
+    <value><%= @hive_metastore_kerberos_keytab_file %></value>
+  </property>
+<% end -%>
+
+<% if @hive_metastore_kerberos_principal -%>
+  <property>
+    <name>hive.metastore.kerberos.principal</name>
+    <value><%= @hive_metastore_kerberos_principal %></value>
+  </property>
+<% end -%>
+
 <% end -%>
 
   <property>
@@ -328,4 +349,23 @@ if (@metastore_host == @fqdn)
     <name>hive.auto.convert.join</name>
     <value>false</value>
   </property>
+
+<% if @hive_server2_authentication -%>
+  <property>
+    <name>hive.server2.authentication</name>
+    <value><%= @hive_server2_authentication %></value>
+  </property>
+<% end -%>
+<% if @hive_server2_authentication_kerberos_principal -%>
+  <property>
+    <name>hive.server2.authentication.kerberos.principal</name>
+    <value><%= @hive_server2_authentication_kerberos_principal %>/value>
+  </property>
+<% end -%>
+<% if @hive_server2_authentication_kerberos_keytab -%>
+  <property>
+    <name>hive.server2.authentication.kerberos.keytab</name>
+    <value><%= @hive_server2_authentication_kerberos_keytab %></value>
+  </property>
+<% end -%>
 </configuration>

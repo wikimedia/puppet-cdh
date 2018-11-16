@@ -33,4 +33,12 @@ class cdh::oozie::defaults {
     $oozie_site_template                         = 'cdh/oozie/oozie-site.xml.erb'
     $oozie_env_template                          = 'cdh/oozie/oozie-env.sh.erb'
     $oozie_log4j_template                        = 'cdh/oozie/oozie-log4j.properties.erb'
+
+    $oozie_service_kerberos_enabled              = false
+    $local_realm                                 = 'LOCALHOST'
+    $oozie_service_keytab_file                   = '/etc/oozie/conf/oozie.keytab'
+    $oozie_service_kerberos_principal            = "oozie/localhost@${local_realm}"
+    $oozie_authentication_type                   = 'simple'
+    $oozie_authentication_kerberos_principal     = "HTTP/localhost@${local_realm}"
+    $oozie_authentication_kerberos_name_rules    = 'DEFAULT'
 }

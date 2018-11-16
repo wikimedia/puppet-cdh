@@ -269,10 +269,33 @@
 #     be rendered in yarn-site.xml.erb.
 #     Default: undef
 #
+#   [*hdfs_site_extra_properties*]
+#     Hash of extra property names to values that will be
+#     be rendered in hdfs-site.xml.erb.
+#     Default: undef
+#
+#   [*mapred_site_extra_properties*]
+#     Hash of extra property names to values that will be
+#     be rendered in mapred-site.xml.erb.
+#     Default: undef
+#
 #   [*dfs_datanode_failed_volumes_tolerated*]
 #     Maximum amount of disk/volume failures tolerated by the Datanode
 #     before shutting down.
 #     Default: undef
+#
+#    [*ssl_server_config*]
+#      TLS configuration properties for ssl-server.xml.erb.
+#      Default: undef
+#
+#    [*ssl_client_config*]
+#      TLS configuration properties for ssl-client.xml.erb.
+#      Default: undef
+#
+#    [*yarn_nodemanager_container_executor_config*]
+#      Hash that contains key/values that will populate the
+#      container-executor.cfg file.
+#      Default: {}
 #
 class cdh::hadoop(
     $namenode_hosts,
@@ -347,6 +370,11 @@ class cdh::hadoop(
     $fair_scheduler_template                     = $::cdh::hadoop::defaults::fair_scheduler_template,
     $core_site_extra_properties                  = $::cdh::hadoop::defaults::core_site_extra_properties,
     $yarn_site_extra_properties                  = $::cdh::hadoop::defaults::yarn_site_extra_properties,
+    $hdfs_site_extra_properties                  = $::cdh::hadoop::defaults::hdfs_site_extra_properties,
+    $mapreduce_site_extra_properties             = $::cdh::hadoop::defaults::mapreduce_site_extra_properties,
+    $ssl_server_config                           = $::cdh::hadoop::defaults::ssl_server_config,
+    $ssl_client_config                           = $::cdh::hadoop::defaults::client_config,
+    $yarn_nodemanager_container_executor_config  = $::cdh::hadoop::defaults::yarn_nodemanager_container_executor_config,
 ) inherits cdh::hadoop::defaults
 {
     # If $dfs_name_dir is a list, this will be the
@@ -474,6 +502,33 @@ class cdh::hadoop(
 
     file { "${config_directory}/yarn-env.sh":
         content => template('cdh/hadoop/yarn-env.sh.erb'),
+    }
+
+    if $ssl_server_config {
+        file { "${config_directory}/ssl-server.xml":
+            owner   => 'root',
+            group   => 'hadoop',
+            mode    => '0550',
+            content => template('cdh/hadoop/ssl-server.xml.erb'),
+        }
+    }
+
+    if $ssl_client_config {
+        file { "${config_directory}/ssl-client.xml":
+            owner   => 'root',
+            group   => 'hadoop',
+            mode    => '0550',
+            content => template('cdh/hadoop/ssl-client.xml.erb'),
+        }
+    }
+
+    if $yarn_nodemanager_container_executor_config {
+        file { "${config_directory}/container-executor.cfg":
+            owner   => 'root',
+            group   => 'hadoop',
+            mode    => '0550',
+            content => template('cdh/hadoop/container-executor.cfg.erb'),
+        }
     }
 
     # Render hadoop-metrics2.properties

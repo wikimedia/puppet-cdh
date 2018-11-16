@@ -54,6 +54,17 @@
 # $stats_dbconnectionstring      - Connection string for the database that stores
 #                                  temporary hive statistics.
 #                                  Default: jdbc:derby:;databaseName=TempStatsStore;create=true
+# $hive_metastore_sasl_enabled                     - If true, the metastore thrift interface will be secured with SASL.
+#                                                    Clients must authenticate with Kerberos. Default: undef
+# $hive_metastore_kerberos_keytab_file             - The path to the Kerberos Keytab file containing the metastore
+#                                                    thrift server's service principal.</description>
+# $hive_metastore_kerberos_principal               - The service principal for the metastore thrift server.
+#                                                    The special string _HOST will be replaced automatically with
+#                                                    the correct host name.
+# $hive_server2_authentication                     - This property sets the authentication mode for Hive Server 2.
+#                                                    Values available: NOSASL, KERBEROS, NONE, PLAINTEXT. Default: undef
+# $hive_server2_authentication_kerbero_principal   - The service principal for the Hive Server. Default: undef
+# $hive_server2_authentication_kerberos_keytab     - The path to the Kerberos Keytab file.
 #
 class cdh::hive(
     $metastore_host,
@@ -95,6 +106,14 @@ class cdh::hive(
     $hive_server_jmx_port        = $cdh::hive::defaults::hive_server_jmx_port,
 
     $hive_server_udf_blacklist   = $cdh::hive::defaults::hive_server_udf_blacklist,
+
+    $hive_metastore_sasl_enabled = $cdh::hive::defaults::hive_metastore_sasl_enabled,
+    $hive_metastore_kerberos_keytab_file = $cdh::hive::defaults::hive_metastore_kerberos_keytab_file,
+    $hive_metastore_kerberos_principal   = $cdh::hive::defaults::hive_metastore_kerberos_principal,
+
+    $hive_server2_authentication = $cdh::hive::defaults::hive_server2_authentication,
+    $hive_server2_authentication_kerbero_principal = $cdh::hive::defaults::hive_server2_authentication_kerbero_principal,
+    $hive_server2_authentication_kerberos_keytab   = $cdh::hive::defaults::hive_server2_authentication_kerberos_keytab,
 
 ) inherits cdh::hive::defaults
 {

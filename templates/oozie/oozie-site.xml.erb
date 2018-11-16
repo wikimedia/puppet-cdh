@@ -192,7 +192,7 @@
 
     <property>
         <name>oozie.service.HadoopAccessorService.kerberos.enabled</name>
-        <value>false</value>
+        <value><%= @oozie_service_kerberos_enabled %></value>
         <description>
             Indicates if Oozie is configured to use Kerberos.
         </description>
@@ -200,7 +200,7 @@
 
     <property>
         <name>local.realm</name>
-        <value>LOCALHOST</value>
+        <value><%= @local_realm %></value>
         <description>
             Kerberos Realm used by Oozie and Hadoop. Using 'local.realm' to be aligned with Hadoop configuration
         </description>
@@ -208,7 +208,7 @@
 
     <property>
         <name>oozie.service.HadoopAccessorService.keytab.file</name>
-        <value>${user.home}/oozie.keytab</value>
+        <value><%= @oozie_service_keytab_file %></value>
         <description>
             Location of the Oozie user keytab file.
         </description>
@@ -216,7 +216,7 @@
 
     <property>
         <name>oozie.service.HadoopAccessorService.kerberos.principal</name>
-        <value>${user.name}/localhost@${local.realm}</value>
+        <value><%= @oozie_service_kerberos_principal %></value>
         <description>
             Kerberos principal for Oozie service.
         </description>
@@ -289,7 +289,7 @@
 
     <property>
         <name>oozie.authentication.type</name>
-        <value>simple</value>
+        <value><%= @oozie_authentication_type %></value>
         <description>
             Defines authentication used for Oozie HTTP endpoint.
             Supported values are: simple | kerberos | #AUTHENTICATION_HANDLER_CLASSNAME#
@@ -337,7 +337,7 @@
 
     <property>
         <name>oozie.authentication.kerberos.principal</name>
-        <value>HTTP/localhost@${local.realm}</value>
+        <value><%= @oozie_authentication_kerberos_principal %></value>
         <description>
             Indicates the Kerberos principal to be used for HTTP endpoint.
             The principal MUST start with 'HTTP/' as per Kerberos HTTP SPNEGO specification.
@@ -355,7 +355,7 @@
 
     <property>
         <name>oozie.authentication.kerberos.name.rules</name>
-        <value>DEFAULT</value>
+        <value><%= @oozie_authentication_kerberos_name_rules %></value>
         <description>
             The kerberos names rules is to resolve kerberos principal names, refer to Hadoop's
             KerberosName for more details.

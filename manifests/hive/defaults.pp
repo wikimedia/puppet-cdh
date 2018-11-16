@@ -59,4 +59,12 @@ class cdh::hive::defaults {
     $hive_server_opts            = '-Xmx2048m'
 
     $hive_server_udf_blacklist   = undef
+
+    $hive_metastore_sasl_enabled = undef
+    $hive_metastore_kerberos_keytab_file = undef
+    $hive_metastore_kerberos_principal   = undef
+
+    $hive_server2_authentication = undef
+    $hive_server2_authentication_kerbero_principal = undef
+    $hive_server2_authentication_kerberos_keytab   = undef
 }

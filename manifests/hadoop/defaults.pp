@@ -69,6 +69,13 @@ class cdh::hadoop::defaults {
     $fair_scheduler_template                     = 'cdh/hadoop/fair-scheduler.xml.erb'
     $core_site_extra_properties                  = undef
     $yarn_site_extra_properties                  = undef
+    $hdfs_site_extra_properties                  = undef
+    $mapred_site_extra_properties                = undef
+
+    $ssl_server_config                           = undef
+    $ssl_client_config                           = undef
+
+    $yarn_nodemanager_container_executor_config  = undef
 
     $hadoop_heapsize                             = undef
     $hadoop_namenode_opts                        = undef
