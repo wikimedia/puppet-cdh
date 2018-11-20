@@ -323,4 +323,9 @@ if (@metastore_host == @fqdn)
     <description> Stop hive from printing the table name when printing column headers </description>
   </property>
 
+  <!-- https://phabricator.wikimedia.org/T209536 -->
+  <property>
+    <name>hive.auto.convert.join</name>
+    <value>false</value>
+  </property>
 </configuration>
