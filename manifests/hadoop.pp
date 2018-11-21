@@ -371,7 +371,7 @@ class cdh::hadoop(
     $core_site_extra_properties                  = $::cdh::hadoop::defaults::core_site_extra_properties,
     $yarn_site_extra_properties                  = $::cdh::hadoop::defaults::yarn_site_extra_properties,
     $hdfs_site_extra_properties                  = $::cdh::hadoop::defaults::hdfs_site_extra_properties,
-    $mapreduce_site_extra_properties             = $::cdh::hadoop::defaults::mapreduce_site_extra_properties,
+    $mapred_site_extra_properties                = $::cdh::hadoop::defaults::mapred_site_extra_properties,
     $ssl_server_config                           = $::cdh::hadoop::defaults::ssl_server_config,
     $ssl_client_config                           = $::cdh::hadoop::defaults::client_config,
     $yarn_nodemanager_container_executor_config  = $::cdh::hadoop::defaults::yarn_nodemanager_container_executor_config,
