@@ -69,4 +69,8 @@ class cdh::hue::defaults {
     $database_password          = undef
     $database_name              = '/var/lib/hue/desktop.db'
     $database_engine            = 'sqlite3'
+
+    $kerberos_keytab            = undef
+    $kerbersos_principal        = undef
+    $kerberos_kinit_path        = undef
 }

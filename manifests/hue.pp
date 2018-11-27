@@ -129,6 +129,10 @@ class cdh::hue(
     $database_name              = $cdh::hue::defaults::database_name,
     $database_engine            = $cdh::hue::defaults::database_engine,
 
+    $kerberos_keytab            = $cdh::hue::defaults::kerberos_keytab,
+    $kerbersos_principal        = $cdh::hue::defaults::kerberos_principal,
+    $kerberos_kinit_path        = $cdh::hue::defaults::kerberos_kinit_path,
+
 ) inherits cdh::hue::defaults
 {
     Class['cdh::hadoop'] -> Class['cdh::hue']

@@ -285,11 +285,23 @@
   [[kerberos]]
 
     # Path to Hue's Kerberos keytab file
+    <% if @kerberos_keytab -%>
+    hue_keytab=<%= @kerberos_keytab %>
+    <% else -%>
     ## hue_keytab=
+    <% end -%>
     # Kerberos principal name for Hue
+    <% if @kerberos_principal -%>
+    hue_principal=<%= @kerberos_principal %>
+    <% else -%>
     ## hue_principal=hue/hostname.foo.com
+    <% end -%>
     # Path to kinit
+    <% if @kerberos_kinit_path -%>
+    kinit_path=<%= @kerberos_kinit_path %>
+    <% else -%>
     ## kinit_path=/path/to/kinit
+    <% end -%>
 
 
   # Configuration options for using OAuthBackend (core) login
