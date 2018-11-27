@@ -63,7 +63,7 @@
 #                                                    the correct host name.
 # $hive_server2_authentication                     - This property sets the authentication mode for Hive Server 2.
 #                                                    Values available: NOSASL, KERBEROS, NONE, PLAINTEXT. Default: undef
-# $hive_server2_authentication_kerbero_principal   - The service principal for the Hive Server. Default: undef
+# $hive_server2_authentication_kerberos_principal  - The service principal for the Hive Server. Default: undef
 # $hive_server2_authentication_kerberos_keytab     - The path to the Kerberos Keytab file.
 #
 class cdh::hive(
@@ -112,8 +112,8 @@ class cdh::hive(
     $hive_metastore_kerberos_principal   = $cdh::hive::defaults::hive_metastore_kerberos_principal,
 
     $hive_server2_authentication = $cdh::hive::defaults::hive_server2_authentication,
-    $hive_server2_authentication_kerbero_principal = $cdh::hive::defaults::hive_server2_authentication_kerbero_principal,
-    $hive_server2_authentication_kerberos_keytab   = $cdh::hive::defaults::hive_server2_authentication_kerberos_keytab,
+    $hive_server2_authentication_kerberos_principal = $cdh::hive::defaults::hive_server2_authentication_kerberos_principal,
+    $hive_server2_authentication_kerberos_keytab    = $cdh::hive::defaults::hive_server2_authentication_kerberos_keytab,
 
 ) inherits cdh::hive::defaults
 {

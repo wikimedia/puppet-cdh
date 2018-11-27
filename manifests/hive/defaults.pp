@@ -65,6 +65,6 @@ class cdh::hive::defaults {
     $hive_metastore_kerberos_principal   = undef
 
     $hive_server2_authentication = undef
-    $hive_server2_authentication_kerbero_principal = undef
-    $hive_server2_authentication_kerberos_keytab   = undef
+    $hive_server2_authentication_kerberos_principal = undef
+    $hive_server2_authentication_kerberos_keytab    = undef
 }
