@@ -363,7 +363,7 @@ if (@metastore_host == @fqdn)
 <% if @hive_server2_authentication_kerberos_principal -%>
   <property>
     <name>hive.server2.authentication.kerberos.principal</name>
-    <value><%= @hive_server2_authentication_kerberos_principal %>/value>
+    <value><%= @hive_server2_authentication_kerberos_principal %></value>
   </property>
 <% end -%>
 <% if @hive_server2_authentication_kerberos_keytab -%>
