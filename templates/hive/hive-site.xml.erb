@@ -28,11 +28,7 @@ if (@metastore_host == @fqdn)
 
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-<% if @hive_metastore_kerberos_principal -%>
-    <value><%= "jdbc:#{@jdbc_protocol}://#{@jdbc_host}:#{@jdbc_port}/#{@jdbc_database};principal=#{@hive_metastore_kerberos_principal}" %></value>
-<% else -%>
     <value><%= "jdbc:#{@jdbc_protocol}://#{@jdbc_host}:#{@jdbc_port}/#{@jdbc_database}" %></value>
-<% end -%>
     <description>JDBC connect string for a JDBC metastore</description>
   </property>
 
@@ -71,13 +67,6 @@ if (@metastore_host == @fqdn)
     <value>SchemaTable</value>
   </property>
 
-<% if @hive_metastore_sasl_enabled -%>
-  <property>
-    <name>hive.metastore.sasl.enabled</name>
-    <value><%= @hive_metastore_sasl_enabled %></value>
-  </property>
-<% end -%>
-
 <% if @hive_metastore_kerberos_keytab_file -%>
   <property>
     <name>hive.metastore.kerberos.keytab.file</name>
@@ -92,6 +81,14 @@ if (@metastore_host == @fqdn)
   </property>
 <% end -%>
 
+<% end -%>
+
+<% if @hive_metastore_sasl_enabled -%>
+  <!-- This property is shared between client and metastore -->
+  <property>
+    <name>hive.metastore.sasl.enabled</name>
+    <value><%= @hive_metastore_sasl_enabled %></value>
+  </property>
 <% end -%>
 
   <property>
