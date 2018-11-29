@@ -81,14 +81,12 @@ if (@metastore_host == @fqdn)
   </property>
 <% end -%>
 
-<% end -%>
-
 <% if @hive_metastore_sasl_enabled -%>
-  <!-- This property is shared between client and metastore -->
   <property>
     <name>hive.metastore.sasl.enabled</name>
     <value><%= @hive_metastore_sasl_enabled %></value>
   </property>
+<% end -%>
 <% end -%>
 
   <property>
