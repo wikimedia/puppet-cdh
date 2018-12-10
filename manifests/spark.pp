@@ -32,6 +32,8 @@
 # $dynamic_allocation_cached_executor_idle_timeout  - Corresponds to the related Spark Dynamic Resource Allocation timeout setting
 #                                                     This is only available in YARN mode. Default: '3600s'
 #
+# $use_kerberos                                     - Use Kerberos authentication to create HDFS directories.
+#
 class cdh::spark(
     $master_host                                     = undef,
     $worker_cores                                    = undef,
@@ -41,6 +43,7 @@ class cdh::spark(
     $dynamic_allocation_enabled                      = true,
     $dynamic_allocation_executor_idle_timeout        = '60s',
     $dynamic_allocation_cached_executor_idle_timeout = '3600s',
+    $use_kerberos                                    = false,
 )
 {
     # Spark requires Hadoop configs installed.
@@ -79,31 +82,35 @@ class cdh::spark(
         # sudo -u hdfs hdfs dfs -chmod 0775 /user/spark
         # sudo -u hdfs hdfs dfs -chown spark:spark /user/spark
         cdh::hadoop::directory { '/user/spark':
-            owner   => 'spark',
-            group   => 'spark',
-            mode    => '0755',
-            require => Package['spark-core'],
+            owner        => 'spark',
+            group        => 'spark',
+            mode         => '0755',
+            use_kerberos => $use_kerberos,
+            require      => Package['spark-core'],
         }
 
         cdh::hadoop::directory { '/user/spark/share':
-            owner   => 'spark',
-            group   => 'spark',
-            mode    => '0755',
-            require => Cdh::Hadoop::Directory['/user/spark'],
+            owner        => 'spark',
+            group        => 'spark',
+            mode         => '0755',
+            use_kerberos => $use_kerberos,
+            require      => Cdh::Hadoop::Directory['/user/spark'],
 
         }
         cdh::hadoop::directory { '/user/spark/share/lib':
-            owner   => 'spark',
-            group   => 'spark',
-            mode    => '0755',
-            require => Cdh::Hadoop::Directory['/user/spark/share'],
+            owner        => 'spark',
+            group        => 'spark',
+            mode         => '0755',
+            use_kerberos => $use_kerberos,
+            require      => Cdh::Hadoop::Directory['/user/spark/share'],
         }
 
         cdh::hadoop::directory { ['/user/spark/applicationHistory']:
-            owner   => 'spark',
-            group   => 'spark',
-            mode    => '1777',
-            require => Cdh::Hadoop::Directory['/user/spark'],
+            owner        => 'spark',
+            group        => 'spark',
+            mode         => '1777',
+            use_kerberos => $use_kerberos,
+            require      => Cdh::Hadoop::Directory['/user/spark'],
         }
     }
 

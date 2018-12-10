@@ -41,4 +41,6 @@ class cdh::oozie::defaults {
     $oozie_authentication_type                   = 'simple'
     $oozie_authentication_kerberos_principal     = "HTTP/localhost@${local_realm}"
     $oozie_authentication_kerberos_name_rules    = 'DEFAULT'
+
+    $use_kerberos                                = false
 }

@@ -7,10 +7,12 @@
 # primary ResourceManager on the same host.  Standby services
 # can be spread on any nodes.
 #
-class cdh::hadoop::master {
+class cdh::hadoop::master($use_kerberos = false) {
     Class['cdh::hadoop'] -> Class['cdh::hadoop::master']
 
-    include cdh::hadoop::namenode::primary
+    class { 'cdh::hadoop::namenode::primary':
+        use_kerberos => $use_kerberos,
+    }
 
     include cdh::hadoop::resourcemanager
     include cdh::hadoop::historyserver

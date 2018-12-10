@@ -4,7 +4,7 @@
 # This class may only be included on the NameNode Master
 # Hadoop node.
 #
-class cdh::hadoop::historyserver {
+class cdh::hadoop::historyserver($use_kerberos = false) {
     Class['cdh::hadoop::namenode'] -> Class['cdh::hadoop::historyserver']
 
     # Create HistoryServer HDFS directories.
@@ -13,13 +13,14 @@ class cdh::hadoop::historyserver {
         # sudo -u hdfs hdfs dfs -mkdir /user/history
         # sudo -u hdfs hdfs dfs -chmod -R 1777 /user/history
         # sudo -u hdfs hdfs dfs -chown yarn /user/history
-        owner   => 'yarn',
-        group   => 'hdfs',
-        mode    => '1777',
+        owner        => 'yarn',
+        group        => 'hdfs',
+        mode         => '1777',
+        use_kerberos => $use_kerberos,
         # Make sure HDFS directories are created before
         # historyserver is installed and started, but after
         # the namenode.
-        require => [Service['hadoop-hdfs-namenode'], Cdh::Hadoop::Directory['/user']],
+        require      => [Service['hadoop-hdfs-namenode'], Cdh::Hadoop::Directory['/user']],
     }
 
     package { 'hadoop-mapreduce-historyserver':

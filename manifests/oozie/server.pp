@@ -80,6 +80,7 @@ class cdh::oozie::server(
     $oozie_authentication_type                   = $cdh::oozie::defaults::oozie_authentication_type,
     $oozie_authentication_kerberos_principal     = $cdh::oozie::defaults::oozie_authentication_kerberos_principal,
     $oozie_authentication_kerberos_name_rules    = $cdh::oozie::defaults::oozie_authentication_kerberos_name_rules,
+    $use_kerberos                                = $cdh::oozie::defaults::use_kerberos,
 ) inherits cdh::oozie::defaults
 {
     # cdh::oozie::server requires Hadoop client and configs are installed.
@@ -129,10 +130,11 @@ class cdh::oozie::server(
     # sudo -u hdfs hdfs dfs -chmod 0775 /user/oozie
     # sudo -u hdfs hdfs dfs -chown oozie:oozie /user/oozie
     cdh::hadoop::directory { '/user/oozie':
-        owner   => 'oozie',
-        group   => 'hadoop',
-        mode    => '0755',
-        require => Package['oozie'],
+        owner        => 'oozie',
+        group        => 'hadoop',
+        mode         => '0755',
+        use_kerberos => $use_kerberos,
+        require      => Package['oozie'],
     }
 
     # Put oozie sharelib into HDFS:

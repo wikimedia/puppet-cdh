@@ -2,7 +2,8 @@
 # Installs and configures Hadoop YARN ResourceManager.
 # This will create YARN HDFS directories.
 #
-class cdh::hadoop::resourcemanager {
+class cdh::hadoop::resourcemanager($use_kerberos = false) {
+
     Class['cdh::hadoop'] -> Class['cdh::hadoop::resourcemanager']
 
     # In an HA YARN ResourceManager setup, this class will be included on multiple nodes.
@@ -16,14 +17,15 @@ class cdh::hadoop::resourcemanager {
         cdh::hadoop::directory { '/var/log/hadoop-yarn':
             # sudo -u hdfs hdfs dfs -mkdir /var/log/hadoop-yarn
             # sudo -u hdfs hdfs dfs -chown yarn:mapred /var/log/hadoop-yarn
-            owner   => 'yarn',
-            group   => 'mapred',
-            mode    => '0755',
+            owner        => 'yarn',
+            group        => 'mapred',
+            mode         => '0755',
+            use_kerberos => $use_kerberos,
             # Make sure HDFS directories are created before
             # resourcemanager is installed and started, but after
             # the namenode.
-            require => [Service['hadoop-hdfs-namenode'], Cdh::Hadoop::Directory['/var/log']],
-            before  => Package['hadoop-yarn-resourcemanager'],
+            require      => [Service['hadoop-hdfs-namenode'], Cdh::Hadoop::Directory['/var/log']],
+            before       => Package['hadoop-yarn-resourcemanager'],
         }
     }
 

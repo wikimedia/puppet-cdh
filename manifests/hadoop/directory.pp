@@ -21,33 +21,48 @@
 # there's a way to use HttpFS to do this instead?
 #
 # == Parameters:
-# $path   - HDFS directory path.   Default: $title
-# $ensure - present|absent.        Default: present
-# $owner  - HDFS directory owner.  Default: hdfs
-# $group  - HDFS directory group owner. Default: hdfs
-# $mode   - HDFS diretory mode.  Default 0755
-#
+# $path         - HDFS directory path. Default: $title
+# $ensure       - present|absent. Default: present
+# $owner        - HDFS directory owner. Default: hdfs
+# $group        - HDFS directory group owner. Default: hdfs
+# $mode         - HDFS directory mode. Default 0755
+# $use_kerberos - Configure whether Secure HDFS is used or not. Default: false
+#                 If $use_kerberos is enabled, a wrapper is launched which
+#                 gets a ticket for the service principal via a keytab. This
+#                 wrapper is not part of the cdh module, but can be found at
+#                 https://github.com/wikimedia/puppet/modules/kerberos.
 define cdh::hadoop::directory (
-    $path   = $title,
-    $ensure = 'present',
-    $owner  = 'hdfs',
-    $group  = 'hdfs',
-    $mode   = '0755')
+    $path         = $title,
+    $ensure       = 'present',
+    $owner        = 'hdfs',
+    $group        = 'hdfs',
+    $mode         = '0755',
+    $use_kerberos = false,
+)
 {
     Class['cdh::hadoop'] -> Cdh::Hadoop::Directory[$title]
 
+    if $use_kerberos {
+        if !defined(File['/usr/local/bin/kerberos-puppet-wrapper']) {
+            fail('kerberos-puppet-wrapper is not defined in the catalog.')
+        }
+        $wrapper = '/usr/local/bin/kerberos-puppet-wrapper hdfs '
+    } else {
+        $wrapper = ''
+    }
+
     if $ensure == 'present' {
         exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
-            unless  => "/usr/bin/hdfs dfs -test -e ${path}",
+            command => "${wrapper}/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
+            unless  => "${wrapper}/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             timeout => 30,
         }
     }
     else {
         exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
-            onlyif  => "/usr/bin/hdfs dfs -test -e ${path}",
+            command => "${wrapper}/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
+            onlyif  => "${wrapper}/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             require => Service['hadoop-hdfs-namenode'],
             timeout => 30,
