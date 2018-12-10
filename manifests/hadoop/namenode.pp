@@ -92,11 +92,13 @@ class cdh::hadoop::namenode {
                 Service['hadoop-hdfs-namenode'],
                 Package['zookeeper'],
             ],
+            # NOTE.  zkCli.sh from debian uses different install path than
+            # from CDH.  Add both possibilities to PATH.
+            path    => '/usr/share/zookeeper/bin:/usr/lib/zookeeper/bin',
             # Don't attempt to run this command if the znode already exists
             # or if a Java Exception is returned by the zkCli tool containing
             # the ERROR log (for example when the Zookeeper node is down).
-            unless  => "/usr/lib/zookeeper/bin/zkCli.sh \
-                -server ${zookeeper_hosts_string} \
+            unless  => "zkCli.sh -server ${zookeeper_hosts_string} \
                 stat /hadoop-ha/${::cdh::hadoop::cluster_name} 2>&1 \
                 | /bin/egrep -q 'ctime|ERROR'",
         }
