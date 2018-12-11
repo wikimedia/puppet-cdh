@@ -56,6 +56,7 @@ class cdh::hive::metastore::mysql(
         user    => 'root',
     }
     exec { 'hive_mysql_create_user':
+        path    => $exec_path,
         command => "mysql ${username_option} ${password_option} -e \"
 CREATE USER '${jdbc_username}'@'localhost' IDENTIFIED BY '${jdbc_password}';
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'localhost' WITH GRANT OPTION;
