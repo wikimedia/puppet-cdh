@@ -29,10 +29,11 @@ define cdh::hive::metastore::mysql::grant($allowed_host = $title) {
     }
 
     exec { "hive_mysql_grant_${allowed_host}":
-        command => "/usr/bin/mysql ${username_option} ${password_option} -e \"
+        path    => '/usr/local/bin:/usr/bin:/bin',
+        command => "mysql ${username_option} ${password_option} -e \"
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'${allowed_host}' IDENTIFIED BY '${jdbc_password}';
 FLUSH PRIVILEGES;\"",
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -e \"SHOW GRANTS FOR '${jdbc_username}'@'${allowed_host}'\" | grep -q \"TO '${jdbc_username}'\"",
+        unless  => "mysql ${username_option} ${password_option} -e \"SHOW GRANTS FOR '${jdbc_username}'@'${allowed_host}'\" | grep -q \"TO '${jdbc_username}'\"",
         user    => 'root',
     }
 }
