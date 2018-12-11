@@ -36,11 +36,12 @@ class cdh::oozie::database::mysql(
 
     # oozie is going to need an oozie database and user.
     exec { 'oozie_mysql_create_database':
-        command => "/usr/bin/mysql ${username_option} ${password_option} -e \"
+        path    => '/usr/local/bin:/usr/bin:/bin',
+        command => "mysql ${username_option} ${password_option} -e \"
 CREATE DATABASE ${jdbc_database};
 CREATE USER '${jdbc_username}'@'localhost' IDENTIFIED BY '${jdbc_password}';
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'localhost' IDENTIFIED BY '${jdbc_password}';\"",
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -BNe 'SHOW DATABASES' | /bin/grep -q ${jdbc_database}",
+        unless  => "mysql ${username_option} ${password_option} -BNe 'SHOW DATABASES' | grep -q ${jdbc_database}",
         user    => 'root',
     }
 }

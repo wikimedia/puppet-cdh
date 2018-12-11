@@ -47,26 +47,29 @@ class cdh::hive::metastore::mysql(
         default => "-p'${db_root_password}'",
     }
 
+    $exec_path = '/usr/lib/hive/bin:/usr/local/bin:/usr/bin:/bin'
     # Hive metastore MySQL database need a hive database and user.
     exec { 'hive_mysql_create_database':
-        command => "/usr/bin/mysql ${username_option} ${password_option} -e 'CREATE DATABASE ${jdbc_database}; USE ${jdbc_database};'",
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -e 'SHOW DATABASES' | /bin/grep -q ${jdbc_database}",
+        path    => $exec_path,
+        command => "mysql ${username_option} ${password_option} -e 'CREATE DATABASE ${jdbc_database}; USE ${jdbc_database};'",
+        unless  => "mysql ${username_option} ${password_option} -e 'SHOW DATABASES' | grep -q ${jdbc_database}",
         user    => 'root',
     }
     exec { 'hive_mysql_create_user':
-        command => "/usr/bin/mysql ${username_option} ${password_option} -e \"
+        command => "mysql ${username_option} ${password_option} -e \"
 CREATE USER '${jdbc_username}'@'localhost' IDENTIFIED BY '${jdbc_password}';
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ${jdbc_database}.* TO '${jdbc_username}'@'127.0.0.1' WITH GRANT OPTION;
 FLUSH PRIVILEGES;\"",
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -e \"SHOW GRANTS FOR '${jdbc_username}'@'127.0.0.1'\" | grep -q \"TO '${jdbc_username}'\"",
+        unless  => "mysql ${username_option} ${password_option} -e \"SHOW GRANTS FOR '${jdbc_username}'@'127.0.0.1'\" | grep -q \"TO '${jdbc_username}'\"",
         user    => 'root',
     }
 
     # Run hive schematool to initialize the Hive metastore schema.
     exec { 'hive_schematool_initialize_schema':
-        command => '/usr/lib/hive/bin/schematool -dbType mysql -initSchema',
-        unless  => "/usr/bin/mysql ${username_option} ${password_option} -D ${jdbc_database} -e \"SHOW TABLES;\" | grep -q 'VERSION'",
+        path    => $exec_path,
+        command => 'schematool -dbType mysql -initSchema',
+        unless  => "mysql ${username_option} ${password_option} -D ${jdbc_database} -e \"SHOW TABLES;\" | grep -q 'VERSION'",
         user    => 'root',
         require => [
             Class['cdh::hive::metastore::mysql::jar'],
