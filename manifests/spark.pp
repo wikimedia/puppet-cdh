@@ -49,6 +49,15 @@ class cdh::spark(
     # Spark requires Hadoop configs installed.
     Class['cdh::hadoop'] -> Class['cdh::spark']
 
+    if $use_kerberos {
+        if !defined(File['/usr/local/bin/kerberos-puppet-wrapper']) {
+            fail('kerberos-puppet-wrapper is not defined in the catalog.')
+        }
+        $wrapper = '/usr/local/bin/kerberos-puppet-wrapper hdfs '
+    } else {
+        $wrapper = ''
+    }
+
     # If $standalone_master_host was set,
     # then we will be configuring a standalone spark cluster.
     $standalone_enabled = $master_host ? {
@@ -125,8 +134,8 @@ class cdh::spark(
 
         $spark_jar_hdfs_path = "hdfs://${namenode_address}/user/spark/share/lib/spark-assembly.jar"
         exec { 'spark_assembly_jar_install':
-            command => "/usr/bin/hdfs dfs -put -f /usr/lib/spark/lib/spark-assembly.jar ${spark_jar_hdfs_path}",
-            unless  => '/usr/bin/hdfs dfs -ls /user/spark/share/lib/spark-assembly.jar | grep -q /user/spark/share/lib/spark-assembly.jar',
+            command => "${wrapper}/usr/bin/hdfs dfs -put -f /usr/lib/spark/lib/spark-assembly.jar ${spark_jar_hdfs_path}",
+            unless  => "${wrapper}/usr/bin/hdfs dfs -ls /user/spark/share/lib/spark-assembly.jar | grep -q /user/spark/share/lib/spark-assembly.jar",
             user    => 'spark',
             require => Cdh::Hadoop::Directory['/user/spark/share/lib'],
             before  => [
