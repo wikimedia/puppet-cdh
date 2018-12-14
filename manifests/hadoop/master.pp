@@ -14,8 +14,13 @@ class cdh::hadoop::master($use_kerberos = false) {
         use_kerberos => $use_kerberos,
     }
 
-    include cdh::hadoop::resourcemanager
-    include cdh::hadoop::historyserver
+    class { 'cdh::hadoop::resourcemanager':
+        use_kerberos => $use_kerberos,
+    }
+
+    class { 'cdh::hadoop::historyserver':
+        use_kerberos => $use_kerberos,
+    }
 
     # Install a check_active_namenode script, this can be run
     # from any Hadoop client, but we will only run it from master nodes.
