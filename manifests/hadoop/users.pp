@@ -15,7 +15,10 @@
 #        groups => 'my-analytics-group my-analytics-admin-group',
 #    }
 #
-class cdh::hadoop::users($groups = ['hadoop']) {
+class cdh::hadoop::users(
+    $groups = ['hadoop'],
+    $use_kerberos = false,
+) {
     Class['cdh::hadoop'] -> Class['cdh::hadoop::users']
 
     file { '/usr/local/bin/create_hdfs_user_directories.sh':
@@ -25,11 +28,12 @@ class cdh::hadoop::users($groups = ['hadoop']) {
         mode   => '0554',
     }
 
-    exec { 'create_hdfs_user_directories':
-        command   => "/usr/local/bin/create_hdfs_user_directories.sh --verbose ${groups}",
-        unless    => "/usr/local/bin/create_hdfs_user_directories.sh --check-for-changes ${groups}",
-        user      => 'hdfs',
-        logoutput => true,
-        timeout   => 120,
+    cdh::exec { 'create_hdfs_user_directories':
+        command      => "/usr/local/bin/create_hdfs_user_directories.sh --verbose ${groups}",
+        unless       => "/usr/local/bin/create_hdfs_user_directories.sh --check-for-changes ${groups}",
+        user         => 'hdfs',
+        logoutput    => true,
+        timeout      => 120,
+        use_kerberos => $use_kerberos,
     }
 }

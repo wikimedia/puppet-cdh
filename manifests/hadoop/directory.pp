@@ -31,6 +31,7 @@
 #                 gets a ticket for the service principal via a keytab. This
 #                 wrapper is not part of the cdh module, but can be found at
 #                 https://github.com/wikimedia/puppet/modules/kerberos.
+#
 define cdh::hadoop::directory (
     $path         = $title,
     $ensure       = 'present',
@@ -42,27 +43,18 @@ define cdh::hadoop::directory (
 {
     Class['cdh::hadoop'] -> Cdh::Hadoop::Directory[$title]
 
-    if $use_kerberos {
-        if !defined(File['/usr/local/bin/kerberos-puppet-wrapper']) {
-            fail('kerberos-puppet-wrapper is not defined in the catalog.')
-        }
-        $wrapper = '/usr/local/bin/kerberos-puppet-wrapper hdfs '
-    } else {
-        $wrapper = ''
-    }
-
     if $ensure == 'present' {
-        exec { "cdh::hadoop::directory ${title}":
-            command => "${wrapper}/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
-            unless  => "${wrapper}/usr/bin/hdfs dfs -test -e ${path}",
+        cdh::exec { "cdh::hadoop::directory ${title}":
+            command => "/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
+            unless  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             timeout => 30,
         }
     }
     else {
-        exec { "cdh::hadoop::directory ${title}":
-            command => "${wrapper}/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
-            onlyif  => "${wrapper}/usr/bin/hdfs dfs -test -e ${path}",
+        cdh::exec { "cdh::hadoop::directory ${title}":
+            command => "/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
+            onlyif  => "/usr/bin/hdfs dfs -test -e ${path}",
             user    => 'hdfs',
             require => Service['hadoop-hdfs-namenode'],
             timeout => 30,

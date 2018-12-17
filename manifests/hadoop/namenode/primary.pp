@@ -7,12 +7,17 @@
 # HA, then the primary NameNode will be transitioned to active as once NameNode
 # has been formatted, before common HDFS directories are created.
 #
-class cdh::hadoop::namenode::primary($use_kerberos = false) inherits cdh::hadoop::namenode {
+class cdh::hadoop::namenode::primary($use_kerberos = false) {
+
+    class { 'cdh::hadoop::namenode':
+        use_kerberos => $use_kerberos,
+    }
+
     # Go ahead and transision this primary namenode to active if we are using HA.
     if ($::cdh::hadoop::ha_enabled) {
         $primary_namenode_id = $::cdh::hadoop::primary_namenode_id
 
-        exec { 'haaadmin-transitionToActive':
+        cdh::exec { 'haaadmin-transitionToActive':
             # $namenode_id is set in parent cdh::hadoop::namenode class.
             command     => "/usr/bin/hdfs haadmin -transitionToActive ${primary_namenode_id}",
             unless      => "/usr/bin/hdfs haadmin -getServiceState    ${primary_namenode_id} | /bin/grep -q active",

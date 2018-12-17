@@ -8,7 +8,10 @@
 # cdh::hadoop::nameservice_id), your JournalNodes should be running before
 # this class is applied.
 #
-class cdh::hadoop::namenode {
+class cdh::hadoop::namenode(
+    $use_kerberos = false,
+    $standby = false,
+) {
     Class['cdh::hadoop'] -> Class['cdh::hadoop::namenode']
 
     # install namenode daemon package
@@ -47,11 +50,17 @@ class cdh::hadoop::namenode {
         require => Package['hadoop-hdfs-namenode'],
     }
 
+    if $standby {
+        $namenode_format_command = '/usr/bin/hdfs namenode -bootstrapStandby -nonInteractive'
+    } else {
+        $namenode_format_command = '/usr/bin/hdfs namenode -format -nonInteractive'
+    }
+
     # If $dfs_name_dir/current/VERSION doesn't exist, assume
     # NameNode has not been formated.  Format it before
     # the namenode service is started.
-    exec { 'hadoop-namenode-format':
-        command => '/usr/bin/hdfs namenode -format -nonInteractive',
+    cdh::exec { 'hadoop-namenode-format':
+        command => $namenode_format_command,
         creates => "${::cdh::hadoop::dfs_name_dir_main}/current/VERSION",
         user    => 'hdfs',
         require => [File[$::cdh::hadoop::dfs_name_dir], Exec['touch hosts.exclude']],
@@ -77,7 +86,7 @@ class cdh::hadoop::namenode {
             '<%= Array(@zookeeper_hosts).join(",") %>'
         )
 
-        exec { 'hadoop-hdfs-zkfc-init':
+        cdh::exec { 'hadoop-hdfs-zkfc-init':
             # If the znode created by -formatZK already exists, and for
             # some buggy reason it happens to run, -formatZK will prompt
             # the user to confirm if the znode should be reformatted.

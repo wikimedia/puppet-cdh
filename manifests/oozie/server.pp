@@ -146,10 +146,10 @@ class cdh::oozie::server(
     }
     $hdfs_uri               = "hdfs://${namenode_address}"
 
-    exec { 'oozie_sharelib_install':
+    cdh::exec { 'oozie_sharelib_install':
         command => "/usr/bin/oozie-setup sharelib create -fs ${hdfs_uri} -locallib ${oozie_sharelib_archive}",
         unless  => '/usr/bin/hdfs dfs -ls /user/oozie | grep -q /user/oozie/share',
-        user    => 'root',
+        user    => 'oozie',
         require => Cdh::Hadoop::Directory['/user/oozie'],
     }
 
