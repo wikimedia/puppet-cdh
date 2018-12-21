@@ -45,19 +45,21 @@ define cdh::hadoop::directory (
 
     if $ensure == 'present' {
         cdh::exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
-            unless  => "/usr/bin/hdfs dfs -test -e ${path}",
-            user    => 'hdfs',
-            timeout => 30,
+            command      => "/usr/bin/hdfs dfs -mkdir ${path} && /usr/bin/hdfs dfs -chmod ${mode} ${path} && /usr/bin/hdfs dfs -chown ${owner}:${group} ${path}",
+            unless       => "/usr/bin/hdfs dfs -test -e ${path}",
+            user         => 'hdfs',
+            timeout      => 30,
+            use_kerberos => $use_kerberos,
         }
     }
     else {
         cdh::exec { "cdh::hadoop::directory ${title}":
-            command => "/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
-            onlyif  => "/usr/bin/hdfs dfs -test -e ${path}",
-            user    => 'hdfs',
-            require => Service['hadoop-hdfs-namenode'],
-            timeout => 30,
+            command      => "/usr/bin/hdfs dfs -rm -R -skipTrash ${path}",
+            onlyif       => "/usr/bin/hdfs dfs -test -e ${path}",
+            user         => 'hdfs',
+            require      => Service['hadoop-hdfs-namenode'],
+            timeout      => 30,
+            use_kerberos => $use_kerberos,
         }
     }
 }
