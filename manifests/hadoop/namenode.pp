@@ -61,7 +61,7 @@ class cdh::hadoop::namenode(
         command => $namenode_format_command,
         creates => "${::cdh::hadoop::dfs_name_dir_main}/current/VERSION",
         user    => 'hdfs',
-        require => [File[$::cdh::hadoop::dfs_name_dir], Exec['touch hosts.exclude']],
+        require => [File[$::cdh::hadoop::dfs_name_dir], File["${::cdh::hadoop::config_directory}/hosts.exclude"]],
     }
 
     service { 'hadoop-hdfs-namenode':
