@@ -8,7 +8,10 @@
 #
 # NOTE: Your JournalNodes should be running before this class is applied.
 #
-class cdh::hadoop::namenode::standby($use_kerberos = false) {
+class cdh::hadoop::namenode::standby(
+    $use_kerberos = false,
+    $excluded_hosts = [],
+) {
 
     # Fail if nameservice_id isn't set.
     if (!$::cdh::hadoop::ha_enabled) {
@@ -16,7 +19,8 @@ class cdh::hadoop::namenode::standby($use_kerberos = false) {
     }
 
     class { 'cdh::hadoop::namenode':
-        use_kerberos => $use_kerberos,
-        standby      => true,
+        use_kerberos   => $use_kerberos,
+        standby        => true,
+        excluded_hosts => $excluded_hosts,
     }
 }

@@ -7,10 +7,14 @@
 # HA, then the primary NameNode will be transitioned to active as once NameNode
 # has been formatted, before common HDFS directories are created.
 #
-class cdh::hadoop::namenode::primary($use_kerberos = false) {
+class cdh::hadoop::namenode::primary(
+    $use_kerberos = false,
+    $excluded_hosts = [],
+) {
 
     class { 'cdh::hadoop::namenode':
-        use_kerberos => $use_kerberos,
+        use_kerberos   => $use_kerberos,
+        excluded_hosts => $excluded_hosts,
     }
 
     # Go ahead and transision this primary namenode to active if we are using HA.
