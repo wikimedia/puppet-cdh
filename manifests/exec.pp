@@ -30,7 +30,7 @@ define cdh::exec(
 
     # 'unless' may contain a hdfs command that needs
     # authentication as well.
-    if $unless_command and $use_kerberos {
+    if $unless and $use_kerberos {
         $unless_command = "${wrapper}${unless}"
     } else {
         $unless_command = $unless
