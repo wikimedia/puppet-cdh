@@ -38,9 +38,14 @@ if __name__ == '__main__':
 
     # Load and parse hdfs-site.xml
     hdfs_properties = ET.parse(hdfs_site_xml).getroot()
+
+    cluster_name = hdfs_properties.findall(
+        "./property[name='dfs.nameservices']"
+    )[0][1].text
+
     # Find the namenode service IDs
     namenodes = hdfs_properties.findall(
-        "./property[name='dfs.ha.namenodes.analytics-hadoop']"
+        "./property[name='dfs.ha.namenodes.{}']".format(cluster_name)
     )[0][1].text.split(',')
 
     for namenode in namenodes:
