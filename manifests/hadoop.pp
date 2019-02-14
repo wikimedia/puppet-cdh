@@ -311,6 +311,7 @@ class cdh::hadoop(
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
     $yarn_resourcemanager_zk_timeout_ms          = $::cdh::hadoop::defaults::yarn_resourcemanager_zk_timeout_ms,
+    $yarn_resourcemanager_zk_state_store_parent_path = $::cdh::hadoop::defaults::yarn_resourcemanager_zk_state_store_parent_path,
 
     $java_home                                   = $::cdh::hadoop::defaults::java_home,
 
