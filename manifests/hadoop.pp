@@ -312,6 +312,7 @@ class cdh::hadoop(
     $zookeeper_hosts                             = $::cdh::hadoop::defaults::zookeeper_hosts,
     $yarn_resourcemanager_zk_timeout_ms          = $::cdh::hadoop::defaults::yarn_resourcemanager_zk_timeout_ms,
     $yarn_resourcemanager_zk_state_store_parent_path = $::cdh::hadoop::defaults::yarn_resourcemanager_zk_state_store_parent_path,
+    $yarn_resourcemanager_fs_state_store_uri     = $::cdh::hadoop::defaults::yarn_resourcemanager_fs_state_store_uri,
 
     $java_home                                   = $::cdh::hadoop::defaults::java_home,
 
@@ -378,6 +379,12 @@ class cdh::hadoop(
     $yarn_nodemanager_container_executor_config  = $::cdh::hadoop::defaults::yarn_nodemanager_container_executor_config,
 ) inherits cdh::hadoop::defaults
 {
+
+    if $yarn_resourcemanager_fs_state_store_uri and yarn_resourcemanager_zk_state_store_parent_path {
+        fail('yarn_resourcemanager_fs_state_store_uri and
+              yarn_resourcemanager_zk_state_store_parent_path are mutually exclusive')
+    }
+
     # If $dfs_name_dir is a list, this will be the
     # first entry in the list.  Else just $dfs_name_dir.
     # This used in a couple of execs throughout this module.

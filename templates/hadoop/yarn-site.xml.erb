@@ -61,19 +61,33 @@ end
   </property>
 
   <property>
-    <name>yarn.resourcemanager.store.class</name>
-    <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
-  </property>
-
-  <property>
     <name>yarn.resourcemanager.zk-address</name>
     <value><%= Array(@zookeeper_hosts).sort.join(',') %></value>
   </property>
 
+<% if @yarn_resourcemanager_zk_state_store_parent_path -%>
   <property>
     <name>yarn.resourcemanager.zk-state-store.parent-path</name>
     <value><%= @yarn_resourcemanager_zk_state_store_parent_path %></value>
   </property>
+
+  <property>
+    <name>yarn.resourcemanager.store.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+  </property>
+<% end -%>
+
+<% if @yarn_resourcemanager_fs_state_store_uri -%>
+  <property>
+    <name>yarn.resourcemanager.fs.state-store.uri</name>
+    <value><%= @yarn_resourcemanager_fs_state_store_uri %></value>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.store.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.FileSystemRMStateStore</value>
+  </property>
+<% end -%>
 
 <% if @yarn_resourcemanager_zk_timeout_ms -%>
   <property>

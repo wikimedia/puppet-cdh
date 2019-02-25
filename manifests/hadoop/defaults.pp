@@ -21,6 +21,8 @@ class cdh::hadoop::defaults {
     # (a restart of Yarn RM in one cluster affects the other).
     $yarn_resourcemanager_zk_state_store_parent_path = "/rmstore-${cluster_name}"
 
+    $yarn_resourcemanager_fs_state_store_uri     = undef
+
     $java_home                                   = undef
 
     $fs_trash_interval                           = undef
