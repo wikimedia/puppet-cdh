@@ -20,14 +20,13 @@
 # }
 #
 class cdh::hadoop::jmxtrans::namenode(
-    $jmx_port       = $cdh::hadoop::defaults::namenode_jmxremote_port,
+    $jmx_port       = 9980,
     $ganglia        = undef,
     $graphite       = undef,
     $statsd         = undef,
     $outfile        = undef,
     $objects        = undef,
-) inherits cdh::hadoop::defaults
-{
+) {
     $jmx = "${::fqdn}:${jmx_port}"
     $group_name = 'Hadoop.NameNode'
 

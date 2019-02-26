@@ -16,13 +16,12 @@
 # $jdbc_password       - password to access the Oozie database. Default: 'oozie'
 #
 class cdh::oozie::database::mysql(
-    $db_root_username = $cdh::oozie::defaults::db_root_username,
-    $db_root_password = $cdh::oozie::defaults::db_root_password,
-    $jdbc_database    = $cdh::oozie::defaults::jdbc_database,
-    $jdbc_username    = $cdh::oozie::defaults::jdbc_username,
-    $jdbc_password    = $cdh::oozie::defaults::jdbc_password,
-) inherits cdh::oozie::defaults
-{
+    $db_root_username = undef,
+    $db_root_password = undef,
+    $jdbc_database    = 'oozie',
+    $jdbc_username    = 'oozie',
+    $jdbc_password    = 'oozie',
+) {
     # Only use -u or -p flag to mysql commands if
     # root username or root password are set.
     $username_option = $db_root_username ? {

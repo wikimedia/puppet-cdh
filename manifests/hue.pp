@@ -81,61 +81,87 @@
 # $ldap_create_users_on_login - Default: true
 #
 class cdh::hue(
-    $http_host                  = $cdh::hue::defaults::http_host,
-    $http_port                  = $cdh::hue::defaults::http_port,
-    $secret_key                 = $cdh::hue::defaults::secret_key,
-    $app_blacklist              = $cdh::hue::defaults::app_blacklist,
+    $http_host                  = '0.0.0.0',
+    $http_port                  = 8888,
+    $secret_key                 = undef,
+    $app_blacklist              = ['hbase', 'impala', 'search', 'spark', 'rdbms', 'zookeeper'],
 
-    $hive_server_host           = $cdh::hue::defaults::hive_server_host,
+    $hive_server_host           = undef,
 
-    $oozie_url                  = $cdh::hue::defaults::oozie_url,
-    $oozie_security_enabled     = $cdh::hue::defaults::oozie_security_enabled,
+    $proxy_whitelist            = undef,
+    $proxy_blacklist            = undef,
 
-    $proxy_whitelist            = $cdh::hue::defaults::proxy_whitelist,
-    $proxy_blacklist            = $cdh::hue::defaults::proxy_blacklist,
+    $smtp_host                  = 'localhost',
+    $smtp_port                  = 25,
+    $smtp_user                  = undef,
+    $smtp_password              = undef,
+    $smtp_from_email            = undef,
 
-    $smtp_host                  = $cdh::hue::defaults::smtp_host,
-    $smtp_port                  = $cdh::hue::defaults::smtp_port,
-    $smtp_user                  = $cdh::hue::defaults::smtp_user,
-    $smtp_password              = $cdh::hue::defaults::smtp_password,
-    $smtp_from_email            = $cdh::hue::defaults::smtp_from_email,
+    $ssl_private_key            = '/etc/ssl/private/hue.key',
+    $ssl_certificate            = '/etc/ssl/certs/hue.cert',
+    $secure_proxy_ssl_header    = false,
 
-    $ssl_private_key            = $cdh::hue::defaults::ssl_private_key,
-    $ssl_certificate            = $cdh::hue::defaults::ssl_certificate,
-    $secure_proxy_ssl_header    = $cdh::hue::defaults::secure_proxy_ssl_header,
+    $ldap_url                   = undef,
+    $ldap_cert                  = undef,
+    $ldap_nt_domain             = undef,
+    $ldap_bind_dn               = undef,
+    $ldap_base_dn               = undef,
+    $ldap_bind_password         = undef,
+    $ldap_username_pattern      = undef,
+    $ldap_user_filter           = undef,
+    $ldap_user_name_attr        = undef,
+    $ldap_group_filter          = undef,
+    $ldap_group_name_attr       = undef,
+    $ldap_group_member_attr     = undef,
+    $ldap_create_users_on_login = true,
 
-    $ldap_url                   = $cdh::hue::defaults::ldap_url,
-    $ldap_cert                  = $cdh::hue::defaults::ldap_cert,
-    $ldap_nt_domain             = $cdh::hue::defaults::ldap_nt_domain,
-    $ldap_bind_dn               = $cdh::hue::defaults::ldap_bind_dn,
-    $ldap_base_dn               = $cdh::hue::defaults::ldap_base_dn,
-    $ldap_bind_password         = $cdh::hue::defaults::ldap_bind_password,
-    $ldap_username_pattern      = $cdh::hue::defaults::ldap_username_pattern,
-    $ldap_user_filter           = $cdh::hue::defaults::ldap_user_filter,
-    $ldap_user_name_attr        = $cdh::hue::defaults::ldap_user_name_attr,
-    $ldap_group_filter          = $cdh::hue::defaults::ldap_group_filter,
-    $ldap_group_name_attr       = $cdh::hue::defaults::ldap_group_name_attr,
-    $ldap_group_member_attr     = $cdh::hue::defaults::ldap_group_member_attr,
-    $ldap_create_users_on_login = $cdh::hue::defaults::ldap_create_users_on_login,
+    $hue_ini_template           = 'cdh/hue/hue.ini.erb',
+    $hue_log4j_template         = 'cdh/hue/log4j.properties.erb',
+    $hue_log_conf_template      = 'cdh/hue/log.conf.erb',
 
-    $hue_ini_template           = $cdh::hue::defaults::hue_ini_template,
-    $hue_log4j_template         = $cdh::hue::defaults::hue_log4j_template,
-    $hue_log_conf_template      = $cdh::hue::defaults::hue_log_conf_template,
+    $database_host              = undef,
+    $database_port              = undef,
+    $database_user              = undef,
+    $database_password          = undef,
+    $database_name              = '/var/lib/hue/desktop.db',
+    $database_engine            = 'sqlite3',
 
-    $database_host              = $cdh::hue::defaults::database_host,
-    $database_port              = $cdh::hue::defaults::database_port,
-    $database_user              = $cdh::hue::defaults::database_user,
-    $database_password          = $cdh::hue::defaults::database_password,
-    $database_name              = $cdh::hue::defaults::database_name,
-    $database_engine            = $cdh::hue::defaults::database_engine,
+    $kerberos_keytab            = undef,
+    $kerbersos_principal        = undef,
+    $kerberos_kinit_path        = undef,
 
-    $kerberos_keytab            = $cdh::hue::defaults::kerberos_keytab,
-    $kerbersos_principal        = $cdh::hue::defaults::kerberos_principal,
-    $kerberos_kinit_path        = $cdh::hue::defaults::kerberos_kinit_path,
-
-) inherits cdh::hue::defaults
-{
+) {
     Class['cdh::hadoop'] -> Class['cdh::hue']
+
+    # Set Hue Oozie defaults to those already
+    # set in the cdh::oozie class.
+    if (defined(Class['cdh::oozie'])) {
+        $oozie_url              = $cdh::oozie::url
+        $oozie_proxy_regex      = "${cdh::oozie::oozie_host}:(11000|11443)"
+    }
+    # Otherwise disable Oozie interface for Hue.
+    else {
+        $oozie_url              = undef
+        $oozie_proxy_regex      = ''
+
+    }
+    $oozie_security_enabled     = false
+
+    $namenode_hosts = $cdh::hadoop::namenode_hosts
+
+    if $proxy_whitelist {
+        $proxy_whitelist_final = $proxy_whitelist
+    } else {
+        $proxy_whitelist_final = [
+            # namenode + resourcemanager + history server host and ports
+            inline_template("(<%= @namenode_hosts.join('|') %>):(50070|50470|8088|19888)"),
+            # Oozie Web UI.
+            $oozie_proxy_regex,
+            # No way to determine DataNode or NodeManager hostname defaults.
+            # If you want to restrict this, make sure you override $proxy_whitelist parameter.
+            '.+:(50075|8042)',
+        ]
+    }
 
     # If httpfs is enabled, the default httpfs port
     # will be used, instead of the webhdfs port.
@@ -212,8 +238,8 @@ class cdh::hue(
 
         # If the SSL settings are left at the defaults,
         # then generate a default self-signed certificate.
-        if (($ssl_private_key == $cdh::hue::defaults::ssl_private_key) and
-            ($ssl_certificate == $cdh::hue::defaults::ssl_certificate)) {
+        if (($ssl_private_key == '/etc/ssl/private/hue.key') and
+            ($ssl_certificate == '/etc/ssl/certs/hue.cert')) {
 
             exec { 'generate_hue_ssl_private_key':
                 command => "/usr/bin/openssl genrsa 2048 > ${ssl_private_key}",

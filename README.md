@@ -82,7 +82,7 @@ points provided.
 ## Hadoop Master
 
 ```puppet
-class my::hadoop::master inherits my::hadoop {
+class my::hadoop::master {
     include cdh::hadoop::master
 }
 
@@ -98,7 +98,7 @@ and set up the JobTracker.
 ## Hadoop Workers
 
 ```puppet
-class my::hadoop::worker inherits my::hadoop {
+class my::hadoop::worker {
     include cdh::hadoop::worker
 }
 
@@ -179,10 +179,10 @@ On your standby NameNodes, instead of including ```cdh::hadoop::master```,
 include ```cdh::hadoop::namenode::standby```:
 
 ``` puppet
-class my::hadoop::master inherits my::hadoop {
+class my::hadoop::master {
     include cdh::hadoop::master
 }
-class my::hadoop::standby inherits my::hadoop {
+class my::hadoop::standby {
     include cdh::hadoop::namenode::standby
 }
 
@@ -315,10 +315,10 @@ Note the differences from the non-HA RM setup:
 - On your standby ResourceManagers, explicitly include ```cdh::hadoop::resourcemanager```.
 
 ``` puppet
-class my::hadoop::master inherits my::hadoop {
+class my::hadoop::master {
     include cdh::hadoop::master
 }
-class my::hadoop::standby inherits my::hadoop {
+class my::hadoop::standby {
     include cdh::hadoop::namenode::standby
     include cdh::hadoop::resourcemanager
 }

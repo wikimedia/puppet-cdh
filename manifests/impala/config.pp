@@ -18,7 +18,7 @@
 # $config_directory variable that can be refereced from other places
 # that need to know it.  Do not try to reference anything in this class!
 #
-class cdh::impala::config inherits cdh::hadoop {
+class cdh::impala::config {
 
     $config_directory = "/etc/impala/conf.${cdh::hadoop::cluster_name}"
     # Create the $cluster_name based $config_directory.

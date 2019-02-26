@@ -15,14 +15,13 @@
 #                  class provides.
 #
 class cdh::hive::jmxtrans::server(
-    $jmx_port       = $cdh::hive::defaults::hive_server_jmx_port,
+    $jmx_port       = 9978,
     $ganglia        = undef,
     $graphite       = undef,
     $statsd         = undef,
     $outfile        = undef,
     $objects        = undef,
-) inherits cdh::hive::defaults
-{
+) {
     $jmx = "${::fqdn}:${jmx_port}"
     $group_name = 'Hive.Server'
 

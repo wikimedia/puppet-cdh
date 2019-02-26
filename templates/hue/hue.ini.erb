@@ -682,7 +682,7 @@ if @oozie_url
 [proxy]
   # Comma-separated list of regular expressions,
   # which match 'host:port' of requested proxy target.
-  <%= @proxy_whitelist ? "whitelist=#{Array(@proxy_whitelist).join(',')}" : '## whitelist=(localhost|127\.0\.0\.1):(50030|50070|50060|50075)' %>
+  <%= @proxy_whitelist_final ? "whitelist=#{Array(@proxy_whitelist_final).join(',')}" : '## whitelist=(localhost|127\.0\.0\.1):(50030|50070|50060|50075)' %>
 
   # Comma-separated list of regular expressions,
   # which match any prefix of 'host:port/path' of requested proxy target.

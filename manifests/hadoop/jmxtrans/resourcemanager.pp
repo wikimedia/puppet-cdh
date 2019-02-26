@@ -20,14 +20,13 @@
 # }
 #
 class cdh::hadoop::jmxtrans::resourcemanager(
-    $jmx_port       = $cdh::hadoop::defaults::resourcemanager_jmxremote_port,
+    $jmx_port       = 9983,
     $ganglia        = undef,
     $graphite       = undef,
     $statsd         = undef,
     $outfile        = undef,
     $objects        = undef,
-) inherits cdh::hadoop::defaults
-{
+) {
     $jmx = "${::fqdn}:${jmx_port}"
     $group_name = 'Hadoop.ResourceManager'
 

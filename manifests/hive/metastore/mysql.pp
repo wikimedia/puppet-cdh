@@ -17,13 +17,12 @@
 # $jdbc_password       - password to access the Hive database. Default: 'hive'
 #
 class cdh::hive::metastore::mysql(
-    $db_root_username = $cdh::oozie::defaults::db_root_username,
-    $db_root_password = $cdh::oozie::defaults::db_root_password,
-    $jdbc_database    = $cdh::oozie::defaults::jdbc_database,
-    $jdbc_username    = $cdh::oozie::defaults::jdbc_username,
-    $jdbc_password    = $cdh::oozie::defaults::jdbc_password,
-) inherits cdh::hive::defaults
-{
+    $db_root_username = undef,
+    $db_root_password = undef,
+    $jdbc_database    = 'hive_metastore',
+    $jdbc_username    = 'hive',
+    $jdbc_password    = hive,
+) {
     # Need to hive package in order to have
     # /usr/lib/hive/bin/schematool installed.
     if !defined(Package['hive']) {

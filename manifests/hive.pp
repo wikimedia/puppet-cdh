@@ -14,7 +14,7 @@
 # $support_concurrency           - Whether Hive supports concurrency or not. A Zookeeper
 #                                  instance must be up and running for the default Hive
 #                                  lock manager to support read-write locks.
-#                                  Default: true if $zookeeper_hosts is set, false if not.
+#                                  Default: false
 #
 # $jdbc_database                 - Metastore JDBC database name.
 #                                  Default: 'hive_metastore'
@@ -68,55 +68,55 @@
 #
 class cdh::hive(
     $metastore_host,
-    $zookeeper_hosts             = $cdh::hive::defaults::zookeeper_hosts,
-    $support_concurrency         = $cdh::hive::defaults::support_concurrency,
-    $jdbc_database               = $cdh::hive::defaults::jdbc_database,
-    $jdbc_username               = $cdh::hive::defaults::jdbc_username,
-    $jdbc_password               = $cdh::hive::defaults::jdbc_password,
-    $jdbc_host                   = $cdh::hive::defaults::jdbc_host,
-    $jdbc_port                   = $cdh::hive::defaults::jdbc_port,
-    $jdbc_driver                 = $cdh::hive::defaults::jdbc_driver,
-    $jdbc_protocol               = $cdh::hive::defaults::jdbc_protocol,
+    $zookeeper_hosts             = undef,
+    $support_concurrency         = false,
+    $jdbc_database               = 'hive_metastore',
+    $jdbc_username               = 'hive',
+    $jdbc_password               = 'hive',
+    $jdbc_host                   = 'localhost',
+    $jdbc_port                   = 3306,
+    $jdbc_driver                 = 'com.mysql.jdbc.Driver',
+    $jdbc_protocol               = 'mysql',
 
-    $variable_substitute_depth   = $cdh::hive::defaults::variable_substitute_depth,
-    $auxpath                     = $cdh::hive::defaults::auxpath,
-    $parquet_compression         = $cdh::hive::defaults::parquet_compression,
+    $variable_substitute_depth   = undef,
+    $auxpath                     = undef,
+    $parquet_compression         = undef,
 
-    $exec_parallel_thread_number = $cdh::hive::defaults::exec_parallel_thread_number,
-    $optimize_skewjoin           = $cdh::hive::defaults::optimize_skewjoin,
-    $skewjoin_key                = $cdh::hive::defaults::skewjoin_key,
-    $skewjoin_mapjoin_map_tasks  = $cdh::hive::defaults::skewjoin_mapjoin_map_tasks,
+    $exec_parallel_thread_number = 8,
+    $optimize_skewjoin           = false,
+    $skewjoin_key                = 10000,
+    $skewjoin_mapjoin_map_tasks  = 10000,
+    $skewjoin_mapjoin_min_split  = 33554432,
 
-    $stats_enabled               = $cdh::hive::defaults::stats_enabled,
-    $stats_dbclass               = $cdh::hive::defaults::stats_dbclass,
-    $stats_jdbcdriver            = $cdh::hive::defaults::stats_jdbcdriver,
-    $stats_dbconnectionstring    = $cdh::hive::defaults::stats_dbconnectionstring,
+    $stats_enabled               = false,
+    $stats_dbclass               = 'jdbc:derby',
+    $stats_jdbcdriver            = 'org.apache.derby.jdbc.EmbeddedDriver',
+    $stats_dbconnectionstring    = 'jdbc:derby:;databaseName=TempStatsStore;create=true',
 
-    $hive_site_template          = $cdh::hive::defaults::hive_site_template,
-    $hive_log4j_template         = $cdh::hive::defaults::hive_log4j_template,
-    $java_logging_template       = $cdh::hive::defaults::java_logging_template,
-    $hive_exec_log4j_template    = $cdh::hive::defaults::hive_exec_log4j_template,
-    $hive_env_template           = $cdh::hive::defaults::hive_env_template,
+    $hive_site_template          = 'cdh/hive/hive-site.xml.erb',
+    $hive_log4j_template         = 'cdh/hive/hive-log4j.properties.erb',
+    $java_logging_template       = 'cdh/hive/java-logging.properties.erb',
+    $hive_exec_log4j_template    = 'cdh/hive/hive-exec-log4j.properties.erb',
+    $hive_env_template           = 'cdh/hive/hive-env.sh.erb',
 
-    $java_home                   = $cdh::hive::defaults::java_home,
+    $java_home                   = undef,
 
-    $hive_metastore_opts         = $cdh::hive::defaults::hive_metastore_opts,
-    $hive_server_opts            = $cdh::hive::defaults::hive_server_opts,
-    $hive_metastore_jmx_port     = $cdh::hive::defaults::hive_metastore_jmx_port,
-    $hive_server_jmx_port        = $cdh::hive::defaults::hive_server_jmx_port,
+    $hive_metastore_opts         = '-Xmx2048m',
+    $hive_server_opts            = '-Xmx2048m',
+    $hive_metastore_jmx_port     = 9979,
+    $hive_server_jmx_port        = 9978,
 
-    $hive_server_udf_blacklist   = $cdh::hive::defaults::hive_server_udf_blacklist,
+    $hive_server_udf_blacklist   = undef,
 
-    $hive_metastore_sasl_enabled = $cdh::hive::defaults::hive_metastore_sasl_enabled,
-    $hive_metastore_kerberos_keytab_file = $cdh::hive::defaults::hive_metastore_kerberos_keytab_file,
-    $hive_metastore_kerberos_principal   = $cdh::hive::defaults::hive_metastore_kerberos_principal,
+    $hive_metastore_sasl_enabled = undef,
+    $hive_metastore_kerberos_keytab_file = undef,
+    $hive_metastore_kerberos_principal   = undef,
 
-    $hive_server2_authentication = $cdh::hive::defaults::hive_server2_authentication,
-    $hive_server2_authentication_kerberos_principal = $cdh::hive::defaults::hive_server2_authentication_kerberos_principal,
-    $hive_server2_authentication_kerberos_keytab    = $cdh::hive::defaults::hive_server2_authentication_kerberos_keytab,
+    $hive_server2_authentication = undef,
+    $hive_server2_authentication_kerberos_principal = undef,
+    $hive_server2_authentication_kerberos_keytab    = undef,
 
-) inherits cdh::hive::defaults
-{
+) {
     Class['cdh::hadoop'] -> Class['cdh::hive']
 
     package { 'hive':
