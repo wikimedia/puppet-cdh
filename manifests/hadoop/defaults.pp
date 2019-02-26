@@ -15,11 +15,11 @@ class cdh::hadoop::defaults {
     $zookeeper_hosts                             = undef
     $yarn_resourcemanager_zk_timeout_ms          = undef
 
-    # The Yarn resource managers store their state (like application ids, their config, etc..),
-    # so having more than one Hadoop clusters means, by default, re-using /rmstore in zookeeper
-    # (if using the same zookeper cluster of course) ending up in a weird inconsistent state
-    # (a restart of Yarn RM in one cluster affects the other).
-    $yarn_resourcemanager_zk_state_store_parent_path = "/rmstore-${cluster_name}"
+    # Note: the Yarn resource managers store their state (like application ids, their config, etc..),
+    # on zookeeper using the following config, so having more than one Hadoop clusters means, by default,
+    # re-using the /rmstore znode. Please config this parameter accordingly when planning to have multiple
+    # Hadoop clusters sharing the same zookeeper hosts.
+    $yarn_resourcemanager_zk_state_store_parent_path = undef
 
     $yarn_resourcemanager_fs_state_store_uri     = undef
 
