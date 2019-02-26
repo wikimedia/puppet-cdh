@@ -380,7 +380,7 @@ class cdh::hadoop(
 ) inherits cdh::hadoop::defaults
 {
 
-    if $yarn_resourcemanager_fs_state_store_uri and yarn_resourcemanager_zk_state_store_parent_path {
+    if $yarn_resourcemanager_fs_state_store_uri and $yarn_resourcemanager_zk_state_store_parent_path {
         fail('yarn_resourcemanager_fs_state_store_uri and
               yarn_resourcemanager_zk_state_store_parent_path are mutually exclusive')
     }
