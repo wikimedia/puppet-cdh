@@ -375,7 +375,7 @@ class cdh::hadoop(
     $hdfs_site_extra_properties                  = $::cdh::hadoop::defaults::hdfs_site_extra_properties,
     $mapred_site_extra_properties                = $::cdh::hadoop::defaults::mapred_site_extra_properties,
     $ssl_server_config                           = $::cdh::hadoop::defaults::ssl_server_config,
-    $ssl_client_config                           = $::cdh::hadoop::defaults::client_config,
+    $ssl_client_config                           = $::cdh::hadoop::defaults::ssl_client_config,
     $yarn_nodemanager_container_executor_config  = $::cdh::hadoop::defaults::yarn_nodemanager_container_executor_config,
 ) inherits cdh::hadoop::defaults
 {
