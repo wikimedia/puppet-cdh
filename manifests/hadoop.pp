@@ -284,14 +284,6 @@
 #     before shutting down.
 #     Default: undef
 #
-#    [*ssl_server_config*]
-#      TLS configuration properties for ssl-server.xml.erb.
-#      Default: undef
-#
-#    [*ssl_client_config*]
-#      TLS configuration properties for ssl-client.xml.erb.
-#      Default: undef
-#
 #    [*yarn_nodemanager_container_executor_config*]
 #      Hash that contains key/values that will populate the
 #      container-executor.cfg file.
@@ -374,8 +366,6 @@ class cdh::hadoop(
     $yarn_site_extra_properties                  = undef,
     $hdfs_site_extra_properties                  = undef,
     $mapred_site_extra_properties                = undef,
-    $ssl_server_config                           = undef,
-    $ssl_client_config                           = undef,
     $yarn_nodemanager_container_executor_config  = undef,
     $namenode_jmxremote_port                     = 9980,
     $datanode_jmxremote_port                     = 9981,
@@ -516,24 +506,6 @@ class cdh::hadoop(
 
     file { "${config_directory}/yarn-env.sh":
         content => template('cdh/hadoop/yarn-env.sh.erb'),
-    }
-
-    if $ssl_server_config {
-        file { "${config_directory}/ssl-server.xml":
-            owner   => 'root',
-            group   => 'hadoop',
-            mode    => '0550',
-            content => template('cdh/hadoop/ssl-server.xml.erb'),
-        }
-    }
-
-    if $ssl_client_config {
-        file { "${config_directory}/ssl-client.xml":
-            owner   => 'root',
-            group   => 'hadoop',
-            mode    => '0550',
-            content => template('cdh/hadoop/ssl-client.xml.erb'),
-        }
     }
 
     if $yarn_nodemanager_container_executor_config {
