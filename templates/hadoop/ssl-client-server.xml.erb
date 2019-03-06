@@ -5,10 +5,12 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
 <configuration>
-<% @ssl_server_config.sort.map do |key, value| -%>
+<% @ssl_client_config.sort.map do |key, value| -%>
+  <% if value -%>
   <property>
       <name><%= key %></name>
       <value><%= value %></value>
   </property>
+  <% end -%>
 <% end -%>
 </configuration>

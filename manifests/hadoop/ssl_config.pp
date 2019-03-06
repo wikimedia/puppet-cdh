@@ -26,7 +26,7 @@ class cdh::hadoop::ssl_config (
             owner   => 'root',
             group   => 'hadoop',
             mode    => '0550',
-            content => template('cdh/hadoop/ssl-server.xml.erb'),
+            content => template('cdh/hadoop/ssl-client-server.xml.erb'),
         }
     }
 
@@ -35,7 +35,7 @@ class cdh::hadoop::ssl_config (
             owner   => 'root',
             group   => 'hadoop',
             mode    => '0550',
-            content => template('cdh/hadoop/ssl-client.xml.erb'),
+            content => template('cdh/hadoop/ssl-client-server.xml.erb'),
         }
     }
 }
