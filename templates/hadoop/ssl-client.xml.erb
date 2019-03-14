@@ -6,7 +6,7 @@
 
 <configuration>
 <% @ssl_client_config.sort.map do |key, value| -%>
-  <% if value -%>
+  <% if value != :undef  -%>
   <property>
       <name><%= key %></name>
       <value><%= value %></value>
