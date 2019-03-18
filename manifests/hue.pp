@@ -49,8 +49,8 @@
 #                            level with SECURE_PROXY_SSL_HEADER.
 #                            See: https://github.com/cloudera/hue/pull/68
 #                            Default: false
-# $use_(yarn|hdfs|mapred)_ssl_port - Use the SSL/TLS ports for the Yarn/HDFS/MapRed config
-#                                    in hue.ini
+# $use_(yarn|hdfs|mapred)_ssl_config - Use the SSL/TLS ports for the Yarn/HDFS/MapRed config
+#                                      in hue.ini
 #
 # === Database parameters:
 # The default DB is Sqlite, but it is possible to configure a external database.
@@ -103,9 +103,9 @@ class cdh::hue(
     $ssl_certificate            = '/etc/ssl/certs/hue.cert',
     $secure_proxy_ssl_header    = false,
 
-    $use_yarn_ssl_port          = false,
-    $use_hdfs_ssl_port          = false,
-    $use_mapred_ssl_port        = false,
+    $use_yarn_ssl_config        = false,
+    $use_hdfs_ssl_config        = false,
+    $use_mapred_ssl_config      = false,
 
     $ldap_url                   = undef,
     $ldap_cert                  = undef,
@@ -154,23 +154,23 @@ class cdh::hue(
     $oozie_security_enabled     = false
 
     $namenode_hosts = $cdh::hadoop::namenode_hosts
-    $yarn_rm_port = $use_yarn_ssl_port ? {
+    $yarn_rm_port = $use_yarn_ssl_config ? {
         true    => '8090',
         default => '8088',
     }
-    $yarn_nm_port = $use_yarn_ssl_port ? {
+    $yarn_nm_port = $use_yarn_ssl_config ? {
         true    => '8044',
         default => '8042',
     }
-    $hdfs_nn_port = $use_hdfs_ssl_port ? {
+    $hdfs_nn_port = $use_hdfs_ssl_config ? {
         true    => '50470',
         default => '50070',
     }
-    $hdfs_dn_port = $use_hdfs_ssl_port ? {
+    $hdfs_dn_port = $use_hdfs_ssl_config ? {
         true    => '50475',
         default => '50075',
     }
-    $mapred_history_port = $use_mapred_ssl_port ? {
+    $mapred_history_port = $use_mapred_ssl_config ? {
         true    => '19890',
         default => '19888',
     }
