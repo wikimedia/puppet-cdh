@@ -284,10 +284,43 @@
 #     before shutting down.
 #     Default: undef
 #
-#    [*yarn_nodemanager_container_executor_config*]
-#      Hash that contains key/values that will populate the
-#      container-executor.cfg file.
-#      Default: {}
+#   [*yarn_nodemanager_container_executor_config*]
+#     Hash that contains key/values that will populate the
+#     container-executor.cfg file.
+#     Default: {}
+#
+#   [*yarn_resourcemanager_zk_timeout_ms*]
+#     Timeout to contact Zookeeper.
+#     Default: undef
+#
+#   [*yarn_resourcemanager_zk_state_store_parent_path*]
+#     Zookeeper znode related to the Yarn Resource Manager
+#     application ids storage location. Cannot be used
+#     with yarn_resourcemanager_fs_state_store_uri.
+#     Default: undef
+#
+#   [*yarn_resourcemanager_fs_state_store_uri*]
+#     Path in HDFS of the Yarn Resource Manager
+#     application ids storage location. Cannot be used
+#     with yarn_resourcemanager_zk_state_store_parent_path.
+#     Default: undef
+#
+#   [*yarn_resourcemanager_fs_state_store_retry_policy*]
+#     Tuple 'ms,tries' related to how many tries the HDFS
+#     DFS client will do (interleaved with ms of wait time)
+#     before trying to contact the HDFS namenode after a failure.
+#     Please note: the Hadoop's default is '2000,500', namely
+#     500 tries interleaved by 2s each. This affects how much
+#     time it will take to the Yarn Resource Manager to pick
+#     up the new active HDFS Namenode (in case for example that
+#     a HDFS master failover happens while the Resource Manager
+#     is bootstrapping, namely trying to load its app ids store).
+#     Default: undef
+#
+#   [*yarn_resourcemanager_max_completed_applications*]
+#     Hash that contains key/values that will populate the
+#     container-executor.cfg file.
+#     Default: 10000
 #
 class cdh::hadoop(
     $namenode_hosts,
@@ -305,6 +338,8 @@ class cdh::hadoop(
     $yarn_resourcemanager_zk_timeout_ms          = undef,
     $yarn_resourcemanager_zk_state_store_parent_path = undef,
     $yarn_resourcemanager_fs_state_store_uri     = undef,
+    $yarn_resourcemanager_fs_state_store_retry_policy = '2000,10',
+    $yarn_resourcemanager_max_completed_applications = 10000,
 
     $java_home                                   = undef,
 
