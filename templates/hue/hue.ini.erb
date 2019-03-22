@@ -59,6 +59,9 @@
   # Number of threads used by the CherryPy web server
   ## cherrypy_server_threads=10
 
+  # Truste Certificate authority
+  <%= @ssl_cacerts ? "ssl_cacerts=#{@ssl_cacerts}" : '## ssl_cacerts=' %>
+
   # Filename of SSL RSA Private Key
   <%= @ssl_private_key ? "ssl_private_key=#{@ssl_private_key}" : '## ssl_private_key=' %>
 
@@ -519,7 +522,7 @@
       # Use WebHdfs/HttpFs as the communication mechanism.
       # Domain should be the NameNode or HttpFs host.
       # Default port is 14000 for HttpFs.
-      webhdfs_url=http://<%= @namenode_host %>:<%= @httpfs_enabled ? '14000' : @hdfs_nn_port %>/webhdfs/v1/
+      webhdfs_url=<%= @hdfs_nn_http_protocol %>://<%= @namenode_host %>:<%= @httpfs_enabled ? '14000' : @hdfs_nn_port %>/webhdfs/v1/
 <% end -%>
 
       # Change this if your HDFS cluster is Kerberos-secured
@@ -543,13 +546,13 @@
       ## security_enabled=false
 
       # URL of the ResourceManager API
-      resourcemanager_api_url=http://<%= @namenode_host %>:<%= @yarn_rm_port -%>
+      resourcemanager_api_url=<%= @yarn_rm_http_protocol %>://<%= @namenode_host %>:<%= @yarn_rm_port -%>
 
       # URL of the ProxyServer API
-      proxy_api_url=http://<%= @namenode_host %>:<%= @yarn_rm_port -%>
+      proxy_api_url=<%= @yarn_rm_http_protocol %>://<%= @namenode_host %>:<%= @yarn_rm_port -%>
 
       # URL of the HistoryServer API
-      history_server_api_url=http://<%= @namenode_host %>:<%= @mapred_history_port -%>
+      history_server_api_url=<%= @mapred_history_http_protocol %>://<%= @namenode_host %>:<%= @mapred_history_port -%>
 
 
 <%

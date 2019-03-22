@@ -51,6 +51,7 @@
 #                            Default: false
 # $use_(yarn|hdfs|mapred)_ssl_config - Use the SSL/TLS ports for the Yarn/HDFS/MapRed config
 #                                      in hue.ini
+# $ssl_cacerts             - Path to the .pem certificate related to the trusted TLS CA.
 #
 # === Database parameters:
 # The default DB is Sqlite, but it is possible to configure a external database.
@@ -99,6 +100,7 @@ class cdh::hue(
     $smtp_password              = undef,
     $smtp_from_email            = undef,
 
+    $ssl_cacerts                = undef,
     $ssl_private_key            = '/etc/ssl/private/hue.key',
     $ssl_certificate            = '/etc/ssl/certs/hue.cert',
     $secure_proxy_ssl_header    = false,
@@ -154,6 +156,10 @@ class cdh::hue(
     $oozie_security_enabled     = false
 
     $namenode_hosts = $cdh::hadoop::namenode_hosts
+    $yarn_rm_http_protocol = $use_yarn_ssl_config ? {
+        true    => 'https',
+        default => 'http',
+    }
     $yarn_rm_port = $use_yarn_ssl_config ? {
         true    => '8090',
         default => '8088',
@@ -162,6 +168,10 @@ class cdh::hue(
         true    => '8044',
         default => '8042',
     }
+    $hdfs_nn_http_protocol = $use_hdfs_ssl_config ? {
+        true    => 'https',
+        default => 'http',
+    }
     $hdfs_nn_port = $use_hdfs_ssl_config ? {
         true    => '50470',
         default => '50070',
@@ -169,6 +179,10 @@ class cdh::hue(
     $hdfs_dn_port = $use_hdfs_ssl_config ? {
         true    => '50475',
         default => '50075',
+    }
+    $mapred_history_http_protocol = $use_mapred_ssl_config ? {
+        true    => 'https',
+        default => 'http',
     }
     $mapred_history_port = $use_mapred_ssl_config ? {
         true    => '19890',
