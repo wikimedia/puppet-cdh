@@ -23,18 +23,18 @@ class cdh::hadoop::ssl_config (
 ) {
     if $ssl_server_config {
         file { "${config_directory}/ssl-server.xml":
-            owner   => 'root',
+            owner   => 'hdfs',
             group   => 'hadoop',
-            mode    => '0550',
+            mode    => '0440',
             content => template('cdh/hadoop/ssl-server.xml.erb'),
         }
     }
 
     if $ssl_client_config {
         file { "${config_directory}/ssl-client.xml":
-            owner   => 'root',
+            owner   => 'yarn',
             group   => 'hadoop',
-            mode    => '0550',
+            mode    => '0444',
             content => template('cdh/hadoop/ssl-client.xml.erb'),
         }
     }
