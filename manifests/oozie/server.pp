@@ -145,11 +145,22 @@ class cdh::oozie::server(
     }
     $hdfs_uri               = "hdfs://${namenode_address}"
 
+    # Override file shipped by the oozie package that uses
+    # su -s /bin/bash -c etc.. Without it we can safely run
+    # the script as user 'oozie'.
+    file { '/usr/bin/oozie-setup':
+        source  => 'puppet:///modules/cdh/oozie/oozie-setup',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0555',
+        require => Package['oozie'],
+    }
+
     cdh::exec { 'oozie_sharelib_install':
         command => "/usr/bin/oozie-setup sharelib create -fs ${hdfs_uri} -locallib ${oozie_sharelib_archive}",
         unless  => '/usr/bin/hdfs dfs -ls /user/oozie | grep -q /user/oozie/share',
         user    => 'oozie',
-        require => Cdh::Hadoop::Directory['/user/oozie'],
+        require => [Cdh::Hadoop::Directory['/user/oozie'], File['/usr/bin/oozie-setup']]
     }
 
     file { "${config_directory}/oozie-site.xml":
