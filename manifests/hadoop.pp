@@ -247,19 +247,6 @@
 #     names to row or rack assignments.
 #     Default: undef
 #
-#   [*gelf_logging_enabled*]
-#     Set this to true in order to configure GELF logging output, for Logstash
-#     Needs: libjson-simple-java (Debian package)
-#     Needs: logstash-gelf.jar (https://github.com/mp911de/logstash-gelf/releases)
-#
-#   [*gelf_logging_host*]
-#     Destination host for GELF output.
-#     Default: localhost.
-#
-#   [*gelf_logging_port*]
-#     Destination port for GELF output.
-#     Default: 12201.
-#
 #   [*fair_scheduler_template*]
 #     The fair-scheduler.xml queue configuration template.
 #     If you set this to false or undef, FairScheduler will
@@ -401,9 +388,6 @@ class cdh::hadoop(
     $dfs_datanode_hdfs_blocks_metadata_enabled   = undef,
     $ganglia_hosts                               = undef,
     $net_topology_script_content                 = undef,
-    $gelf_logging_enabled                        = false,
-    $gelf_logging_host                           = 'localhost',
-    $gelf_logging_port                           = 12201,
     $fair_scheduler_template                     = 'cdh/hadoop/fair-scheduler.xml.erb',
     $core_site_extra_properties                  = undef,
     $yarn_site_extra_properties                  = undef,
