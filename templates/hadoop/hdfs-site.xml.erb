@@ -147,6 +147,19 @@ end
     </description>
   </property>
 
+  <!--
+  From https://community.hortonworks.com/articles/43838/scaling-the-hdfs-namenode-part-1.html
+  it seems that dfs.namenode.audit.log.async is required to avoid locking RPC worker
+  threads on the Namenode more than necessary (to wait for the log file to be written).
+  The corresponding jira is https://issues.apache.org/jira/browse/HDFS-7964,
+  that seems to deliver the feature only for 2.8+, but CDH 5.9 seems to have included it:
+  https://www.cloudera.com/documentation/enterprise/release-notes/topics/cdh_rn_fixed_in_59.html
+  -->
+  <property>
+    <name>dfs.namenode.audit.log.async</name>
+    <value>true</value>
+  </property>
+
 <% if @hdfs_site_impala_extra_properties
 # Impala requires that a special hdfs-site.xml file is rendered at
 # /etc/impala/conf/hdfs-site.xml.  This property allows the
