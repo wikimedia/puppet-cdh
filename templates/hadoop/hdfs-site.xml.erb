@@ -95,6 +95,11 @@ end
 <% end -%>
 
   <property>
+   <name>dfs.namenode.handler.count</name>
+   <value><%= @dfs_namenode_handler_count %></value>
+  </property>
+
+  <property>
    <!--
     Deprecated in CDH5. Replaced by dfs.blocksize.
     We keep it around for a bit nonetheless, in case some application

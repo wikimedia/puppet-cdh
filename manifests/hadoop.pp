@@ -43,6 +43,13 @@
 #   [*dfs_data_path*]
 #     Path relative to JBOD mount point for HDFS data directories.
 #
+#   [*dfs_namenode_handler_count*]
+#     The number of server threads for the namenode. The Hadoop RPC server consists
+#     of a single RPC queue per port and multiple handler (worker) threads that dequeue
+#     and process requests. If the number of handlers is insufficient, then the RPC queue
+#     starts building up and eventually overflows.
+#     Default: 10
+#
 #   [*resourcemanager_hosts*]
 #     Array of hosts on which ResourceManager is running.  If this has
 #     more than one host in it AND $zookeeper_hosts is set, HA YARN ResourceManager
@@ -332,6 +339,7 @@ class cdh::hadoop(
     $datanode_mounts                             = undef,
     $dfs_data_path                               = 'hdfs/dn',
     $dfs_datanode_failed_volumes_tolerated       = undef,
+    $dfs_namenode_handler_count                  = 10,
 
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = undef,
