@@ -94,10 +94,12 @@ end
   </property>
 <% end -%>
 
+<% if @dfs_namenode_handler_count -%>
   <property>
    <name>dfs.namenode.handler.count</name>
    <value><%= @dfs_namenode_handler_count %></value>
   </property>
+<% end -%>
 
   <property>
    <!--

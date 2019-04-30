@@ -48,7 +48,7 @@
 #     of a single RPC queue per port and multiple handler (worker) threads that dequeue
 #     and process requests. If the number of handlers is insufficient, then the RPC queue
 #     starts building up and eventually overflows.
-#     Default: 10
+#     Default: undef
 #
 #   [*resourcemanager_hosts*]
 #     Array of hosts on which ResourceManager is running.  If this has
@@ -339,7 +339,7 @@ class cdh::hadoop(
     $datanode_mounts                             = undef,
     $dfs_data_path                               = 'hdfs/dn',
     $dfs_datanode_failed_volumes_tolerated       = undef,
-    $dfs_namenode_handler_count                  = 10,
+    $dfs_namenode_handler_count                  = undef,
 
     $resourcemanager_hosts                       = $namenode_hosts,
     $zookeeper_hosts                             = undef,
