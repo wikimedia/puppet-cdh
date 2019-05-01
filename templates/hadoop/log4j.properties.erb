@@ -114,7 +114,7 @@ log4j.appender.DRFAS.DatePattern=.yyyy-MM-dd
 #
 # hdfs audit logging
 #
-hdfs.audit.logger=INFO,RFAAUDIT
+hdfs.audit.logger=INFO,console
 hdfs.audit.log.maxfilesize=256MB
 hdfs.audit.log.maxbackupindex=2
 log4j.logger.org.apache.hadoop.hdfs.server.namenode.FSNamesystem.audit=${hdfs.audit.logger}
