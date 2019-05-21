@@ -69,7 +69,7 @@
 #                                                    When running jobs in Hadoop is desirable not to run them under users like 'hdfs'
 #                                                    but with lower priviledged ones. These jobs needs, most of the times, to read
 #                                                    files like hive-site.xml, so proper group permissions are needed.
-#                                                    Default: 'analytics'
+#                                                    Default: 'hdfs'
 #
 class cdh::hive(
     $metastore_host,
@@ -121,7 +121,7 @@ class cdh::hive(
     $hive_server2_authentication_kerberos_principal = undef,
     $hive_server2_authentication_kerberos_keytab    = undef,
 
-    $config_files_group_ownership = 'analytics',
+    $config_files_group_ownership = 'hdfs',
 
 ) {
     Class['cdh::hadoop'] -> Class['cdh::hive']
