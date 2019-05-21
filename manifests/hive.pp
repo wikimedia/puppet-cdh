@@ -65,6 +65,11 @@
 #                                                    Values available: NOSASL, KERBEROS, NONE, PLAINTEXT. Default: undef
 # $hive_server2_authentication_kerberos_principal  - The service principal for the Hive Server. Default: undef
 # $hive_server2_authentication_kerberos_keytab     - The path to the Kerberos Keytab file.
+# $config_files_group_ownership                    - The file group ownership of Hive's configuration files like hive-site.xml.
+#                                                    When running jobs in Hadoop is desirable not to run them under users like 'hdfs'
+#                                                    but with lower priviledged ones. These jobs needs, most of the times, to read
+#                                                    files like hive-site.xml, so proper group permissions are needed.
+#                                                    Default: 'analytics'
 #
 class cdh::hive(
     $metastore_host,
@@ -115,6 +120,8 @@ class cdh::hive(
     $hive_server2_authentication = undef,
     $hive_server2_authentication_kerberos_principal = undef,
     $hive_server2_authentication_kerberos_keytab    = undef,
+
+    $config_files_group_ownership = 'analytics',
 
 ) {
     Class['cdh::hadoop'] -> Class['cdh::hive']
@@ -174,7 +181,7 @@ class cdh::hive(
         content => template($hive_site_template),
         mode    => $hive_site_mode,
         owner   => 'hive',
-        group   => 'hdfs',
+        group   => $config_files_group_ownership,
         require => Package['hive'],
     }
     file { "${config_directory}/hive-log4j.properties":
