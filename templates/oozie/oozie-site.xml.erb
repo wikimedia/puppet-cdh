@@ -261,13 +261,30 @@
         </description>
     </property>
 
+<% if @hcatalog_enabled -%>
+    <property>
+        <name>oozie.service.URIHandlerService.uri.handlers</name>
+        <value>
+            org.apache.oozie.dependency.FSURIHandler,
+            org.apache.oozie.dependency.HCatURIHandler
+        </value>
+        <description>
+            Enlist the different uri handlers spuported for data availability checks.
+        </description>
+    </property>
+<% end -%>
     <property>
         <name>oozie.services.ext</name>
         <value>
             org.apache.oozie.service.EventHandlerService,
-            org.apache.oozie.sla.service.SLAService
+            org.apache.oozie.sla.service.SLAService,
+<% if @hcatalog_enabled -%>
+            org.apache.oozie.service.PartitionDependencyManagerService,
+            org.apache.oozie.service.HCatAccessorService
+<% end -%>
         </value>
     </property>
+
     <property>
         <name>oozie.service.EventHandlerService.event.listeners</name>
         <value>

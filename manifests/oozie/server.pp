@@ -26,6 +26,9 @@
 #                                  Only set these if your root user cannot issue database
 #                                  commands without a different username and password.
 #                                  Default: undef
+# $hcatalog_enabled              - If true, oozie-site.xml will configure HCatalog integration.
+#                                  https://oozie.apache.org/docs/4.0.0/DG_HCatalogIntegration.html
+#                                  Default: true
 # $smtp_host                     - SMTP host for email notifications.
 #                                  Default: undef, SMTP will not be configured.
 # $smtp_port                     - SMTP port.                             Default: 25
@@ -59,6 +62,7 @@ class cdh::oozie::server(
     $db_root_username                            = undef,
     $db_root_password                            = undef,
 
+    $hcatalog_enabled                            = true,
     $smtp_host                                   = undef,
     $smtp_port                                   = 25,
     $smtp_from_email                             = undef,
