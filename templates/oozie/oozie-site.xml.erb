@@ -272,18 +272,25 @@
             Enlist the different uri handlers spuported for data availability checks.
         </description>
     </property>
-<% end -%>
+
     <property>
         <name>oozie.services.ext</name>
         <value>
             org.apache.oozie.service.EventHandlerService,
             org.apache.oozie.sla.service.SLAService,
-<% if @hcatalog_enabled -%>
             org.apache.oozie.service.PartitionDependencyManagerService,
             org.apache.oozie.service.HCatAccessorService
-<% end -%>
         </value>
     </property>
+<% else -%>
+    <property>
+        <name>oozie.services.ext</name>
+        <value>
+            org.apache.oozie.service.EventHandlerService,
+            org.apache.oozie.sla.service.SLAService
+        </value>
+    </property>
+<% end -%>
 
     <property>
         <name>oozie.service.EventHandlerService.event.listeners</name>
