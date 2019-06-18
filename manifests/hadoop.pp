@@ -462,7 +462,7 @@ class cdh::hadoop(
         ensure => 'installed'
     }
 
-    # Explicitly adding the 'hdfs'/'yarn' users
+    # Explicitly adding the 'hdfs'/'yarn'/'mapred' users
     # to the catalog, even if created by the hadoop-common package,
     # to allow other resources to require them if needed.
     user { 'yarn':
@@ -479,6 +479,16 @@ class cdh::hadoop(
         gid        => 'hdfs',
         comment    => 'Hadoop HDFS',
         home       => '/var/lib/hadoop-hdfs',
+        shell      => '/bin/bash',
+        managehome => false,
+        system     => true,
+        require    => Package['hadoop-client'],
+    }
+
+    user { 'mapred':
+        gid        => 'mapred',
+        comment    => 'Hadoop MapReduce',
+        home       => '/var/lib/hadoop-mapreduce',
         shell      => '/bin/bash',
         managehome => false,
         system     => true,
