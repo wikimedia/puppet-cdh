@@ -135,7 +135,7 @@ class cdh::hive(
     # to allow other resources to require it.
     user { 'hive':
         gid        => 'hive',
-        comment    => 'Hive daemon',
+        comment    => 'Hive User',
         home       => '/var/lib/hive',
         shell      => '/bin/false',
         managehome => false,
