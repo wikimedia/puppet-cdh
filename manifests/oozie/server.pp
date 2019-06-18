@@ -95,6 +95,19 @@ class cdh::oozie::server(
         ensure => 'installed',
     }
 
+    # Explicitly adding the 'oozie' user
+    # to the catalog, even if created by the oozie package,
+    # to allow other resources to require it.
+    user { 'oozie':
+        gid        => 'oozie',
+        comment    => 'Oozie User',
+        home       => '/var/lib/oozie',
+        shell      => '/bin/false',
+        managehome => false,
+        system     => true,
+        require    => Package['oozie'],
+    }
+
     $config_directory = "/etc/oozie/conf.${cdh::hadoop::cluster_name}"
     # Create the $cluster_name based $config_directory.
     file { $config_directory:

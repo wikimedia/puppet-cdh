@@ -130,6 +130,19 @@ class cdh::hive(
         ensure => 'installed',
     }
 
+    # Explicitly adding the 'hive' user
+    # to the catalog, even if created by the hive package,
+    # to allow other resources to require it.
+    user { 'hive':
+        gid        => 'hive',
+        comment    => 'Hive daemon',
+        home       => '/var/lib/hive',
+        shell      => '/bin/false',
+        managehome => false,
+        system     => true,
+        require    => Package['hive'],
+    }
+
     # https://issues.apache.org/jira/browse/HIVE-12582
     # Introduce the HIVE_SERVER2_HADOOP_OPTS environment variable
     # to allow a fine tuning of JVM's parameters. Not yet included in

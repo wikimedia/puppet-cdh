@@ -462,6 +462,29 @@ class cdh::hadoop(
         ensure => 'installed'
     }
 
+    # Explicitly adding the 'hdfs'/'yarn' users
+    # to the catalog, even if created by the hadoop-common package,
+    # to allow other resources to require them if needed.
+    user { 'yarn':
+        gid        => 'yarn',
+        comment    => 'Hadoop YARN',
+        home       => '/var/lib/hadoop-yarn',
+        shell      => '/bin/bash',
+        managehome => false,
+        system     => true,
+        require    => Package['hadoop-client'],
+    }
+
+    user { 'hdfs':
+        gid        => 'hdfs',
+        comment    => 'Hadoop HDFS',
+        home       => '/var/lib/hadoop-hdfs',
+        shell      => '/bin/bash',
+        managehome => false,
+        system     => true,
+        require    => Package['hadoop-client'],
+    }
+
     # Create the $cluster_name based $config_directory.
     file { $config_directory:
         ensure  => 'directory',
