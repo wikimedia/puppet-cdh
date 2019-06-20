@@ -36,10 +36,11 @@ class cdh::hive::server(
     # sudo -u hdfs hdfs dfs -chmod 1777 /user/hive/warehouse
     # sudo -u hdfs hdfs dfs -chown hive:hadoop /user/hive/warehouse
     cdh::hadoop::directory { '/user/hive/warehouse':
-        owner   => 'hive',
-        group   => 'hadoop',
-        mode    => '1777',
-        require => Cdh::Hadoop::Directory['/user/hive'],
+        owner        => 'hive',
+        group        => 'hadoop',
+        mode         => '1777',
+        use_kerberos => $use_kerberos,
+        require      => Cdh::Hadoop::Directory['/user/hive'],
     }
 
     service { 'hive-server2':
