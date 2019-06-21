@@ -138,6 +138,8 @@ class cdh::hue(
     $kerbersos_principal        = undef,
     $kerberos_kinit_path        = undef,
 
+    $oozie_security_enabled     = false,
+
 ) {
     Class['cdh::hadoop'] -> Class['cdh::hue']
 
@@ -153,7 +155,6 @@ class cdh::hue(
         $oozie_proxy_regex      = ''
 
     }
-    $oozie_security_enabled     = false
 
     $namenode_hosts = $cdh::hadoop::namenode_hosts
     $yarn_rm_http_protocol = $use_yarn_ssl_config ? {
