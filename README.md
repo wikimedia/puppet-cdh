@@ -1,1 +1,1 @@
-The repository has been merged into https://gerrit.wikimedia.org/r/operations/puppet
+The repository has been moved to [modules/cdh in operations/puppet.git](https://gerrit.wikimedia.org/g/operations/puppet/+/production/modules/cdh/) ([GitHub mirror](https://github.com/wikimedia/puppet/tree/b1ac647f03/modules/cdh)).
